@@ -8,14 +8,22 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.storage.sync.set({ color: '#3aa757' }, function() {
         console.log("The color is green.");
     });
-
+ 
+    //tabinspect
+    chrome.browserAction.onClicked.addListener(function(tab) {
+        chrome.tabs.create({url:chrome.extension.getURL("tabs_api.html")});
+      });
+    
+ 
+ 
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
         chrome.declarativeContent.onPageChanged.addRules([{
             conditions: [new chrome.declarativeContent.PageStateMatcher({
-                pageUrl: { hostEquals: 'developer.chrome.com' },
+                pageUrl: { hostEquals: 'seek.com.au' },
             })],
             actions: [new chrome.declarativeContent.ShowPageAction()]
         }]);
     });
 
+    
 });
