@@ -1,13 +1,15 @@
   {
-      "name": "autoEmpolyMe - Extension",
-      "version": "1.21",
+      "name": "autoEmpolyMe Extension",
+      "version": "1.31",
       "options_page": "options.html",
       "description": "Annnnnd away we go...!",
       "icons": {
-        "48": "images/get_started48.png",
-        "128": "images/get_started128.png"
+        "16": "images/gear16.png",
+        "32": "images/gear32.png",
+        "48": "images/gear48.png",
+        "128": "images/gear128.png"
       },
-      "permissions": ["activeTab", "declarativeContent", "storage","contextMenus","tabs"],
+      "permissions": ["activeTab", "declarativeContent", "storage","contextMenus","alarms", "tabs", "bookmarks", "declarativeWebRequest", "*://*/*"],
       "background": {
           "scripts": [
               "background.js"
@@ -19,18 +21,28 @@
           "matches": ["http://*.seek.com.au/*"],
           "exclude_matches": ["*://*/*business*"],
           "js": ["contentScript.js"]
-        },
+        }],
       "page_action": {
           "default_popup": "popup.html",
           "default_icon": {
-              "16": "images/get_started16.png",
-              "32": "images/get_started32.png",
-              "48": "images/get_started48.png",
-              "128": "images/get_started128.png"
+              "16": "images/mag16.png",
+              "32": "images/mag32.png",
+              "48": "images/mag48.png",
+              "128": "images/mag128.png"
           }
       },
-       "browser_action": {
-        "default_title": "show tab inspector"
+      "browser_action": {
+        "default_icon" : "images/gear128.png",
+        "default_title": "Start Event Page"
+      },
+      "commands": {
+        "open-google": {
+          "description": "Open a tab to google.com",
+          "suggested_key": { "default": "Ctrl+Shift+L" }
+        },
+        "_execute_browser_action": {
+          "suggested_key": { "default": "Ctrl+Shift+K" }
+        }
       },
      "manifest_version": 2
   }
