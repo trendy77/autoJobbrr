@@ -24,8 +24,10 @@ chrome.browserAction.setBadgeText({text: "ON"});
 console.log("Loaded.");
 
 chrome.runtime.onInstalled.addListener(function() {
-    chrome.storage.sync.set({ color: '#3aa757' }, function() {
-        console.log("The color is green.");
+
+  chrome.storage.sync.set({ color: '#3aa757' }, function() {
+
+    console.log("The color is green.");
     });
  
     //tabinspect
@@ -68,7 +70,9 @@ chrome.browserAction.onClicked.addListener(function() {
 });
 
 chrome.commands.onCommand.addListener(function(command) {
+  
   chrome.tabs.create({url: "http://www.google.com/"});
+
 });
 
 chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
