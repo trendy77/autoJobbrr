@@ -5,7 +5,6 @@
 /**
  * Creates a DOM element with the given tag name in the document of the
  * owner element.
- *
  * @param {String} tagName  The name of the tag to create.
  * @param {Element} owner The intended owner (i.e., parent element) of
  * the created element.
@@ -677,7 +676,7 @@ JsExprContext.prototype.jseval = function(expr, template) {
       }
     }
   }
-}
+};
 /**
  * Clones the current context for a new context object. The cloned
  * context has the data object as its context object and the current
@@ -699,7 +698,7 @@ JsExprContext.prototype.clone = function(data, index) {
     ret.setSubTemplateResolver(this.resolver_);
   }
   return ret;
-}
+};
 /**
  * Binds a local variable to the given value. If set from jstemplate
  * jsvalue expressions, variable names must start with $, but in the
@@ -711,7 +710,7 @@ JsExprContext.prototype.clone = function(data, index) {
  */
 JsExprContext.prototype.setVariable = function(name, value) {
   this.vars_[name] = value;
-}
+};
 /**
  * Sets the function used to resolve the values of the transclude
  * attribute into DOM nodes. By default, this is jstGetTemplate(). The
@@ -725,7 +724,7 @@ JsExprContext.prototype.setVariable = function(name, value) {
  */
 JsExprContext.prototype.setSubTemplateResolver = function(resolver) {
   this.resolver_ = resolver;
-}
+};
 /**
  * Resolves a sub template from an id. Used to process the transclude
  * attribute. If a resolver function was set using
@@ -739,7 +738,7 @@ JsExprContext.prototype.setSubTemplateResolver = function(resolver) {
  */
 JsExprContext.prototype.getSubTemplate = function(id) {
   return (this.resolver_ || jstGetTemplate).call(this, id);
-}
+};
 /**
  * HTML template processor. Data values are bound to HTML templates
  * using the attributes transclude, jsselect, jsdisplay, jscontent,
@@ -780,7 +779,7 @@ JstProcessor.prototype.run_ = function(start) {
     var f = me.queue_.shift();
     f[1].apply(f[0], f.slice(2));
   }
-}
+};
 /**
  * Appends a function to be called later.
  * Analogous to calling that function on a subsequent line, or a subsequent
@@ -790,7 +789,7 @@ JstProcessor.prototype.run_ = function(start) {
  */
 JstProcessor.prototype.enqueue_ = function(f) {
   this.queue_.push(f);
-}
+};
 /**
  * Implements internals of jstProcess.
  *
@@ -849,7 +848,7 @@ JstProcessor.prototype.jstProcess_ = function(context, template) {
       }
     }
   }
-}
+};
 /**
  * Implements the jsselect attribute: evalutes the value of the
  * jsselect attribute in the current context, with the current

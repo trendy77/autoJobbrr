@@ -30,12 +30,12 @@
         "eol": "\n"
     },
     "html": {
-        "indent_inner_html": false,
+        "indent_inner_html": true,
         "indent_size": 4,
         "selector_separator_newline": false,
         "end_with_newline": false,
         "newline_between_rules": false,
-        "indent_char": "   ",
+        "indent_char": "    ",
         "indent_character": "   "
     }
 
