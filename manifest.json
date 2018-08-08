@@ -1,55 +1,38 @@
   {
       "name": "autoEmployMe JobApplier",
       "version": "2.31",
-      "options_page": "options.html",
-      "description": "Time to get a job... Why waste time manually applying like a chump? ...Annnnnd away we go...!",
+      "options_page": "opts/options.html",
+      "description": "Time to get a job... Why waste time manually applying? Annnnnd away we go...!",
       "icons": {
         "16": "images/gear16.png",
         "32": "images/gear32.png",
         "48": "images/gear48.png",
         "128": "images/gear128.png"
       },
-      "externally_connectable": {
-        "matches": ["*://*.t.uk.ms/*"]
-      },
-     "permissions" : [
+        "permissions" : [
                       "declarativeContent", "storage","webNavigation",
                       "contextMenus", "https://docs.google.com/feeds/*", "https://www.google.com/accounts/OAuthGetRequestToken", "https://www.google.com/accounts/OAuthAuthorizeToken",
    "https://www.google.com/accounts/OAuthGetAccessToken","tabs"],
-     "content_security_policy": "script-src https://cdnjs.cloudflare.com; object-src 'none'",
-      "background": {
-          "scripts": ["js/jquery-3.3.1.min.js","js/materialize.min.js","js/frameless_window.js","js/content.js","js/chrome_ex_oauthsimple.js","js/chrome_ex_oauth.js"],
+          "background": {
+          "scripts": ["js/background.js","js/jquery-3.3.1.min.js","js/chrome_ex_oauthsimple.js","js/chrome_ex_oauth.js"],
           "persistent": true
       },
       "content_scripts": [
         {
-          "matches": ["http://*.seek.com.au/job/*"],
-          "exclude_matches": ["*://*/*business*"],
-          "js": ["js/jquery-3.3.1.min.js","js/materialize.min.js","js/frameless_window.js","js/content.js"]
+        "matches": ["*://*.seek.com.au/*"],
+       // "css": ["css/materialize.min.css","css/style.css"],
+         "js": [ "js/content.js"]
         }
        ],
       "browser_action": {
           "default_title": "LAUNCH autoApplier",
-          "default_popup": "frameless_window.html",
+          "default_popup": "options.html",
           "default_icon": {
-              "16": "images/mag16.png",
-              "32": "images/mag32.png",
-              "48": "images/mag48.png",
-              "128": "images/mag128.png"
+              "16": "images/gear16.png",
+              "32": "images/gear32.png",
+              "48": "images/gear48.png",
+              "128": "images/gear128.png"
           }
-      },
-     "commands": {
-      "job-title": {
-        "description": "job-title selected"
-      },
-      "open-seek": {
-          "description": "Open SEEK"
-        }},
-      "icons": {
-        "16": "images/gear16.png",
-        "32": "images/gear32.png",
-        "48": "images/gear48.png",
-        "128": "images/gear128.png"
       },
      "manifest_version": 2
   }

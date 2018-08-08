@@ -15,7 +15,7 @@ h5,h1,h2,h3,h4,h6 {
 #card-title{
   color: #000000;
 }
-body#popup {
+body #popup {
   opacity: 0.5;
   background-color: #bbdefb;
   color: #000000;
@@ -140,4 +140,55 @@ p {
 
 footer.page-footer {
   margin: 0;
+}
+
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+#search_container {
+  text-align: center;
+}
+
+#search {
+  width: 85%;
+}
+
+.app {
+  width: 100%;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  margin-left: 2px;
+  margin-right: 20px;
+  white-space: nowrap;
+}
+
+.app img {
+  vertical-align: middle;
+  height: 38px;
+  width: 38px;
+}
+
+.app_title {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.app:hover {
+  background-color: rgb(250,250,250);
+  cursor:pointer;
+  outline: 1px dotted rgb(100,100,200);
+}
+
+.app_selected,.app_selected:hover {
+  background-color: rgb(230,230,230);
+}
+
+#appstore_link {
+  display: none;
 }

@@ -1,38 +1,32 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="style.css" />
-  <link rel="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link rel="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet" />
+  <link rel="css/icon.css?family=Material+Icons" rel="stylesheet" />
+  <link rel="css/materialize.min.css" rel="stylesheet" />
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/materialize.min.js"></script>
   <title>JOBADDER</title>
-  <script src="js/content.js"></script>
-</head>
+  </head>
 <body id="content" class="container">
   <header> 
-               <nav class="teal darken-4" role="navigation">
-                  <div class="nav-wrapper">
-                    <ul id="nav-mobile" class="right">
-                   <li><a class="white-text bold" href="https://seek.com.au">SEEK!</a></li>
-                   <li><a class="white-text bold" onclick="options()">Options</a></li>
-                   <li><a class="white-text bold" onclick="back()">Back</a></li>
-                    </ul>
-                  </div>
-                </nav>
-               <div class="col s5 pull-s7"><span class="flow-text">AutoAdder</span>
-              </div>
-           </header>
-              <div class="section" id="1" display="visible">
-                <div class="card blue-grey darken-1">
-                  <div class="card-content white-text">
-                    <span id="thetitle" class="card-title">JobTitle</span>
-                    <p><input id="theinput" type="text" placeholder="Job Title"><span id="title"></span></input></p>
-                  </div>  
-                <div class="divider"></div>
-          <a class="waves-effect waves-light btn">
-            <button id="close-button">Close Window</button>
-          </a>
-  </div>
-</div>
-</body>
-</html>
+      <nav class="nav-extended">
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo" id="whichstep"></a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="#" id="1">1Sass</a></li>
+              <li><a href="#" id="2">2Components</a></li>
+              <li><a href="#" id="3">3JavaScript</a></li>
+            </ul>
+          </div>
+          <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+              <li class="tab"><a href="#" id="1a">Test 1</a></li>
+              <li class="tab"><a class="active" id="2a" href="#">Test 2</a></li>
+              <li class="tab disabled"><a href="#" id="3a">Disabled Tab</a></li>
+              <li class="tab"><a href="#" id="4a">Test 4</a></li>
+            </ul>
+          </div>
+        </nav>
+        <script src="js/content.js"></script>
+        
