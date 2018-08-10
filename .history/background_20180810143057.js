@@ -88,6 +88,7 @@ var wr = chrome.declarativeWebRequest; chrome.declarativeWebRequest.onRequest.ad
     redirectUrl: "http://google.com"
   })]
 }]);
+});
 
 
 function saveVal(key, val) {

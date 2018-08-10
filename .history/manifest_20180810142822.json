@@ -20,7 +20,7 @@
         {
           "matches": ["http://*.seek.com.au/*"],
           "exclude_matches": ["*://*/*business*"],
-          "js": ["js/content.js"]
+          "js": ["content.js"]
         }],
       "page_action": {
           "default_popup": "frameless_window.html",
@@ -30,6 +30,10 @@
               "48": "images/gear48.png",
               "128": "images/gear128.png"
           }
+      },
+      "browser_action": {
+        "default_icon" : "images/gear128.png",
+        "default_title": "Start Event Page"
       },
       "commands": {
         "open-google": {

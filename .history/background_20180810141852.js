@@ -17,8 +17,43 @@ function moveFwd(){
   var employE = document.getElementById(next).style.display = 'block';
   return;
 }
-var theTitz = ["JobTitle","Company","Contact","USP1","USP2","USP3"];
-var theVals = ["","","","","","]"];
+var theTitles = [ {
+    "title":"JobTitle",
+    "id": "1",
+    "domid": "tit",
+    "value":undefined
+  },
+  {
+    "title":"Company",
+    "id": "2",
+    "domid": "employ",
+    "value":undefined
+  },
+  {
+    "title":"Contact",
+    "id": 3,
+    "domid":"cont",
+    "value":undefined
+  },
+  {
+    "title":"USP1",
+    "id": "4",
+    "domid":"uspi",
+    "value":undefined
+  },
+    {
+      "title":"USP2",
+    "id": "5",
+    "domid":"uspii",
+    "value":undefined
+  },
+  {
+    "title":"USP3",
+    "id": "6",
+    "domid":"uspiii",
+    "value":undefined
+  }]
+);
 function close(window){
   window.close();
 }
@@ -88,6 +123,7 @@ var wr = chrome.declarativeWebRequest; chrome.declarativeWebRequest.onRequest.ad
     redirectUrl: "http://google.com"
   })]
 }]);
+});
 
 
 function saveVal(key, val) {

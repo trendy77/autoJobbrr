@@ -20,16 +20,20 @@
         {
           "matches": ["http://*.seek.com.au/*"],
           "exclude_matches": ["*://*/*business*"],
-          "js": ["js/content.js"]
+          "js": ["content.js"]
         }],
       "page_action": {
-          "default_popup": "frameless_window.html",
+          "default_popup": "popup.html",
           "default_icon": {
-              "16": "images/gear16.png",
-              "32": "images/gear32.png",
-              "48": "images/gear48.png",
-              "128": "images/gear128.png"
+              "16": "images/mag16.png",
+              "32": "images/mag32.png",
+              "48": "images/mag48.png",
+              "128": "images/mag128.png"
           }
+      },
+      "browser_action": {
+        "default_icon" : "images/gear128.png",
+        "default_title": "Start Event Page"
       },
       "commands": {
         "open-google": {

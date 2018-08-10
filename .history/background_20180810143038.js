@@ -18,7 +18,7 @@ function moveFwd(){
   return;
 }
 var theTitz = ["JobTitle","Company","Contact","USP1","USP2","USP3"];
-var theVals = ["","","","","","]"];
+
 function close(window){
   window.close();
 }
@@ -88,6 +88,7 @@ var wr = chrome.declarativeWebRequest; chrome.declarativeWebRequest.onRequest.ad
     redirectUrl: "http://google.com"
   })]
 }]);
+});
 
 
 function saveVal(key, val) {

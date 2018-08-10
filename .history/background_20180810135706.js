@@ -7,44 +7,6 @@ function log(str) {
   logDiv.innerHTML += str + "<br>";
 }
 
-function moveFwd(){
-  counter++;
-  
-  var val = obj.value;
-  titleE.setAttribute('value', info);
-  titleE.style.opacity="0.5";
-  titleE.style.color="black";
-  var employE = document.getElementById(next).style.display = 'block';
-  return;
-}
-var theTitz = ["JobTitle","Company","Contact","USP1","USP2","USP3"];
-var theVals = ["","","","","","]"];
-function close(window){
-  window.close();
-}
-
-function addSect(onto,questionObj) {
-  var titlebar = document.createElement("div");
-  titlebar.setAttribute("class", "container");
-  titlebar.setAttribute("id", questionObj.domid);
-  var row = document.createElement("div");
-  row.setAttribute("class", "row");
-  titlebar.appendChild(row);
-  var col = document.createElement("div");
-  col.setAttribute("class", "col s12");
-  row.appendChild(col);
-  var tit = document.createElement("h6");
-  tit.innerText = questionObj.title;
-  col.appendChild(tit);
-  var inpu = document.createElement("input");
-  inpu.setAttribute("type","text");
-  inpu.innerText = storageGet(questionObj.value);
-  tit.appendChild(inpu);
-  var divider = document.createElement("div");
-  divider.setAttribute("class", questionObj.title + "-divider");
-  titlebar.appendChild(divider);
-  onto.appendChild(titlebar);
-}
 function sendMessage() {
   chrome.tabs.query({
     active: true,
@@ -54,17 +16,7 @@ function sendMessage() {
     chrome.tabs.sendMessage(lastTabId, "Background page started.");
   });
 }
-function storageSet(titI, val){
-  chrome.storage.sync.set({ titI : val}, function() {
-    console.log('Value is set to ' + val);
-    return titI;
-  });
-}
-function storageGet(titI){
-  chrome.storage.sync.get({titI}, function(result) {
-    return result;
-  });
-}
+
 
 sendMessage();
 chrome.browserAction.setBadgeText({
@@ -88,6 +40,7 @@ var wr = chrome.declarativeWebRequest; chrome.declarativeWebRequest.onRequest.ad
     redirectUrl: "http://google.com"
   })]
 }]);
+});
 
 
 function saveVal(key, val) {
@@ -107,16 +60,11 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     url: chrome.extension.getURL("popup.html")
   });
 });
-chrome.contextMenus.onClicked.addListener(function (e) {
-  if (e.selectionText){
-    var ret = storageSet(e.menuItemId, e.selectionText);
-  }
-  chrome.contextMenus.update(e.menuItemId,{
-      "title": e.menuItemId+": "+e.selectionText;
-  });
-});
+
+chrome.contextMenus.onClicked.addListener(function (item) {
 
   
+});
 chrome.browserAction.onClicked.addListener(function () {
   // The event page will unload after handling this event (assuming nothing
   // else is keeping it awake). The content script will become the main way to
