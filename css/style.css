@@ -1,0 +1,339 @@
+html,
+body {
+    margin: 0;
+    font-family: 'Open Sans Regular', sans;
+    color: #666;
+    background: #fafafa;
+    width: 354px;
+    height: 560px;
+}
+
+.header {
+    align-content: center;
+    text-align: center;
+}
+
+.header hr {
+    height: 6px;
+    border: none;
+    margin-top: 20px;
+    background: -webkit-linear-gradient(0deg, rgb(51, 105, 232) 0%, rgb(51, 105, 232) 25%, rgb(222, 30, 37) 25%, rgb(222, 30, 37) 50%, rgb(255, 210, 0) 50%, rgb(255, 210, 0) 75%, rgb(76, 187, 71) 75%, rgb(76, 187, 71) 100%);
+}
+
+
+.flow {
+    
+    border: 1px solid #ddd;
+    padding: 8px;
+    background: white;
+}
+
+.flow button {
+    cursor: pointer;
+    background: -webkit-linear-gradient(top, #008dfd 0, #0370ea 100%);
+    border: 1px solid #076bd2;
+    text-shadow: 1px 1px 1px #076bd2;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    margin: .5em 0 1em;
+    padding: 8px 17px 8px 17px;
+    border-radius: 3px;
+}
+
+.flow button.error {
+    background: -webkit-linear-gradient(top, #008dfd 0, #0370ea 100%);
+    border: 1px solid #076bd2;
+    text-shadow: 1px 1px 1px #076bd2;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    margin: .5em 0 1em;
+    padding: 8px 17px 8px 17px;
+    border-radius: 3px;
+}
+
+.flow button:disabled {
+    background: -webkit-linear-gradient(top, #dcdcdc 0, #fafafa 100%);
+    color: #999;
+    text-shadow: 1px 1px 1px #fafafa;
+    border: 1px solid #ddd;
+    cursor: auto;
+}
+
+.flow button.loading {
+    background-color: #008dfd;
+}
+
+.flow button.loading:before {
+    content: '';
+    position: absolute;
+    height: 5px;
+    background-color: inherit;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+.flow button.loading:after {
+    content: '';
+    position: absolute;
+    height: 5px;
+    background-color: inherit;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 1.15s;
+    animation-delay: 1.15s;
+}
+
+@-webkit-keyframes indeterminate {
+    0% {
+        left: -35%;
+        right: 100%;
+    }
+    60% {
+        left: 100%;
+        right: -90%;
+    }
+    100% {
+        left: 100%;
+        right: -90%;
+    }
+}
+
+@keyframes indeterminate {
+    0% {
+        left: -35%;
+        right: 100%;
+    }
+    60% {
+        left: 100%;
+        right: -90%;
+    }
+    100% {
+        left: 100%;
+        right: -90%;
+    }
+}
+
+@-webkit-keyframes indeterminate-short {
+    0% {
+        left: -200%;
+        right: 100%;
+    }
+    60% {
+        left: 107%;
+        right: -8%;
+    }
+    100% {
+        left: 107%;
+        right: -8%;
+    }
+}
+
+@keyframes indeterminate-short {
+    0% {
+        left: -200%;
+        right: 100%;
+    }
+    60% {
+        left: 107%;
+        right: -8%;
+    }
+    100% {
+        left: 107%;
+        right: -8%;
+    }
+}
+
+.log {
+    margin: 10px 20px 20px 20px;
+}
+
+.log textarea {
+    width: 100%;
+    min-height: 120px;
+    font-family: "Courier New", Courier, monospace;
+    margin: 2px;
+    background: #FFFFFF;
+    color: #727272;
+    border: 1px solid rgb(182, 182, 182);
+}
+
+#exec_data {
+    min-height: 80px;
+}
+
+@font-face {
+    font-family: 'tinyHands';
+    src: url('fonts/bf.eot');
+    src: url('fonts/bf.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/bf.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/bf.woff') format('woff'), /* Pretty Modern Browsers */
+    url('fonts/bf.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('fonts/bf.svg#svgbf') format('svg');
+}
+
+h5,
+h1,
+h2,
+h3,
+h4,
+h6 {
+    font-family: tinyHands;
+}
+
+#card-title {
+    background-color: #000000;
+}
+
+body #popup {
+    opacity: 0.7;
+    width: 200px;
+    height:400px;
+    background-color: darkslategrey;
+    color: rgb(94, 7, 233);
+}
+
+div {
+    background: #455a64;
+    color: teal;
+    opacity: 0.9;
+    width: 86%;
+    justify-items: center;
+    align-content: center;
+}
+
+div:hover {
+    opacity: 1;
+    text-transform: full-width;
+}
+
+header#masthead a {
+    color: #fff;
+}
+
+.nav-links .btn {
+    background: #2196f3;
+}
+
+/* Navigation */
+
+.nav {
+    color: rgb(15, 4, 4);
+    background-color: #64b5f6;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    overflow: hidden;
+}
+
+nav ul li:hover,
+nav ul li.active {
+    background-color: #1976d2;
+}
+
+/* Content */
+
+.card .card-title,
+.card .card-title a {
+    color: #5dd219;
+}
+
+.card a:hover {
+    color: #64b5f6;
+}
+
+.card-action {
+    background: red;
+}
+
+.card a {
+    color: #039be5;
+    margin-right: 0;
+    -webkit-transition: color 0.3s ease;
+    -moz-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    -ms-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 568px) {
+    .card .card-image .card-title {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        padding: 0;
+    }
+    h1.entry-title {
+        font-size: 2.0rem;
+        text-transform: none;
+        line-height: 2.4rem;
+        padding: 0 1.2rem;
+    }
+    .entry-meta {
+        padding: 0 1.2rem;
+        font-size: 22px;
+    }
+}
+
+nav ul a,
+nav .brand-logo {
+    color: #444;
+}
+
+p {
+    line-height: 2rem;
+}
+
+.sidenav-trigger {
+    color: #26a69a;
+}
+html {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: tinyHands, sans-serif;
+}
+
+.app {
+    width: 100%;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-left: 2px;
+    margin-right: 20px;
+    white-space: nowrap;
+}
+
+.app img {
+    vertical-align: middle;
+    height: 38px;
+    width: 38px;
+}
+
+.app_title {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.app:hover {
+    background-color: rgb(250, 250, 250);
+    cursor: pointer;
+    outline: 1px dotted rgb(100, 100, 200);
+}
+
+.app_selected,
+.app_selected:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+#appstore_link {
+    display: none;
+}
