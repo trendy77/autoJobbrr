@@ -1,36 +1,29 @@
   {
       "name": "autoEmployMe JobApplier",
-      "version": "2.31",
+      "version": "1.31",
       "options_page": "options.html",
-      "description": "Time to get a job... Why waste time manually applying like a chump? ...Annnnnd away we go...!",
+      "description": "Time to get a job... Why waste time manually applying like a chump? Let's get Google to do the heavy lifting... Annnnnd away we go...!",
       "icons": {
         "16": "images/gear16.png",
         "32": "images/gear32.png",
         "48": "images/gear48.png",
         "128": "images/gear128.png"
       },
-      "externally_connectable": {
-        "matches": ["*://*.t.uk.ms/*"]
-      },
-     "permissions" : [
-                      "declarativeContent", "storage","webNavigation",
-                      "contextMenus", "https://docs.google.com/feeds/*", "https://www.google.com/accounts/OAuthGetRequestToken", "https://www.google.com/accounts/OAuthAuthorizeToken",
-   "https://www.google.com/accounts/OAuthGetAccessToken","tabs"],
-     "content_security_policy": "script-src https://cdnjs.cloudflare.com; object-src 'none'",
+      "permissions": ["activeTab", "declarativeContent", "storage","contextMenus","alarms", "tabs", "bookmarks", "declarativeWebRequest", "*://*/*"],
       "background": {
-          "scripts": ["js/jquery-3.3.1.min.js","js/materialize.min.js","js/frameless_window.js","js/content.js","js/chrome_ex_oauthsimple.js","js/chrome_ex_oauth.js"],
-          "persistent": true
+          "scripts": [
+              "background.js"
+          ],
+          "persistent": false
       },
       "content_scripts": [
         {
-          "matches": ["http://*.seek.com.au/job/*"],
+          "matches": ["http://*.seek.com.au/*"],
           "exclude_matches": ["*://*/*business*"],
-          "js": ["js/jquery-3.3.1.min.js","js/materialize.min.js","js/frameless_window.js","js/content.js"]
-        }
-       ],
-      "browser_action": {
-          "default_title": "LAUNCH autoApplier",
-          "default_popup": "frameless_window.html",
+          "js": ["content.js"]
+        }],
+      "page_action": {
+          "default_popup": "popup.html",
           "default_icon": {
               "16": "images/mag16.png",
               "32": "images/mag32.png",
@@ -38,18 +31,18 @@
               "128": "images/mag128.png"
           }
       },
-     "commands": {
-      "job-title": {
-        "description": "job-title selected"
+      "browser_action": {
+        "default_icon" : "images/gear128.png",
+        "default_title": "Start Event Page"
       },
-      "open-seek": {
-          "description": "Open SEEK"
-        }},
-      "icons": {
-        "16": "images/gear16.png",
-        "32": "images/gear32.png",
-        "48": "images/gear48.png",
-        "128": "images/gear128.png"
+      "commands": {
+        "open-google": {
+          "description": "Open a tab to seek",
+          "suggested_key": { "default": "Ctrl+Shift+L" }
+        },
+        "_execute_browser_action": {
+          "suggested_key": { "default": "Ctrl+Shift+K" }
+        }
       },
      "manifest_version": 2
   }

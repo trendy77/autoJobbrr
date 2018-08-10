@@ -1,119 +1,142 @@
-// new back...
+     
+      
+ // Copyright (c) 2012 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-var sheetId = storageGet("sheetId");
-var templateId = storageGet("templateId");
-var folderId = storageGet("folderId");
-var ids = [sheetId,templateId,folderId];
+// Global variables only exist for the life of the page, so they get reset
+// each time the page is unloaded.
 
-var counter=1;
-var SHEETLIST_SCOPE = 'https://sheets.google.com/feeds';
-var FLDLIST_SCOPE = 'https://drive.google.com/feeds';
-var DOCLIST_SCOPE = 'https://docs.google.com/feeds';
-var DOCLIST_FEED = DOCLIST_SCOPE + '/default/private/full/';
-var FLDLIST_FEED = FLDLIST_SCOPE + '/default/private/full/';
-var docs,folders = []; // In memory cache for the user's entire doclist.
-var refreshRate = localStorage.refreshRate || 300; // 5 min default.
-var pollIntervalMin = 1000 * refreshRate;
 
-function areNewOptions(key,val) {
-var curOption = storageGet(key);
-    if (val != curOption) {
-     return true;
-   }
- return false;
-}
-function getElement(element) {
- return document.getElementById(element);
-}
-function appendText(text,element) {
-   document.getElementById(element).innerHTML += text;
-}
-function popPicker(htmlPick){
-   chrome.windows.create({url: htmlPick,
-        type: "popup",
-        frame: "none",
-        id: "framelessWinID",
-        innerBounds: {
-          width: 260,
-          height: 300,
-          left: 600,
-          minWidth: 220,
-          minHeight: 220
-       }});
-}
+'use strict';
+var counter = 1;
 
-function progress(obj){
-  var info = window.getSelection().toString();
-  obj.value = info;
-  storageSet(obj.title,obj.value);
-  focusSection(obj);
-}
-function addButton(name, cb) {
-  var a = document.createElement("button");
-  a.setAttribute("class","btn-floating pulse");
-  a.innerText = name;
-  a.onclick = cb;
-  document.body.appendChild(document.createElement("br"));
-  document.body.appendChild(a);
-}
-function closeWindow() {
-  window.close();
-}
-function focusSection(obj) {
-  var bg_cr = "#3a3d3d";
-  var next = (obj.id+1);
-  var focusOnNow = document.getElementById(next.domid);
-  var focusPrev = document.getElementById(obj.domid);
-  focusOnNow.style.backgroundColor = bg_cr;
-  focusOnNow.style.opacity = "1";
-  focusPrev.style.opacity = "0.5";
-  document.body.appendChild(focusOnNow);
-}
-function loadJs(theJs) {
-  chrome.tabs.executeScript({file: theJs});
-}
-function setIcon(opt_badgeObj) {
-  if (opt_badgeObj) {
-    var badgeOpts = {};
-    if (opt_badgeObj && opt_badgeObj.text != undefined) {
-      badgeOpts['text'] = opt_badgeObj.text;
-    }
-     chrome.browserAction.setBadgeText(badgeOpts);
-  }
-}
-
-function logout() {
-  docs = [];
-  setIcon({'text': ''});
-  oauth.clearTokens();
-  clearPendingRequests();
-}
-  // on install...
-  chrome.runtime.onInstalled.addListener(function() {
-    alert("PLEASE GO TO OPTIONS !");
-    var oauth = ChromeExOAuth.initBackgroundPage({
-      'request_url': 'https://www.google.com/accounts/OAuthGetRequestToken',
-      'authorize_url': 'https://www.google.com/accounts/OAuthAuthorizeToken',
-      'access_url': 'https://www.google.com/accounts/OAuthGetAccessToken',
-      'consumer_key': 'anonymous',
-      'consumer_secret': 'anonymous',
-      'scope': [DOCLIST_SCOPE],
-      'app_name': 'JobApplier'
-    });
-});
-    
-  chrome.webNavigation.onCompleted.addListener(function() {
-    chrome.contextMenus.create({
-      "id": counter,
-      "title": theFields[(counter-1)].title,
-      "contexts": ["selection"],
-      }).onClick.addListener(function(){
-        counter++;
-      progress();
-      });
-  }, {url: [{urlMatches : 'https://*.seek.com*'}]});
-
-  chrome.runtime.onSuspend.addListener(function() {
+var lastTabId = -1;
+function sendMessage() {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    lastTabId = tabs[0].id;
+    chrome.tabs.sendMessage(lastTabId, "Background page started.");
   });
+}
 
+sendMessage();
+chrome.browserAction.setBadgeText({text: "ON"});
+console.log("Loaded.");
+
+chrome.runtime.onInstalled.addListener(function() {
+
+  chrome.storage.sync.get({ sheetId }, function(result) {
+      if (!result) {
+          alert('please goto settings to enter docIds...');
+      } 
+      }
+    });
+ 
+    //tabinspect
+    chrome.browserAction.onClicked.addListener(function(tab) {
+        chrome.tabs.create({url:chrome.extension.getURL("tabs_api.html")});
+      });
+
+  console.log("Installed.");
+
+  // localStorage is persisted, so it's a good place to keep state that you
+  // need to persist across page reloads.
+  localStorage.counter = 1;
+
+  // Register a webRequest rule to redirect bing to google.
+  var wr = chrome.declarativeWebRequest;
+  chrome.declarativeWebRequest.onRequest.addRules([{
+    id: "0",
+    conditions: [new wr.RequestMatcher({url: {hostSuffix: "seek.com.au"}})],
+    actions: [new wr.RedirectRequest({redirectUrl: "http://google.com"})]
+  }]);
+});
+
+
+function saveVal(key, val) {
+    chrome.storage.sync.set({ key: val }, function () {
+        console.log(key + "is now set to " + val);
+    });
+    return val;
+}
+
+
+chrome.bookmarks.onRemoved.addListener(function(id, info) {
+  alert("I never liked that site anyway.");
+});
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+    chrome.tabs.create({ url: chrome.extension.getURL("tabs_api.html") });
+});
+
+chrome.browserAction.onClicked.addListener(function() {
+  // The event page will unload after handling this event (assuming nothing
+  // else is keeping it awake). The content script will become the main way to
+  // interact with us.
+  chrome.tabs.create({url: "http://seek.com.au"}, function(tab) {
+    chrome.tabs.executeScript(tab.id, {file: "content.js"}, function() {
+      // Note: we also sent a message above, upon loading the event page,
+      // but the content script will not be loaded at that point, so we send
+      // another here.
+      sendMessage();
+    });
+  });
+});
+
+chrome.commands.onCommand.addListener(function(command) {
+  
+  chrome.tabs.create({url: "http://www.google.com/"});
+
+});
+
+chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
+  if (msg.setAlarm) {
+    // For testing only.  delayInMinutes will be rounded up to at least 1 in a
+    // packed or released extension.
+    chrome.alarms.create({delayInMinutes: 0.1});
+  } else if (msg.delayedResponse) {
+    // Note: setTimeout itself does NOT keep the page awake. We return true
+    // from the onMessage event handler, which keeps the message channel open -
+    // in turn keeping the event page awake - until we call sendResponse.
+    setTimeout(function() {
+      sendResponse("Got your message.");
+    }, 5000);
+    return true;
+  } else if (msg.getCounters) {
+    sendResponse({counter: counter++,
+                  persistentCounter: localStorage.counter++});
+  }
+  // If we don't return anything, the message channel will close, regardless
+  // of whether we called sendResponse.
+});
+
+chrome.alarms.onAlarm.addListener(function() {
+  alert("Time's up!");
+});
+
+chrome.runtime.onSuspend.addListener(function() {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    // After the unload event listener runs, the page will unload, so any
+    // asynchronous callbacks will not fire.
+    alert("This does not show up.");
+  });
   console.log("Unloading.");
+  chrome.browserAction.setBadgeText({text: ""});
+  chrome.tabs.sendMessage(lastTabId, "Background page unloaded.");
+});
+
+
+      
+      
+ 
+    chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [new chrome.declarativeContent.PageStateMatcher({
+                pageUrl: { hostEquals: 'seek.com.au' },
+            })],
+            actions: [new chrome.declarativeContent.ShowPageAction()]
+        }]);
+    });
+
+    
+});
