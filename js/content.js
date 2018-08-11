@@ -1,36 +1,25 @@
-let page = document.body;
-page.innerHTML="";
 
-for (var t=0;t<=theTitz.length;++t){
-  addSect(page, theTitz[t]);
-}
-addButton("JT", function () {
-    let jt = page.getSelection().toString();
-    if (jt) {
-let resp = storageSet(theTitz[0],jt);
-    }
-});
-addButton("close-button", "closeWindow");
-addButton("Clear logs", function() {
-logDiv.innerHTML = "";
-});
-addButton("Send message with delayed response", function() {
-  chrome.runtime.sendMessage({delayedResponse: true}, function(response) {
-    log("Background page responded: " + response);
+window.onload = function() {
+    document.getElementById('jtin').onchange = proces;
+    document.getElementById('emin').onchange = filterLinks;
+    document.getElementById('conin').onchange = toggleAll;
+    document.getElementById('usp1fs').onclick = usp;
+    document.getElementById('usp2fs').onclick = usp;
+    document.getElementById('usp3fs').onclick = usp;
+	
+    chrome.windows.getCurrent(function (currentWindow) {
+      var vale = currentWindow.getSelection.toString();
+		
+       
+      });
+  };
+  
+  document.getElementById("close-window").onclick = function(win) {
+  closeWindow(win);
   });
-});
-addButton("goto Options Page", function() {
-  chrome.brow
-});
-
-chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
-  log("Got message from background page: " + msg);
-});
-
-var logDiv = document.createElement("div");
-logDiv.style.border = "1px dashed black";
-
-page.appendChild(document.createElement("br"));
-page.appendChild(logDiv);
-
-log("Ready.");
+  
+  var ref = document.getElementById("jt");
+  ref.onchange = function(e) {
+    storageSet(e.id, e.value);
+  }
+}
