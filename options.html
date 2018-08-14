@@ -2,40 +2,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="style.css" media="all" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/style.css" media="all" rel="stylesheet" type="text/css">	
+<!-- Material Icon CDN -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet">
-<script src="js/jquery-3.3.1.min.js"></script>
+<!-- Materialize CSS CDN -->
+<link rel="stylesheet" href="css/materialize.min.css">
 
 <title>Options</title>
 </head>
 <body>
 	<div class="container">
-		<div class="card-panel hoverable">
+		<div class="card-panel hoverable blue-grey darken-1">
 			<div class="flows">
-			<span class="card-title">Options</span>
-			<div class="flow">
-				<div id="ids" class="collection">
-					<a href="#!" class="collection-item"><span class="badge" id="shtid">NOT YET SET!</span><input id="shtin" placeholder="sheetId" type="text"></a>
-					<a href="#!" class="collection-item"><span class="badge" id="tplid">NOT YET SET!</span><input id="tplin" placeholder="templateId" type="text"></a>
-					<a href="#!" class="collection-item"><span class="badge" id="fldid">NOT YET SET!</span><input id="fldin" placeholder="folderId" type="text"></a>
-				</div>
+			<h6 class="card-title">Options</h6>
+			<div class="flow" id="ids">
+				<input id="shtin" placeholder="sheetId" type="text">
+				<input id="tplin" placeholder="" type="text">
+				<input id="fldin" type="text">
+				<button id="upIds">Set IDs</button>
+				<script src="js/dispIds.js"></script>
 			</div>
-				<a class="waves-effect waves-light btn">
-		  <button id="upIds">Save Ids</button>
-		</a>
-	</div>
-</div>
-<div class="card-panel hoverable blue-grey darken-1">
-	<div class="flows">
-		<span class="card-title">OAuth Google Login</span>
-		<div class="flow">
-			<button id="signin">Authenticate</button>
-			<button id="revoke" disabled>Revoke token</button>
-			<button id="returnTo">Return</button>
+			<div id="buttons" class="flow">
+				<button id="signin">Authenticate</button>
+				<button id="revoke" disabled>Revoke token</button>
+				<button id="returnTo">Return</button>
 			<div id="exec_info"></div>
 		</div>
-	</div>
 		<div class="card-action">
 		<div class="log">
 			<textarea id="__sample_support_logarea" disabled></textarea>
@@ -50,7 +43,16 @@
 </div> 
 </div>
 </div>
-		 <script src="js/materialize.min.js"></script>
+</footer>
+<!-- jQuery CDN -->
+  <script src="js/jquery.min.js"></script>
+<!-- Materialize JS CDN -->
+<script src="js/materialize.min.js"></script>
+<script>
+  $("document").ready(function(){
+	$(".button-collapse").sideNav();
+  });
+</script>
 		 <script src="js/options.js"></script>
 		 <script src="js/sample_support.js"></script>
 </body>

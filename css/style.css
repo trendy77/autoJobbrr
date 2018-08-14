@@ -1,26 +1,42 @@
-/*
-* Based on: 
-* Identity example in Chrome Apps Samples 
-* https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/identity 
-* https://github.com/GoogleChrome/chrome-app-samples/blob/master/LICENSE
-*/
-
-html, body {
+@font-face {
+  font-family: tinyHands;
+  src: url('../fonts/bf.eot');
+  src: url('../fonts/bf.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/bf.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/bf.woff') format('woff'), /* Pretty Modern Browsers */
+  url('../fonts/bf.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/bf.svg#svgbf') format('svg');
+}
+body {
+  background-color:#666;
   margin: 0;
-  font-family: 'Open Sans Regular', sans;
-  color: #666;
-  background: #fafafa;
-  width: 454px;
+  font-family: tinyHands,'Open Sans Regular', sans;
+  width: 400px;
   height: 560px;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family:tinyHands; 
+}
+
+.contentButton{
+  position:fixed;
+  object-position: bottom;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:white;
+	color:red;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 5px 2px 3px #999;
 }
 
 .header {
   text-align: center;
   padding: 10px 0 10px 0;
 }
-
 .header hr {
-  height: 6px;
   border: none;
   margin-top: 20px;
   background: -webkit-linear-gradient(0deg,
@@ -38,27 +54,29 @@ html, body {
 .header .links * {
   margin-left: 5px;
 }
-
 .header .links a {
   color: #666;
 }
-
 .header:hover .links a {
   color: #3399cc;
 }
-
-.flows h2 {
+.flows h2,h5,h6 {
   margin-left: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
-
 .flow {
-  margin: 10px 20px 20px 20px;
+  margin: 10px 10px 10px 10px;
   border: 1px solid #ddd;
-  padding: 8px;
-  background: white;
+  padding: 5px;
+  background:black;
+  font-size: 16px;
+  color:grey;
+  transition: 0.3s;
 }
-
+.flow :hover{
+  background-color: #3e8e41;
+  color: rgb(10, 6, 6);
+}
 .flow button {
   cursor: pointer;
   background: -webkit-linear-gradient(top,#008dfd 0,#0370ea 100%);
@@ -71,9 +89,8 @@ html, body {
   padding: 8px 17px 8px 17px;
   border-radius: 3px;
 }
-
 .flow button.error {
-  background: -webkit-linear-gradient(top,#008dfd 0,#0370ea 100%);
+  background: -webkit-linear-gradient(top,#3e8e41,#0370ea 100%);
   border: 1px solid #076bd2;
   text-shadow: 1px 1px 1px #076bd2;
   color: white;
@@ -83,20 +100,17 @@ html, body {
   padding: 8px 17px 8px 17px;
   border-radius: 3px;
 }
-
-.flow button:disabled {
+#button:disabled {
   background: -webkit-linear-gradient(top, #dcdcdc 0, #fafafa 100%);
   color: #999;
   text-shadow: 1px 1px 1px #fafafa;
   border: 1px solid #ddd;
   cursor: auto;
 }
-
-
-.flow button.loading {
-    background-color: #008dfd;
+#button.loading {
+  background-color: red;
 	}
-    .flow button.loading:before {
+    #button.loading:before {
       content: '';
       position: absolute;
       height:5px;
@@ -106,10 +120,10 @@ html, body {
       will-change: left, right;
       -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
               animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }
-    .flow button.loading:after {
+    #button.loading:after {
       content: '';
       position: absolute;
-	  height:5px;
+	    height:5px;
       background-color: inherit;
       left: 0;
       bottom: 0;
@@ -163,7 +177,6 @@ html, body {
 .log {
   margin: 10px 20px 20px 20px;
 }
-
 .log textarea {
   width: 100%;
   min-height: 120px;
@@ -173,7 +186,6 @@ html, body {
   color: #727272;
   border: 1px solid rgb(182, 182, 182);
 }
-
 #exec_data{
-  min-height: 80px;
+  min-height: 50px;
 }

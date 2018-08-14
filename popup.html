@@ -1,38 +1,40 @@
+<!DOCTYPE html>
 <html>
 <head>
-<link href="style.css" media="all" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" rel="stylesheet">
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/materialize.min.js"></script>
-<script src="js/popup.js"></script>
-<script src="js/sample_support.js"></script>
-<title>Options</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Material Icon CDN -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Materialize CSS CDN -->
+  <link rel="stylesheet" href="css/materialize.min.css">
+	
+<link href="css/style.css" media="all" rel="stylesheet" type="text/css">
+<title>Fields</title>
 </head>
 <body>
-	<div class="container">
+  <div class="container">
     <nav class="teal darken-4" role="navigation">
       <div class="nav-wrapper">
         <ul id="nav-mobile" class="right">
-          <li><a class="white-text bold" href="https://seek.com.au">SEEK!</a></li>
+          <li><a class="white-text bold" href="seekr.html">SEEK!</a></li>
           <li><a class="white-text bold" id="optsButton">Options</a></li>
           <li><a class="white-text bold" id="reset">Reset</a></li>
+          <li><a class="white-text bold" id="close">Close</a></li>
         </ul>
       </div>
     </nav>
     <div class="header center-align">
       <h3>JobSEEKr</h3>
-    </div>
-		<hr>
+    </div>  
 <div class="card-panel hoverable">
-	<div class="flows" id="titfs">
+  <div class="flows" id="titfs">
 		<h3 class="center">Job Title</h3>
 		<div class="flow" id="titf">
-			<input id="tit" type="text"></input>
+      <input id="tit" type="text"></input>
+      
 		</div>
   </div>    
 </div>
-<div class="card-panel hoverable">
+<div class="card-panel hoverable" disabled>
   <div class="flows" id="empfs">
     <h3 class="center">Employer</h3>
     <div class="flow" id="empf">
@@ -49,13 +51,13 @@
 </div>  
 </div>
 <div class="card-panel hoverable">
-    <div class="flows" id="rec" >
-      <h3 class="center">Agency?</h3>
+  <div class="flows" id="rec" >
+    <h3 class="center">Agency?</h3>
       <div class="flow" id="recf">
         <input id="rec" type="text"></input>
-    </div>    
+      </div>    
   </div>  
-  </div>
+</div>
 <div class="card-panel hoverable">
   <div class="flows" id="u1fs">
     <h3 class="center">USP1</h3>
@@ -65,44 +67,66 @@
 </div>    
 </div>
 <div class="card-panel hoverable">
-<div class="flows" id="u2fs">
+  <div class="flows" id="u2fs">
     <h3 class="center">USP2</h3>
     <div class="flow" id="u2f">
       <input id="u2" type="text"></input>
-  </div>    
-</div>
+    </div>    
+  </div>
 </div>
 
 <div class="card-panel hoverable">
-<div class="flows" id="u3fs">
-		<h3 class="center">USP3</h3>
+  <div class="flows" id="u3fs">
+    <h3 class="center">USP3</h3>
 		<div class="flow" id="u3f">
-		  <input id="u3" type="text"></input>
-	  </div>
-	</div>
-  <div class="card-action">
-	<button id="go">GO!</button>
-	</div>	  
-<div id="exec_info"></div>
-    </div>
-    <div class="container" id="exec_box">
+    <input id="u3" type="text"></input>
+  </div>
+</div>
+</div>
+<div class="card-action">
+  <div class="row">
+  <div id="buttons" class="col s12">
+    <button id="go" disabled>GO!</button>
+    <button id="reset" disabled>Reset</button>
+      <button id="signin">Authenticate</button>
+      <button id="revoke" disabled>Revoke token</button>
+      <button id="returnTo">Return</button>
+  </div>	
+</div>	  
+</div>
+    <div class="container" id="exec_div">
       <div class="log">
         <textarea id="__sample_support_logarea" disabled></textarea>
         <div id="exec_info">
-          <p>
+          
             <strong>Data to send to Execution API</strong>
             (data to be sent on Call Execution API) 
             <textarea id="exec_data">
+    
             </textarea>
             <span id="exec_result"></span>
-          </p>
         </div>
       </div>
     </div>
-  </div>
-    <footer>
-      <a target="_blank" id="optsButton" href="opts/options.html">Options</a>
-      <a target="_blank" id="closeBut">Close Window</a>
-    </footer>
+
+  <footer>
+    
+			<h6 class="card-title">Options</h6>
+			<div class="flow" id="ids">
+      <input id="shtin" placeholder="sheetId" type="text">
+      <input id="tplin" placeholder="" type="text">
+      <input id="fldin" type="text">
+      <button id="upIds">Set IDs</button>
+        <a target="_blank" id="returnTo">Close Window</a>
+      </div>
+      </footer>
+  <!-- jQuery CDN -->
+  <script src="js/jquery.min.js"></script>
+  <!-- Materialize JS CDN -->
+  <script src="js/materialize.min.js"></script>
+  <script src="js/popup.js"></script>
+  <script src="js/sample_support.js"></script>
+  
 </body>
 </html>
+
