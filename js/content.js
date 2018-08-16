@@ -1,49 +1,55 @@
- 
-  var aBut= document.createElement('a');
-  var att = document.createAttribute("class");       // Create a "class" attribute
-  att.value = "waves-effect waves-dark btn-large pulse";                           // Set the value of the class attribute
-  aBut.setAttributeNode(att);
-  var att2 = document.createAttribute("id");       // Create a "class" attribute
-  att2.value = "seekButton";                           // Set the value of the class attribute
-  aBut.setAttributeNode(att2);
-  
-  var goButt = document.createElement('i');
-  var att2 = document.createAttribute("class");       // Create a "class" attribute
-  att2.value = "material-icons right";                          
-  goButt.setAttributeNode(att2);  
-  goButt.addEventListener('click', sendVals.bind(goButt,true));
-  aBut.appendChild(goButt);
- //  var t = document.createTextNode();
-  document.body.appendChild(aBut);     //Appending to DOM 
-  
-  document.addEventListener('DOMContentLoaded', function() {
 
-});
+function renderButton(button, state, parent) {
+ var dom_item = document.createElement('a');
+ aBut.innerHTML = "class='floating btn-large hoverable blue-grey darken-4 pulse' id='seekButton'";
+ var goButt = document.createElement('i');
+ var att2 = document.createAttribute("class");       // Create a "class" attribute
+ att2.value = "material-icons right";                          
+ goButt.setAttributeNode(att2);  
+ aBut.appendChild(goButt);
+ aBut.addEventListener('click', doField.bind(aBut,true));
+var t = document.createTextNode();
+   t.innerText="Click Job Title!";
+ document.body.appendChild(dom_item);
+}
 
-$("document").ready(function(){
-  $(".button-collapse").sideNav();
-  });
+
+var bk=chrome.extension.getBackgroundPage();
+var bkJsPort;
+
+bkJsPort.onMessage.addListener(m => {
+  console.log("In popup script, received message from bkgrd script");
+  const msgObj = m.msg;
+  if (typeOf(msgObj.jobAppFields) !== 'undefined') {
+    var fieldSet = msgObj.jobAppFields;
+    console.log(fieldSet);
+  }
+   if(typeOf(msgObj.loadin) !== 'undefined') {
+     var msg=msgObj.loadin;
+     if(loadin == "on"){
+      enableButton('loadspin');
+    }else if (loadin == "off"){
+      disableButton('loadspin');
+    }
+  }
+} 
   
-  
-  
-  /// intra-extension messaging e.g.
-  // content-script.js
+document.addEventListener('DOMContentLoaded', function() {
+renderButton();
 
 var myPort = browser.runtime.connect({name:"port-contentjs"});
 myPort.postMessage({greeting: "status"});
 
-
 myPort.onMessage.addListener(function(m) {
  var keys = Object.keys(m);
  for (var r in keys){
-   
-   
- }
-  console.log(m.greeting);
+ console.log(keys[r]+"  "+ keys[r].value);
+}
 });
 
+
 document.body.addEventListener("click", function() {
-  //var key = 
-  myPort.postMessage({greeting: "they clicked the button!"});
+   myPort.postMessage({greeting: "they clicked the button!"});
   alert('button pressed');
+});
 });

@@ -7,34 +7,35 @@
   url('../fonts/bf.ttf') format('truetype'), /* Safari, Android, iOS */
   url('../fonts/bf.svg#svgbf') format('svg');
 }
+html{
+  background-color: black;
+}
 body {
   background-color:#666;
   margin: 0;
+  text-align:center;
   font-family: tinyHands,'Open Sans Regular', sans;
-  width: 400px;
+  width: 390px;
   height: 560px;
 }
 h1,h2,h3,h4,h5,h6 {
   font-family:tinyHands; 
 }
 
+.navBut{
+  background-color: #0b6bfa;
+  font-size: 14px;
+  color: #fafafa;
+}
 .contentButton{
-  position:fixed;
-  object-position: bottom;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:white;
 	color:red;
-	border-radius:50px;
-	text-align:center;
 	box-shadow: 5px 2px 3px #999;
 }
 
 .header {
   text-align: center;
-  padding: 10px 0 10px 0;
+  padding: 0;
+  background-color: black;
 }
 .header hr {
   border: none;
@@ -58,26 +59,24 @@ h1,h2,h3,h4,h5,h6 {
   color: #666;
 }
 .header:hover .links a {
-  color: #3399cc;
+  color: #04a6f7;
 }
-.flows h2,h5,h6 {
-  margin-left: 5px;
-  margin-bottom: 5px;
+.card-title h2,h5,h6 {
+  font-size: 14px;
+
 }
-.flow {
-  margin: 10px 10px 10px 10px;
-  border: 1px solid #ddd;
-  padding: 5px;
+.card-title {
+  border:3px solid #ddd;
   background:black;
   font-size: 16px;
   color:grey;
   transition: 0.3s;
 }
-.flow :hover{
+.flow .card-title :hover{
   background-color: #3e8e41;
   color: rgb(10, 6, 6);
 }
-.flow button {
+#button {
   cursor: pointer;
   background: -webkit-linear-gradient(top,#008dfd 0,#0370ea 100%);
   border: 1px solid #076bd2;
@@ -89,7 +88,7 @@ h1,h2,h3,h4,h5,h6 {
   padding: 8px 17px 8px 17px;
   border-radius: 3px;
 }
-.flow button.error {
+#button.error {
   background: -webkit-linear-gradient(top,#3e8e41,#0370ea 100%);
   border: 1px solid #076bd2;
   text-shadow: 1px 1px 1px #076bd2;
@@ -182,8 +181,8 @@ h1,h2,h3,h4,h5,h6 {
   min-height: 120px;
   font-family: "Courier New", Courier, monospace;
   margin: 2px;
-  background: #FFFFFF;
-  color: #727272;
+  background:brown;
+  color:yellow;
   border: 1px solid rgb(182, 182, 182);
 }
 #exec_data{

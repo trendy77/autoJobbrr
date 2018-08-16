@@ -1,132 +1,185 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Material Icon CDN -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- Materialize CSS CDN -->
-  <link rel="stylesheet" href="css/materialize.min.css">
-	
-<link href="css/style.css" media="all" rel="stylesheet" type="text/css">
-<title>Fields</title>
-</head>
-<body>
-  <div class="container">
-    <nav class="teal darken-4" role="navigation">
-      <div class="nav-wrapper">
-        <ul id="nav-mobile" class="right">
-          <li><a class="white-text bold" href="seekr.html">SEEK!</a></li>
-          <li><a class="white-text bold" id="optsButton">Options</a></li>
-          <li><a class="white-text bold" id="reset">Reset</a></li>
-          <li><a class="white-text bold" id="close">Close</a></li>
-        </ul>
-      </div>
-    </nav>
-    <div class="header center-align">
-      <h3>JobSEEKr</h3>
-    </div>  
-<div class="card-panel hoverable">
-  <div class="flows" id="titfs">
-		<h3 class="center">Job Title</h3>
-		<div class="flow" id="titf">
-      <input id="tit" type="text"></input>
-      
-		</div>
-  </div>    
-</div>
-<div class="card-panel hoverable" disabled>
-  <div class="flows" id="empfs">
-    <h3 class="center">Employer</h3>
-    <div class="flow" id="empf">
-      <input id="emp" type="text"></input>  
-  </div>    
-</div>    
-</div>
-<div class="card-panel hoverable">
-  <div class="flows" id="confs" >
-    <h3 class="center">Contact</h3>
-    <div class="flow" id="conf">
-      <input id="con" type="text"></input>
-  </div>    
-</div>  
-</div>
-<div class="card-panel hoverable">
-  <div class="flows" id="rec" >
-    <h3 class="center">Agency?</h3>
-      <div class="flow" id="recf">
-        <input id="rec" type="text"></input>
-      </div>    
-  </div>  
-</div>
-<div class="card-panel hoverable">
-  <div class="flows" id="u1fs">
-    <h3 class="center">USP1</h3>
-    <div class="flow" id="u1f">
-      <input id="u1" type="text"></input>
-  </div>    
-</div>    
-</div>
-<div class="card-panel hoverable">
-  <div class="flows" id="u2fs">
-    <h3 class="center">USP2</h3>
-    <div class="flow" id="u2f">
-      <input id="u2" type="text"></input>
-    </div>    
-  </div>
-</div>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Material Icon CDN -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Materialize CSS CDN -->
+<link rel="stylesheet" href="css/materialize.min.css">
+<!-- Your custom styles -->
+    <link href="css/style.css" media="all" rel="stylesheet" type="text/css">
+    <title>Fields</title>
+  </head>
 
-<div class="card-panel hoverable">
-  <div class="flows" id="u3fs">
-    <h3 class="center">USP3</h3>
-		<div class="flow" id="u3f">
-    <input id="u3" type="text"></input>
-  </div>
-</div>
-</div>
-<div class="card-action">
-  <div class="row">
-  <div id="buttons" class="col s12">
-    <button id="go" disabled>GO!</button>
-    <button id="reset" disabled>Reset</button>
-      <button id="signin">Authenticate</button>
-      <button id="revoke" disabled>Revoke token</button>
-      <button id="returnTo">Return</button>
-  </div>	
-</div>	  
-</div>
-    <div class="container" id="exec_div">
-      <div class="log">
-        <textarea id="__sample_support_logarea" disabled></textarea>
-        <div id="exec_info">
-          
-            <strong>Data to send to Execution API</strong>
-            (data to be sent on Call Execution API) 
-            <textarea id="exec_data">
-    
-            </textarea>
-            <span id="exec_result"></span>
+  <body>
+    <div class="container">
+      <div class="header">
+      <nav class="teal darken-4 no-pad" role="navigation">
+        <div class="nav-wrapper">
+          <ul id="nav-mobile" class="right">
+            <li>
+              <a class="navBut" href="seekr.html">SEEK!</a>
+            </li>
+            <li>
+              <a class="navBut" href="popup.html">PopUp</a>
+            </li>
+          <li>
+            <a class="navBut" href="#idButtons">Options</a>
+          </li>
+        </ul>
+        </div>
+      </nav>
+      
+        <h3 class="white-text pulse">autoSEEKr</h3>
+      </div>
+      <div id="Title" class="card-panel hoverable blue-grey lighten-3">
+        <div class="flows" id="titfs">
+          <h6 class="center black-text">Job Title</h6>
+          <input id="tit" type="text">
         </div>
       </div>
-    </div>
+      <div id="Employer" class="card-panel hoverable blue-grey lighten-2">
+        <div class="flows" id="empfs">
+          <h6 class="center black-text">Employer</h6>
 
-  <footer>
-    
-			<h6 class="card-title">Options</h6>
-			<div class="flow" id="ids">
-      <input id="shtin" placeholder="sheetId" type="text">
-      <input id="tplin" placeholder="" type="text">
-      <input id="fldin" type="text">
-      <button id="upIds">Set IDs</button>
-        <a target="_blank" id="returnTo">Close Window</a>
+          <input id="emp" type="text">
+        </div>
       </div>
-      </footer>
-  <!-- jQuery CDN -->
-  <script src="js/jquery.min.js"></script>
-  <!-- Materialize JS CDN -->
-  <script src="js/materialize.min.js"></script>
-  <script src="js/popup.js"></script>
-  <script src="js/sample_support.js"></script>
-  
-</body>
-</html>
+      <div id="Contact" class="card-panel hoverable blue-grey lighten-1">
+        <div class="flows" id="confs">
+          <h6 class="center">Contact</h6>
+          <input id="con" type="text">
+        </div>
+      </div>
+      <div id="Agency" class="card-panel hoverable blue-grey">
+        <div class="flows" id="rec">
+          <h6 class="center">Agency?</h6>
+          <input id="rec" type="text">
+        </div>
+      </div>
+      <div id="USP1" class="card-panel hoverable blue-grey darken-1">
+        <div class="flows" id="u1fs">
+          <h6 class="center white-text">USP1</h6>
+          <input id="u1" type="text">
+        </div>
+      </div>
+      <div id="USP2" class="card-panel hoverable blue-grey darken-2">
+        <div class="flows" id="u2fs">
+          <h6 class="center">USP2</h6>
+          <input id="u2" type="text">
+        </div>
+      </div>
+      <div id="USP3" class="card-panel hoverable blue-grey darken-3">
+        <div class="flows" id="u3fs">
+          <h6 class="center">USP3</h6>
+          <input id="u3" type="text">
+        </div>
+      </div>
+   
+      
+      
+      <div id="loadspin" style="display:hidden">
+    <div class="preloader-wrapper big">
+        <div class="spinner-layer spinner-blue">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+        <div class="spinner-layer spinner-red">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+        <div class="spinner-layer spinner-yellow">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+        <div class="spinner-layer spinner-green">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+      </div>
+      </div>
+    </div>
+    
+    <div class="card-panel hoverable blue-grey darken-4" id="buttons">
+      <div class="row">
+        <div class="col s6 push-s3">
+          <a href="#" id="go" class="btn-large">GO!</a>
+          <a href="#" id="reset" class="btn-large">Reset Fields</a>
+        </div>
+      </div>
+          <div class="row">
+              <div class="col s6 push-s3">
+                      <button id="signin">Authenticate</button>
+                  <button id="revoke" disabled>Revoke token</button>
+                </div>
+              </div>
+              <div class="row">
+       <div class="col s3 m6 l12">
+              <button id="returnTo">Return</button>
+              <button id="showIds">Edit IDs</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-panel hoverable grey darken-4" id=exec_div">
+          <div class="log">
+            <div id="exec_info">
+              <textarea id="__sample_support_logarea"></textarea>
+             <textarea id="exec_data"> </textarea>
+              <span id="exec_result"></span>
+            </div>
+          </div>
+        </div>
 
+        <footer>
+            <div class="container" id="idButtons">
+          <h6 class="footer-title">IDs</h6></br>
+          <div class="row">
+            <div class="col m6 s12" id="0">
+              <p>Current Sheet ID:<span></span></p>
+            <p><em>(for saving job applications)</em></p>
+            <input id="shtin" type="text">     
+          </div>
+            <div class="col m6 s12" id="1">
+            <p>Cover Letter Doc Currently:<span></span></p>
+            <p><em>(for generating a Cover Letter for each application)</em>
+            <input id="tplin" type="text">
+          </div>
+           <div class="col m6 s12" id="2">
+            <p>Folder ID Currently:<span></span></p>
+            <p><em>(for saving the generated files to)</em></p>
+            <input id="fldin" type="text">      
+          </div>
+        </div>
+        
+            <button id="upIds">Set IDs</button>
+            <a target="_blank" id="returnTo">Close Window</a>
+      </div>
+        </footer>
+        <!-- Materialize JS CDN -->
+        <script src="js/materialize.min.js"></script>
+        <script src="js/popup.js"></script>
+        <script src="js/sample_support.js"></script>
+
+  </body>
+
+</html>

@@ -94,22 +94,7 @@ function sendOptsToSheet(token) {
 				}
 		});
 	}
-			
-	function getOptsFields() {
 		
-		
-	}
-			disableButton(signin_button);
-			
-			disableButton(revoke_button);
-			break;
-			case STATE_AUTHTOKEN_ACQUIRED:
-			disableButton(signin_button);
-			enableButton(upIds);
-			enableButton(revoke_button);
-			break;
-		}
-	}
 	
 
 

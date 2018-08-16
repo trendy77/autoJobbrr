@@ -71,13 +71,10 @@
           });
       });
     }
-
-
   };
 
   SampleSupport.prototype.initializeLogger = function() {
     var log_area = document.getElementById(SampleSupport.LOG_AREA_ID);
-
     // get Logger reference from background page, so
     // all other windows can access it
     chrome.runtime.getBackgroundPage( function(bgpage) {
@@ -87,7 +84,6 @@
       if (this.logger && log_area) {
         this.logger.setLogArea(log_area);
       }
-
       // create a new logger
       if (!this.logger) {
         this.logger = new Logger(log_area);
@@ -95,21 +91,13 @@
       }
 
     }.bind(this));
-
-  }
-
-
+  };
   SampleSupport.prototype.init = function(e) {
-
     this.initializeLogger();
     this.addListeners();
   };
-
   context.SampleSupport = SampleSupport;
-
 })(window);
-
-
 window.sampleSupport = new SampleSupport();
 window.addEventListener('DOMContentLoaded',
-  window.sampleSupport.init.bind(window.sampleSupport));
+window.sampleSupport.init.bind(window.sampleSupport));
