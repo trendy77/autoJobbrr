@@ -10,19 +10,20 @@ var jobAppFields = {
 	"USP3": f7
 };
 var SCRIPT_ID = '1OyjlytEo2uEorwa12PyFanPBm549L9Koe2Fl5Mwkg-p-5V4k7k-KgDsc';
-var o1, o2, o3;
+var o1="a";
+var o2="t";
+var o3="o";
 var exec_Optsdata = [o1, o2, o3];
 //var theTitz = ["JobTitle", "Company", "Contact", "Number", "USP1", "USP2", "USP3"];
 //var theVals = [f1, f2, f3, f4, f5, f6, f7];
-var exec_Senddata;
-var popupJsPort=browser.runtime.connect({name:"port-popup"});
+var exec_Senddata = {};
+var popupJsPort=chrome.runtime.connect({name:"port-popup"});
+var contentJsPort = chrome.runtime.connect({ name: "port-content" });
+
 var STATE_START = 1;
 var STATE_ACQUIRING_AUTHTOKEN = 2;
 var STATE_AUTHTOKEN_ACQUIRED = 3;
 var state = STATE_START;
-var contentJsPort =c;
-var popupJsPort =p;
-
 
 
 
@@ -30,14 +31,21 @@ var popupJsPort =p;
 popupJsPort.onMessage.addListener(function(m) {
 	var keys = Object.keys(m);
 	for (var r in keys){
-	console.log(keys[r]+"  "+ keys[r].value);
+		console.log(keys[r]+"  "+ keys[r].value);
    }
-   });
-   
+	 });
+	 
+contentJsPort.onMessage.addListener(function (m) {
+	var keys = Object.keys(m);
+	for (var r in keys) {
+		console.log(keys[r] + "  " + keys[r].value);
+	}
+});
+
 // on install.
 chrome.runtime.onInstalled.addListener(function () {
 	var parent = chrome.contextMenus.create({ title: "autoSEEKr", id: "parent", contexts: ['all'] });
-	for (let key of Object.keys(jobAppFields)) {
+	for (var key in Object.keys(jobAppFields)) {
 		chrome.contextMenus.create({
 			id: key,
 			parentId: parent,
@@ -58,6 +66,8 @@ chrome.runtime.onInstalled.addListener(function () {
 // on click (context menu)
 chrome.contextMenus.onClicked.addListener(function (item, tab) {
 	//	let url = 'https://google.' + item.menuItemId + '/search?q=' + item.selectionText; chrome.tabs.create({url: url, index: tab.index + 1});
+	
+	
 	var sel2 = item.selectionText;
 	var tit = item.menuItemId;
 	if (tit == 'Send2Sheet') {
@@ -101,32 +111,9 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-function addButton(parent, eleType, cla) {
-	var a = document.createElement(eleType);
-	var par = document.querySelector(parent);
-	var cla = "btn-floating pulse";
-	par.appendChild(a);
-	document.body.appendChild(par);
-}
 function closeWindow() {
 	window.close();
 }
-
-
-
 function setIcon(opt_badgeObj) {
 	if (opt_badgeObj) {
 		var badgeOpts = {};
@@ -136,22 +123,25 @@ function setIcon(opt_badgeObj) {
 		chrome.browserAction.setBadgeText(badgeOpts);
 	}
 }
-
-function sendLog(msg){
-	portie.postMessage({ log : state });	
+function sendLog(key,msg){
+	if(key=='log'){
+		popupJsPort.postMessage({ 'log': msg });	
+	}
+	if (key == 'state') {
+		popupJsPort.postMessage({ 'state': msg });	
+	}
+	if (key == 'load') {
+		popupJsPort.postMessage({ 'load': msg });
+	}
 }
 
 function changeState(newState) {
 	state = newState;
-	
+	sendLog('state',state);
 	switch (state) {
-		case STATE_START:
 		
-			break;
-		case STATE_ACQUIRING_AUTHTOKEN:
-			
-		sendLog('Acquiring token...');
-			break;
+		case STATE_START:				var text = "go!"; var obj.text=text; setIcon(obj);	break;
+		case STATE_ACQUIRING_AUTHTOKEN:		sendLog('log','Acquiring token...');		break;
 		case STATE_AUTHTOKEN_ACQUIRED:
 			chrome.contextMenus.update('RevokeToken', { visible: true });
 			chrome.contextMenus.update('SignIn', { visible: false });
@@ -160,7 +150,6 @@ function changeState(newState) {
 			break;
 	}
 }
-
 
 
 
@@ -186,18 +175,7 @@ function sendOptsToExecutionAPI() {
 		'callback': sendOptsToSheet,
 	});
 }
-function sendDataToExecutionAPICallback(token) {
-	sendLog('Sending data to Execution API script');
-	post({
-		'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID + ':run',
-		'callback': executionAPIResponse,
-		'token': token,
-		'request': {
-			'function': 'sendOpts',
-			'parameters': exec_Senddata
-		}
-	});
-}
+
 function sendOptsToSheet(token) {
 	post({
 		'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID + ':run',
@@ -205,7 +183,7 @@ function sendOptsToSheet(token) {
 		'token': token,
 		'request': {
 			'function': 'setIds',
-			'parameters': { 'data': JSON.parse(exec_Optsdata.value) }
+			'parameters': { 'theIds': JSON.parse(exec_Optsdata.value) }
 		}
 	});
 }
@@ -215,24 +193,24 @@ function sendDataToExecutionAPI() {
 		'callback': sendDataToExecutionAPICallback,
 	});
 }
-function sendValsToSheet(token) {
-	sendLog'sending ValstoSheet');
+function sendDataToSheet(token) {
+	sendLog('log','sending Vals to Sheet');
 	post({
 		'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID + ':run',
 		'callback': executionAPIResponse,
 		'token': token,
 		'request': {
 			'function': 'process1',
-			'parameters': JSON.parse(exec_Senddata)
+			'parameters': { 'jobAppFields': JSON.parse(execSend_data.value) }
 		}
 	});
 }
-function sendVals() {
-		chrome.storage.local.get(['jobAppFields'], function (object) {
+function sendData() {
+	sendLog('loadspin','on');	
+	chrome.storage.local.get(['jobAppFields'], function (object) {
 		var thedat = object.jobAppFields;
 		exec_Senddata = thedat;
 		//"[" + viObj[0] + "\,\"" + viObj[1] + "\",\"" + viObj[2] + "\",\"" + viObj[3] + "\",\"" + viObj[4] + "\",\"" + viObj[5] + "\",\"" + viObj[6] + "\"]]";
-		console.log(exec_Senddata);
 		getAuthToken({
 			'interactive': false,
 			'callback': sendValsToSheet
@@ -265,14 +243,17 @@ function getAuthTokenCallback(token) {
 		sampleSupport('Logged In');
 		changeState(STATE_AUTHTOKEN_ACQUIRED);
 	}
+}
 function executionAPIResponse(response) {
 	console.log(JSON.stringify(response));
-	//	upIds.classList.remove('loading');
-	var info;
+	sendLog('loadspin', 'off');	
+	
 	if (response.response.result.status == 'ok') {
-		sampleSupport('Data has been entered into <a href="' + response.response.result.doc + '" target="_blank"><strong>this sheet</strong></a>');
+		var info = 'Data has been entered into <a href="' + response.response.result.doc + '" target="_blank"><strong>this sheet</strong></a>';
+		sendLog('log',info);
 	} else {
-		sampleSupport('Error...');
+		var info = 'Error...'
+		sendLog('log','info');
 	}
 	chrome.windows.getCurrent(function (currentWindow) {
 		currentWindow.document.querySelector('#exec_result').innerHTML = info;
@@ -292,7 +273,6 @@ function revokeAuthTokenCallback(current_token) {
 			current_token);
 		xhr.send();
 		changeState(STATE_START);
-		postie('support',)
 		sampleSupport('Token revoked and removed from cache. ' +
 			'Check chrome://identity-internals to confirm.');
 	}

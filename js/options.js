@@ -9,8 +9,8 @@ var signin_button, revoke_button, returnTo, upIds;
 
 function displayIds() {
 	chrome.storage.local.get(['theIds'], function(object) {
-		var newIds = object.ids;
-		o1 = newIds[0];
+		var newIds = object.theIds;
+		o1 = newIds.sheetId || [];
 		o2 = newIds[1];
 		o3 = newIds[2];
 		exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + o1 + "\",\"" + o2 + "\",\"" + o3 + "\"]]";
