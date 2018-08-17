@@ -1,2 +1,5 @@
-
+.vscode
+.vs
+package.json
+package.lock
 node_modules

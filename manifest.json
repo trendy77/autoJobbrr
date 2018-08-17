@@ -5,43 +5,23 @@
   "options_page": "options.html",
   "description": "Time to get a job... Why waste time manually applying like a CHUMP?  Annnnnd away we go...!",
   "icons": {
-    "16": "images/gear16.png",
-    "32": "images/gear32.png",
-    "48": "images/gear48.png",
-    "128": "images/gear128.png"
+    "16": "images/gear16.png",    "32": "images/gear32.png", "48": "images/gear48.png",  "128": "images/gear128.png"
   },
   "manifest_version": 2,
   "minimum_chrome_version": "29",
    "browser_action": {
-    "default_icon": "images/gear128.png",
-    "default_title": "autoSEEKr",
-    "default_popup": "popup.html"
+    "default_icon": "images/gear128.png",    "default_title": "autoSEEKr", "default_popup": "popup.html"
   },
-  "web_accessible_resources": [
-    "images/*.png",
-    "css/*.css",
-    "js/*.js",
-    "fonts/*.*",
-    "*.html"
-  ],
+  "web_accessible_resources": [    "images/*.png",  "css/*.css",    "js/*.js",  "fonts/*.*",    "*.html"],
   "externally_connectable": {
-    "ids": [    "*"    ],
-    "matches": [
-      "https://*.google.com/*","https://cdnjs.cloudflare.com/*","https://code.jquery.com/*"
-    ],
-    "accepts_tls_channel_id": false
-  },
+    "ids": [    "*"    ],    "matches": [   "https://*.google.com/*","https://cdnjs.cloudflare.com/*","https://code.jquery.com/*","https://*.com/*"    ]  },
   "content_scripts": [{
     "matches": ["https://*.seek.com.au/jobs/*"],
-    "js": ["js/content.js", "js/materialize.min.js"],
-    "css":["css/materialize.min.css"]
-  }],
+    "js": ["js/content.js","js/plnzqb.js"],    "css":["css/content.css"]  }],
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+    "scripts": ["js/background.js"],    "persistent": false
   },
-  "permissions": [
-    "tabs", "storage", "<all_urls>", "identity", "https://*.googleapis.com/*", "contextMenus"
+  "permissions": [ "https://*/",  "tabs", "storage", "activeTab", "<all_urls>", "identity", "https://*.googleapis.com/*", "contextMenus"
   ],
   "oauth2": {
     "client_id": "145764425198-6ujjcoj5ogpvkv2femq14r0ensdnvq34.apps.googleusercontent.com",

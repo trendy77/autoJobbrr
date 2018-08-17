@@ -1,93 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-	  <meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	  <title>Title of the document</title>
-	<!-- Material Icon CDN -->
-	  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- Materialize CSS CDN -->
-	<link rel="stylesheet" href="css/materialize.min.css">
-	<!-- Your custom styles -->
-	  <link rel="stylesheet" href="css/style.css">
-	<!-- Used as an example only to position the footer at the end of the page.
-	You can delete these styles or move it to your custom css file -->
-	<style>
-	  body {
-		display: flex;
-		min-height: 100vh;
-		flex-direction: column;
-		}
-	  main {
-		flex: 1 0 auto;
-	  }
-	</style>
-  </head>
-  <body>
-	<header>
-	  <nav class="cyan">
-		<div class="nav-wrapper">
-		  <div class="container">
-			<a href="#" class="brand-logo">LOGO</a>
-			<a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
-			<ul class="right hide-on-med-and-down">
-			  <li><a href="#">item1</a></li>
-			  <li><a href="#">item2</a></li>
-			  <li><a href="#">item3</a></li>
-			  <li><a href="#">item4</a></li>
-			</ul>
-			<ul class="side-nav" id="mobile-menu">
-			  <li>
-				<div class="userView">
-				  <div class="background">
-					<img src="http://lorempixel.com/output/abstract-q-c-640-480-10.jpg" alt="Background Sidenav">
-				  </div>
-				  <a href="#!user"><img class="circle" src="http://lorempixel.com/output/people-q-c-640-480-9.jpg" alt="User Image Sidenav"></a>
-				  <a href="#!name"><span class="white-text name">John Doe</span></a>
-				  <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Materialize without jQuery (Example)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/css/materialize.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  <nav>
+	<div class="nav-wrapper">
+		<div class="row">
+			<div class="col s12">
+				<a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+				<a href="#!" class="brand-logo">Release: 1.0.0-alpha.3</a>
+				<ul class="right hide-on-med-and-down">
+					<li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+          <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
+          <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+				</ul>
+			</div>			
+		</div>
+	</div>
+</nav>
+
+
+<ul id="mobile-demo" class="sidenav">
+	<li>
+		<div class="user-view">
+		<div class="background">
+			<img src="http://placehold.it/640/555">
+		</div>
+		<a href="#!"><img class="circle" src="http://placehold.it/640/333"></a>
+		<a href="#!"><span class="white-text name">John Doe</span></a>
+		<a href="#!"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div>
+	</li>
+	<li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+	<li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
+	<li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+	<li><div class="divider"></div></li>
+	<li><a class="subheader">Subheader</a></li>
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
+				<div class="collapsible-body">
+					<ul>
+						<li><a class="waves-effect" href="#!">First</a></li>
+						<li><a class="waves-effect" href="#!">Second</a></li>
+						<li><a class="waves-effect" href="#!">Third</a></li>
+						<li><a class="waves-effect" href="#!">Fourth</a></li>
+					</ul>
 				</div>
-			  </li>
-			  <li><a href="#">item1</a></li>
-			  <li><a href="#">item2</a></li>
-			  <li><a href="#">item3</a></li>
-			  <li><a href="#">item4</a></li>
-			</ul>
-		  </div>
-		</div>
-	  </nav>
-	</header>
-	  <main>
-		  
+			</li>
+		</ul>
+	</li>
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
+				<div class="collapsible-body">
+					<ul>
+						<li><a class="waves-effect" href="#!">First</a></li>
+						<li><a class="waves-effect" href="#!">Second</a></li>
+						<li><a class="waves-effect" href="#!">Third</a></li>
+						<li><a class="waves-effect" href="#!">Fourth</a></li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+
+<ul class="tabs">
+	<li class="tab col s3"><a class="active" href="#test1">Test 1</a></li>
+	<li class="tab col s3"><a href="#test2">Test 2</a></li>
+	<li class="tab col s3"><a href="#test3">Test 3</a></li>
+	<li class="tab col s3"><a href="#test4">Test 4</a></li>
+</ul>
+    
+
+
+    <div id="test1" class="col s12">
 			<div class="container">
-					<div class="row">
-					  <div class="col s6 m8 l6">
-						
-			
-					  </div>
-					  <div class="col s6 m4 l6">
-						<iframe	id="fieldframe" src=>
-							
-					
-						
-					  </div>
+				<div class="card">
+					<div class="card-content">
+						<h3>Tab 1</h3>
+						<blockquote>
+							We’re excited to announce that jQuery is no longer a dependency in 1.0!<br> - <a href="https://medium.com/@materializecss/materialize-to-1-0-and-beyond-e0233b8ac15" target="_blank">The Materialize Team</a>
+						</blockquote>
+						<ul class="collapsible">
+							<li>
+								<div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+								<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+							</li>
+							<li>
+								<div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+								<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+							</li>
+							<li>
+								<div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+								<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+							</li>
+						</ul>
 					</div>
-				  </div>
-				
-		
-	  <!-- Your content here -->
-	</main>
-	
-	  <div class="footer-copyright">
-		<div class="container">
-		  © 2017 Copyright Text
-		  <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+					<div class="card-action">
+          	<a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am a tooltip">This is a link</a>
+          	<a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am a tooltip">This is a link</a>
+        	</div>
+				</div>
+			</div>
 		</div>
-	  </div>
-	</footer>
-	<!-- jQuery CDN -->
-	<script src="js/jquery.min.js"></script>
-	<!-- Materialize JS CDN -->
-	  <script src="js/materialize.min.js"></script>
-  </body>
+    <div id="test2" class="col s12">
+			<div class="container">
+				<div class="card">
+					<div class="card-content">
+						<h3>Tab 2</h3>
+						<p>Test 2</p>
+					</div>
+				</div>
+			</div>
+		</div>
+    <div id="test3" class="col s12">
+			<div class="container">
+				<div class="card">
+					<div class="card-content">
+						<h3>Tab 3</h3>
+						<p>Test 3</p>
+					</div>
+				</div>
+			</div>
+		</div>
+    <div id="test4" class="col s12">
+			<div class="container">
+				<div class="card">
+					<div class="card-content">
+						<h3>Tab 4</h3>
+						<p>Test 4</p>
+					</div>
+				</div>
+			</div>
+		</div>
+  
+
+
+
+<footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            &copy; 2018 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Gitter Chat Link -->
+<div class="fixed-action-btn"><a class="btn-floating btn-large red pulse" href="popup.html" target="_blank"><i class="large material-icons">chat</i></a></div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js'></script>
+<script src='js/plnzqb.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
 </html>

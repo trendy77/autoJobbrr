@@ -24,12 +24,7 @@ bkJsPort.onMessage.addListener(m => {
     var fieldSet = msgObj.jobAppFields;
     console.log(fieldSet);
   }
-   if(typeOf(msgObj.loadin) !== 'undefined') {
-     var msg=msgObj.loadin;
-     if(loadin == "on"){
-      enableButton('loadspin');
-    }else if (loadin == "off"){
-      disableButton('loadspin');
+  
     }
   }
 } 
