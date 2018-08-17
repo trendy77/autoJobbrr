@@ -1,4 +1,5 @@
 'use strict';
+// LISTENERS...
 
 var executionAPIpopup = (function () {
 	var bk = chrome.extension.getBackgroundPage();
@@ -10,12 +11,28 @@ var executionAPIpopup = (function () {
 	// buttons
 	var exec_div, exec_info_div, exec_result, reset, goButton, optsButton, signin, revoke_button, returnTo;
 	var f1b, f2b, f4b, f3b, f5b, f6b, f7b, o1b, o2b, o3b;
-	
+	var popupJsPort = chrome.runtime.connect( { name: "port-popup" } );
+
+	popupJsPort.onMessage.addListener( function ( m ) {
+		var keys = Object.keys( m );
+		for ( var r in keys ) {
+			var key = keys[r];
+			var val = keys[r].value;
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+	} );
 	// on storage change
 	chrome.storage.onChanged.addListener(function (changes, namespace) {
 		for (var key in changes) {
 			var storageChange = changes[key];
-			exec_info.innerHTML += (key + ' onChange notification, now: ' + storageChange.value);
+			exec_info.innerHTML += (key + ' onChange notification, now: ' + storageChange[key].value);
 		}
 	});
 
@@ -36,8 +53,7 @@ var executionAPIpopup = (function () {
 				exec_info.innerText += val;
 					break;
 }
-}
-	});
+});
 
 function bksendVals() {
 	enableButton('#loadspin');
@@ -68,9 +84,9 @@ function createOpts() {
 	chrome.storage.sync.get(['theIds'], function (object) {
 		var theIds = object.theIds || [];
 		var box = document.getElementById('idButtons');
-		for (var key in theIds) {
-			var input =document.createElement('input');
-			input.textContent = theIds[key].value;
+		for (var key of theIds)) {
+			var input = createElement('input');
+			input.textContent = jobFields[key].value;
 			var span = box.getElementsByTagName('span');
 			span.textContent = theIds[key].value;
 			box.appendChild(input);
@@ -80,10 +96,10 @@ function createOpts() {
 
 
 function displayFs() {
-	var ids = chrome.extension.getBackgroundPage.exec_Optsdata || [];
-	o1b = enableEl('#sheetin','placeholder' ,ids[0]);
-		o2b = enableEl('#tplin', 'placeholder', ids[1]);
-	o3b = enableEl('#fldin', 'placeholder', ids[2]);
+	state = chrome.extension.getBackgroundPage.state;
+	o1b = enableEl('#sheeti', ,bk.o1);
+		o2b = enableEl('#tplin', 'placeholder', bk.o2);
+	o3b = enableEl('#fldin', 'placeholder', bk.o3);
 	chrome.storage.local.get('jobAppFields', function (object) {
 		var theV = object.jobAppFields || [];
 		jt = enableEl('#tit', 'placeholder', theV.JobTitle);
@@ -106,7 +122,7 @@ function enableButton(button) {
 	button.removeAttribute('disabled');
 }
 function onError(error) {
-	support_sample('error: ' + error);
+	sampleSupport('error: ' + error);
 }
 
 function bkrevokeToken() {
@@ -115,7 +131,7 @@ function bkrevokeToken() {
 function bkresetIt() {
 	chrome.extension.getBackgroundPage.resetIt();
 }
-
+	
 return {
 	onload: function () {
 		bk = chrome.extension.getBackgroundPage();

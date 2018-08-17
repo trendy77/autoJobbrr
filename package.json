@@ -4,7 +4,12 @@
   "description": "why apply for jobs manually like a CHUMP?",
   "main": "index.js",
   "scripts": {
-    "test": "web-ext lint"
+    "lint": "web-ext lint --self-hosted=true",
+    "run": "web-ext run",
+    "sign": "web-ext sign",
+   "docs": "web-ext docs",
+"build": "web-ext build",
+  "start:firefox": "web-ext run --source-dir ./extension-dist/"
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,7 @@
   },
   "homepage": "https://github.com/trendy77/autoJobbrr#readme",
   "devDependencies": {
-    "eslint": "^5.3.0"
+    "eslint": "^5.3.0",
+    "web-ext":"^2.8.0"
   }
 }

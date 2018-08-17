@@ -3,14 +3,16 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Materialize without jQuery (Example)</title>
+<title>Fields</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/css/materialize.min.css'>
 <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 
       <link rel="stylesheet" href="css/style.css">
-
+<script src="js/popup.js">
+</script>
+<script src="js/sample_support.js"></script>
   
 </head>
 
@@ -22,10 +24,10 @@
 			<div class="col s12">
 				<a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
 				<a href="#!" class="brand-logo">Release: 1.0.0-alpha.3</a>
-				<ul class="right hide-on-med-and-down">
-					<li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
-          <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
-          <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+<ul class="right hide-on-med-and-down">
+	<li><a class="navBut" href="seekr.html">SEEK!</a></li>
+	<li><a class="navBut" href="popup.html">PopUp</a></li>
+<li><a class="navBut" href="popup.html#idButtons">Options</a></li>
 				</ul>
 			</div>			
 		</div>
@@ -37,11 +39,11 @@
 	<li>
 		<div class="user-view">
 		<div class="background">
-			<img src="http://placehold.it/640/555">
+			<img src="img/gear128.png">
 		</div>
-		<a href="#!"><img class="circle" src="http://placehold.it/640/333"></a>
-		<a href="#!"><span class="white-text name">John Doe</span></a>
-		<a href="#!"><span class="white-text email">jdandturk@gmail.com</span></a>
+		<a href="#!"><img class="circle" src="img/gear128.png"></a>
+		<a href="#!"><span class="white-text name">autoSEEKr</span></a>
+		<a href="popup.html#login"><span class="white-text email">LOGIN FOR MORE</span></a>
     </div>
 	</li>
 	<li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
@@ -70,11 +72,23 @@
 				<a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
 				<div class="collapsible-body">
 					<ul>
-						<li><a class="waves-effect" href="#!">First</a></li>
-						<li><a class="waves-effect" href="#!">Second</a></li>
-						<li><a class="waves-effect" href="#!">Third</a></li>
-						<li><a class="waves-effect" href="#!">Fourth</a></li>
-					</ul>
+						<li><a class="waves-effect" href="#!">JobTitle</a></li>
+<li>
+	<a class="waves-effect" href="#!">Employer</a>
+</li>
+<li>
+	<a class="waves-effect" href="#!">Contact</a>
+</li>
+<li>
+	<a class="waves-effect" href="#!">USP1</a>
+</li>
+<li>
+	<a class="waves-effect" href="#!">USP2</a>
+</li>
+<li>
+	<a class="waves-effect" href="#!">USP3</a>
+</li>
+</ul>
 				</div>
 			</li>
 		</ul>
@@ -84,7 +98,7 @@
 
 <ul class="tabs">
 	<li class="tab col s3"><a class="active" href="#test1">Test 1</a></li>
-	<li class="tab col s3"><a href="#test2">Test 2</a></li>
+	<li class="tab col s3"><a href="popup.html#options">Options</a></li>
 	<li class="tab col s3"><a href="#test3">Test 3</a></li>
 	<li class="tab col s3"><a href="#test4">Test 4</a></li>
 </ul>
@@ -101,16 +115,22 @@
 						</blockquote>
 						<ul class="collapsible">
 							<li>
-								<div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
-								<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+								<div class="collapsible-header"><i class="material-icons">filter_drama</i>JobTitle</div>
+								<div class="collapsible-body"><span id="tit"></span></div>
 							</li>
 							<li>
-								<div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-								<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+<div class="collapsible-header">
+	<i class="material-icons">place</i>Employer</div>
+<div class="collapsible-body">
+<input id="emp" type="text">
+</div>
 							</li>
 							<li>
-								<div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-								<div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+<div class="collapsible-header">
+	<i class="material-icons">whatshot</i>Contact</div>
+<div class="collapsible-body">
+	<input id="con" type="text">
+</div>
 							</li>
 						</ul>
 					</div>
@@ -125,8 +145,41 @@
 			<div class="container">
 				<div class="card">
 					<div class="card-content">
-						<h3>Tab 2</h3>
-						<p>Test 2</p>
+<div class="container" id="idButtons">
+	<h6 class="footer-title">IDs</h6>
+	</br>
+	<div class="row">
+		<div class="col m6 s12" id="0">
+			<p>Current Sheet ID:
+				<span></span>
+			</p>
+			<p>
+				<em>(for saving job applications)</em>
+			</p>
+			<input id="shtin" type="text">
+		</div>
+		<div class="col m6 s12" id="1">
+			<p>Cover Letter Doc Currently:
+				<span></span>
+			</p>
+			<p>
+				<em>(for generating a Cover Letter for each application)</em>
+				<input id="tplin" type="text">
+		</div>
+		<div class="col m6 s12" id="2">
+			<p>Folder ID Currently:
+				<span></span>
+			</p>
+			<p>
+				<em>(for saving the generated files to)</em>
+			</p>
+			<input id="fldin" type="text">
+		</div>
+	</div>
+
+	<button id="upIds">Set IDs</button>
+	<a target="_blank" id="returnTo">Close Window</a>
+</div>
 					</div>
 				</div>
 			</div>
