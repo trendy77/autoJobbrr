@@ -47,3 +47,5 @@ Temporary Items
 .apdisk
 *.json
 .vscode/formatter.json
+
+node_modules/
