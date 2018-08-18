@@ -6,7 +6,7 @@ chrome.tabs.executeScript({
   file: 'js/plnzqb.js',
   runAt: 'document_end'
 });
-}
+
 chrome.tabs.injectCSS({
   file: 'css/content.js',
   runAt: 'document_start'

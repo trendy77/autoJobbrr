@@ -1,14 +1,19 @@
 {
   "name": "autoSEEKr JobApplier",
   "version": "6.1",
-  "version_name": "refinerChrome",
-  "options_page": "options.html",
+  "options": "options.html",
   "description": "Time to get a job... Why waste time manually applying like a CHUMP?  Annnnnd away we go...!",
   "icons": {
     "16": "images/gear16.png",
     "32": "images/gear32.png",
     "48": "images/gear48.png",
     "128": "images/gear128.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "seekr@trendypublishing.com",
+      "strict_min_version": "42.0"
+    }
   },
   "manifest_version": 2,
   "minimum_chrome_version": "29",
@@ -20,12 +25,12 @@
   "web_accessible_resources": ["images/*.png", "css/*.css", "js/*.js",
     "fonts/*.*", "*.html"
   ],
-  "externally_connectable": {
+  "externally_connectable": [{
     "ids": ["*"],
     "matches": ["https://*.google.com/*", "https://cdnjs.cloudflare.com/*",
       "https://code.jquery.com/*", "https://.com/*"
     ]
-  },
+  }],
   "content_scripts": [{
     "matches": ["https://*.seek.com.au/*"],
     "js": ["js/content.js", "js/plnzqb.js", "js/header.js"],
@@ -37,14 +42,5 @@
   },
   "permissions": ["https://*/", "tabs", "storage", "activeTab", "<all_urls>",
     "identity", "https://*.googleapis.com/*", "contextMenus"
-  ],
-  "oauth2": {
-    "client_id": "145764425198-6ujjcoj5ogpvkv2femq14r0ensdnvq34.apps.googleusercontent.com",
-    "scopes": ["https://www.googleapis.com/auth/spreadsheets",
-      "https://www.googleapis.com/auth/documents",
-      "https://www.googleapis.com/auth/drive",
-      "https://www.googleapis.com/auth/script.send_mail"
-    ]
-  },
-  "key": "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCg+Zt9gZqUUvQnmwMNDAdYCM2dIDInkgd7QbjddBPde9YeRhUUhWnwxyWzu2AWjFgTVdMHreTvRVFgl2oMoBeBE2jtmIxn2QA0T6Fam+BwqEPvAbCS6sncT4gwkbAgZGMzKtLopKID/DTuabxutj4q/P4Xdt3Uh9k63/cSeEsJ1q+cW8gPkk+3cgNG6YHJ7WGtL6TAV4nyOtu4QLsDmw4EQUn/WypOWirlCM0aHiKifxe93Wg7zM1R6Oy52G+htYdlmMPitEuJZBY8B2jccy4+xsGClkBLC2fyW3QtqVDU8ahfhWAFW6tglH6c5eUsYuwT6IMuq7j/85nWGfpPGI9PAgMBAAECggEADKKK6db6Yxn/v/wSyTtgeDB4sxSL2z9DBxGpiPhLdt75d3bYwLuYDSYUd38Fk7+ASkQ6RCgKCB3QvVwlHsiSD7eOTNfkbWJC+dgmOg5yF2Wdr2zahy2WmoxDjExjHqfCgYmi9E+3x8hL/0qdV7NGPemNqBnUX5IqIszhf7mhaiwnzWRyJWNT1ljOeCKHv9VRDmnx0TgZaIlaTxZqoku50Ucb06VvIvAck8nq7oCDFsywcT5jyFfnIYptHVaiY3YpVGL5djDHQUreVbCvrOZegWDAuVRawX2mYWdQ5YYbbN3XuNaoZ5ZFdYQdr+AEdS3t+oMYSXR8pRywzkZYLXx6wQKBgQDON/7wkO9cvgCrZF6NvUtpLHq+GmtR21MUIjC+Q9EzSdV7aRijAIkkWDzyh19ipCWMnyMaPsPu/uWn7WT1bRFO1B/drHJ+VRyMfp26WOuwChcRwESNtTFiap6w2vy5oq5gSJ+MFWWwEzvF6REovpBct0dzad2nbfFMlbOarHADJQKBgQDH1Z6Oi4CmDR5Ksx146IxtXlFbJNT/H+zQUr3i1cR5VaWuM3W/0gjJ1uyQf9yH5BWAEz1wSnzAZHQB7INqkvjI9sg8Jp5LtStKAryf5yj3QETh0f3i3eTHEgEgpL1D1qEDRycPWLxmNi0qXr6fgTZVnEbxrquGisavcWmiurZ4YwKBgFJ47oqDTFdI3bet4mrJQ7mCQmx44GbSUj2BFwFg2e+rHafHdkTqV+6jI2zTWwB2KVY95qn+ZBnW8z3foTrOLdfa2gurhfakT1CY6re2DDxRLLy6qjAKQP/dKC4OxnfvadGz+arqe8qZRpR2C5jB7bZGzlqIAk+Nlq1MSZIYWIvJAoGBAIh9nQXpvN4uGaGWA6xg0gGlqVXiq2TyjlKgITh9H+xsFnUMiwGQ2RXbqcrsullK7XCEM7Ot/NWAB0iFHiG97xV8kbmb+wTk4oNzqRhi0DVI/YNsZcf+HVPnNUPxoaBjSaiugbxWtJ/voxvMiNDzdYQ18LMExf1oblrI0QkoFJfXAoGBAJF4+yg+srsZm3Z/7L2E3TngynRfML7i0Gchrbt6CNQ+AFTUKA6hECh2DNzSC077KHp5eIqHdfBA1yYZ4MJXms9x+1CTmg7NcC/xmSa+S9PjsJXBfbuCfqR/b3RCCf3HOtMJzuZuGW9toS15nCDPbSZgQxNs2R0A8iQUI7ttUsf1"
+  ]
 }

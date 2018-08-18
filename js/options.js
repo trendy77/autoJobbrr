@@ -8,11 +8,9 @@ var signin_button, revoke_button, returnTo, upIds;
 function displayIds() {
 	chrome.storage.local.get(['theIds'], function(object) {
 		var newIds = object.theIds;
-		o1 = newIds.sheetId || [];
+		o1 = newIds.sheetId || getNewIds();
 		o2 = newIds[1];
 		o3 = newIds[2];
-		exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + o1 +
-			"\",\"" + o2 + "\",\"" + o3 + "\"]]";
 		var sht = document.getElementById('shtin');
 		var att1 = document.createAttribute('placeholder');
 		att1.value = o1;
@@ -34,9 +32,7 @@ var executionAPIExample = (function() {
 
 
 	function sendOpts() {
-		var s = document.getElementById('shtin').value.trim();
-		var t = document.getElementById('fldin').value.trim();
-		var f = document.getElementById('tplin').value.trim();
+
 		if (s != "") {
 			var newIds = [s, t, f];
 			chrome.storage.local.set({

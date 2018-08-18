@@ -37,21 +37,22 @@ function recievedOK() {
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 	for (var key in changes) {
 		var storageChange = changes[key];
-		exec_info.innerHTML += (key + ' onChange notification, now: ' +
+		exec_info_div.innerText += (key + ' onChange notification, now: ' +
 			storageChange[key].value);
 	}
 });
-
 
 popupJsPort.onMessage.addListener(function(m) {
 	var keys = Object.keys(m);
 	for (var r in keys) {
 		var key = keys[r];
-		var val = keys[r].value;
+		var val = key.value;
 		switch (key) {
 			case 'load':
 				if (val == 'on') {
-					loadingOn();
+					var whichKey = keys['which']
+					var whichVal = whichKey.value;
+					loadingOn(whichVal);
 				} else if (val == 'off') {
 					loadingOff();
 				}
@@ -65,14 +66,8 @@ popupJsPort.onMessage.addListener(function(m) {
 	}
 });
 
-
 // ONLOAD FUNCTION....
-//
 var executionAPIpopup = (function() {
-	function bksendVals() {
-		enableButton('#loadspin');
-		chrome.extension.getBackgroundPage.sendVals();
-	}
 
 	function enableEl(eleid, attr, atval) {
 		var ele = document.querySelector(eleid);
@@ -107,13 +102,20 @@ var executionAPIpopup = (function() {
 		});
 	}
 
+	function getNewIds() {
+		var s = document.getElementById('shtin').value.trim();
+		var t = document.getElementById('fldin').value.trim();
+		var f = document.getElementById('tplin').value.trim();
+		var theNewIds = [s, t, f];
+		return theNewIds;
+	}
 
 	function displayFs() {
 		chrome.storage.sync.get(['theIds'], function(object) {
 			var theV = object.theIds || [];
-			o1b = enableEl('#shtin', 'placeholder', theV[0]);
-			o2b = enableEl('#tplin', 'placeholder', theV[1]);
-			o3b = enableEl('#fldin', 'placeholder', theV[2]);
+			enableEl('#shtin', 'placeholder', theV[0]);
+			enableEl('#tplin', 'placeholder', theV[1]);
+			enableEl('#fldin', 'placeholder', theV[2]);
 		});
 		chrome.storage.local.get(['jobAppFields'], function(object) {
 			var theV = object.jobAppFields || [];
@@ -149,8 +151,29 @@ var executionAPIpopup = (function() {
 		chrome.extension.getBackgroundPage.getAuthTokenInteractive();
 	}
 
+	function loadingOn(which) {
+		var ele = document.querySelector('#' + which);
+		chrome.extension.getBackgroundPage.displayDefault(ele);
+	}
+
+	function loadingOff() {
+		var ele = document.querySelectorAll('loadspin');
+		for (var th in ele) {
+			chrome.extension.getBackgroundPage.displayNone(ele);
+		}
+	}
+
+	function bkSignin() {
+		chrome.extension.getBackgroundPage.getAuthTokenInteractive();
+	}
+
 	function bksendVals() {
 		chrome.extension.getBackgroundPage.sendVals();
+	}
+
+	function bksendOpts() {
+		var theNewIds = getNewIds();
+		chrome.extension.getBackgroundPage.sendOpts(theNewIds);
 	}
 
 	function bkClose() {
@@ -205,7 +228,10 @@ var executionAPIpopup = (function() {
 			exec_info_div = document.querySelector('#exec_info');
 
 			optsButton = document.querySelector('#optsButton');
-			optsButton.addEventListener('click', createOpts);
+			optsButton.addEventListener('click', getNewIds);
+
+			upIds = document.querySelector('#upIds');
+			optsButton.addEventListener('click', bksendOpts);
 
 			goButton = document.querySelector('#go');
 			goButton.addEventListener('click', bksendVals.bind(goButton, true));

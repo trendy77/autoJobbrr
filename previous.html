@@ -47,20 +47,28 @@
     <ul id="mobile-demo" class="sidenav">
         <li>
             <div class="user-view">
-                <div class="background"><img src="http://placehold.it/640/555"></div>
-                <a href="#!"><img class="circle" src="http://placehold.it/640/333"></a>
-                <a href="#!"><span class="white-text name">Login</span></a>
-                <a href="#!"><span class="white-text email">Gmail</span></a>
+                <div class="background">
+                    <img src="http://placehold.it/640/555">
+                </div>
+                <a href="#!">
+          <img class="circle" src="http://placehold.it/640/333">
+        </a>
+                <a href="#!">
+          <span class="white-text name">Login</span>
+        </a>
+                <a href="#!">
+          <span class="white-text email">Gmail account</span>
+        </a>
             </div>
         </li>
         <li>
-            <a href="#fields" target="#test1">Job Fields</a>
+            <a href="#fields" target="_blank">Job Fields</a>
         </li>
         <li>
-            <a href="#previous" target="previous.html">All Jobs</a>
+            <a href="#previous" target="_blank">Previous Applications</a>
         </li>
         <li>
-            <a href="#opts" target="_blank">Search Jobs</a>
+            <a href="#opts" target="_blank">Options</a>
         </li>
         <li>
             <div class="divider"></div>
@@ -71,25 +79,25 @@
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li>
-                    <a class="collapsible-header waves-effect waves-light btn">Drive Tools
-            <i class="material-icons">code</i>
+                    <a class="collapsible-header waves-effect">Drive Tools
+            <i class="material-icons pulse">code</i>
           </a>
                     <div class="collapsible-body">
                         <ul>
                             <li>
-                                <a class="waves-effect waves-light btn" href="signin.html">Login</a>
+                                <a class="waves-effect" href="signin.html">Login</a>
                             </li>
                             <li>
-                                <a class="waves-effect waves-light btn pulse" href="signout.html">Logout</a>
+                                <a class="waves-effect pulse" href="signout.html">Logout</a>
                             </li>
                             <li>
-                                <a class="waves-effect waves-light btn" href="#!">Go To GDrive</a>
+                                <a class="waves-effect" href="#!">Go To GDrive</a>
                             </li>
                             <li>
-                                <a class="waves-effect waves-light btn" href="#!">Go To Spreadsheet</a>
+                                <a class="waves-effect" href="#!">Go To Spreadsheet</a>
                             </li>
                             <li>
-                                <a class="waves-effect waves-light btn" href="#!">Go To Cover Letter </a>
+                                <a class="waves-effect" href="#!">Go To Cover Letter </a>
                             </li>
                         </ul>
                     </div>
@@ -98,20 +106,22 @@
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                        <a class="collapsible-header waves-effect waves-light btn">Dropdown<i class="material-icons">folder</i></a>
+                        <a class="collapsible-header waves-effect">Dropdown
+            <i class="material-icons">folder</i>
+          </a>
                         <div class="collapsible-body">
                             <ul>
                                 <li>
-                                    <a class="waves-effect waves-light btn" href="#!">Go To Cover Letters Folder</a>
+                                    <a class="waves-effect" href="#!">Options</a>
                                 </li>
                                 <li>
-                                    <a class="waves-effect waves-light btn" href="#!">My Drive</a>
+                                    <a class="waves-effect" href="#!">Second</a>
                                 </li>
                                 <li>
-                                    <a class="waves-effect waves-light btn" href="#!">My Template</a>
+                                    <a class="waves-effect" href="#!">Third</a>
                                 </li>
                                 <li>
-                                    <a class="waves-effect waves-light btn" href="#!">My Resumes</a>
+                                    <a class="waves-effect" href="#!">Fourth</a>
                                 </li>
                             </ul>
                         </div>
@@ -122,17 +132,17 @@
 
 
     <ul class="tabs">
-        <li class="tab col s4">
-            <a class="black-text active" href="#test1">Fill</a>
+        <li class="tab col s3">
+            <a class="active" href="#test1">New</a>
         </li>
-        <li class="tab col s4">
-            <a class="black-text" href="#test2">Preview</a>
+        <li class="tab col s3">
+            <a href="#test2">All</a>
         </li>
-        <li class="tab col s4">
-            <a class="black-text" href="#test3">Build</a>
+        <li class="tab col s3">
+            <a href="#test3">Options</a>
         </li>
-        <li class="tab col s4">
-            <a class="black-text" href="#test4">SEND</a>
+        <li class="tab col s3">
+            <a href="#test4">CoverLtr</a>
         </li>
     </ul>
 
@@ -506,86 +516,85 @@
     <footer class="page-footer">
         <div class="container">
             <div class="row">
-            <div class="col l4 offset-l2 s12">
-                  <h5 class="white-text">Links</h5>
-                    <ul>   <li> <a class="black text" id="signin">Login</a></li>
-                                <li><a class="black text" id="revoke">Revoke</a></li>
-                                <li><a class="black text" target="_blank" href="https://seek.com.au">SEEK!</a></li>
-                                <li><a class="black text" target="_blank" href="popup.html">Pop-Out</a></li>
-<li><a class="black text" href="seekr.html">Seekr Duel Screen</a></li>
-                                <li><a class="black text" href="#close">Close</a></li>
+                <div class="col l6 s12">
+                    <h5 class="white-text">Template Preview</h5>
+
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                </div>
+
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <div class="container" id="idButtons">
+                            <h6 class="footer-title">
+                                <li>
+                                    <a class="grey-text text-lighten-3" href="#!">Login</a>
+                                </li>
+                                <li>
+                                    <a class="grey-text text-lighten-3" href="#!">Revoke</a>
+                                </li>
+                                <li>
+                                    <a class="grey-text text-lighten-3" href="#!">Link 3</a>
+                                </li>
+                                <li>
+                                    <a class="grey-text text-lighten-3" href="#!">Link 4</a>
+                                </li>
                     </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-copyright green darken-3">
                 <div class="container grey">
-                    &copy; 2018 Copyright Trendy Publishing, All Rights Reserved.
+                    &copy; 2018 Copyright Text
+                    <a class="white-text text-lighten-4 right" href="#!">More Apps</a>
                 </div>
             </div>
     </footer>
+
+
 </body>
+
 </html>
 
 
-                <div class="container">
-                  <div class="loadspin" id="butspin" style="display:none">
-                      <div class="preloader-wrapper big">
-                          <div class="spinner-layer spinner-blue">
-                              <div class="circle-clipper left">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="gap-patch">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="circle-clipper right">
-                                  <div class="circle"></div>
-                              </div>
-                          </div>
-                          <div class="spinner-layer spinner-red">
-                              <div class="circle-clipper left">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="gap-patch">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="circle-clipper right">
-                                  <div class="circle"></div>
-                              </div>
-                          </div>
-                          <div class="spinner-layer spinner-yellow">
-                              <div class="circle-clipper left">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="gap-patch">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="circle-clipper right">
-                                  <div class="circle"></div>
-                              </div>
-                          </div>
-                          <div class="spinner-layer spinner-green">
-                              <div class="circle-clipper left">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="gap-patch">
-                                  <div class="circle"></div>
-                              </div>
-                              <div class="circle-clipper right">
-                                  <div class="circle"></div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  
-    <div class="card-panel hoverable grey darken-4" id="exec_div">
-        <div id="exec_info">
-            <textarea id="__sample_support_logarea"></textarea>
-            <textarea id="exec_data"> </textarea>
-            <span id="exec_result"></span>
-        </div>
-    </div>
+<a class="navBut" href="seekr.html">SEEK!</a>
+<a class="navBut" target="_blank" href="popup.html">Pop-Out</a>
+<a class="navBut" href="#idButtons">Options</a>
+
+
+
+
+
 
 <div class="card-panel hoverable blue-grey darken-4" id="buttons">
+    <div class="row">
+        <div class="col s12 m6">
+            <a href="#" id="go" class="btn-medium">GO!</a>
+        </div>
+        <div class="col s12 m6">
+            <a href="#" id="reset" class="btn-medium">Reset</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6 m3 l2">
+            <button id="signin" class="btn-medium">SignIn</button>
+        </div>
+        <div class="col s6 m3 l2">
+            <button id="revoke" class="btn-medium" disabled>Logout</button>
+        </div>
+        <div class="col s6 m3 l2">
+            <button id="showIds" class="btn-medium">Options</button>
+        </div>
+        <div class="col s2 m1">
+            <button id="returnTo" class="btn-medium"><a class="material-Icons">close</a></button>
+        </div>
+    </div>
+</div>
 
+<div class="card-panel hoverable grey darken-4" id="exec_div">
+    <div id="exec_info">
+        <textarea id="__sample_support_logarea"></textarea>
+        <textarea id="exec_data"> </textarea>
+        <span id="exec_result"></span>
+    </div>
 </div>
