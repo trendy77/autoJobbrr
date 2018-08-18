@@ -23,7 +23,9 @@ function isInt(i) {
 }
 
 function loadWindowList() {
-  chrome.windows.getAll({ populate: true }, function(windowList) {
+  chrome.windows.getAll({
+    populate: true
+  }, function(windowList) {
     tabs = {};
     tabIds = [];
     for (var i = 0; i < windowList.length; i++) {
@@ -51,7 +53,7 @@ function updateTabData(id) {
   return retval;
 }
 
-function updateTab(id){
+function updateTab(id) {
   try {
     chrome.tabs.update(id, updateTabData(id));
   } catch (e) {
@@ -65,6 +67,7 @@ function moveTabData(id) {
     'windowId': parseInt(document.getElementById('windowId_' + id).value)
   }
 }
+
 function moveTab(id) {
   try {
     chrome.tabs.move(id, moveTabData(id));
@@ -103,7 +106,7 @@ function updateAll() {
     for (var i = 0; i < tabIds.length; i++) {
       chrome.tabs.update(tabIds[i], updateTabData(tabIds[i]));
     }
-  } catch(e) {
+  } catch (e) {
     alert(e);
   }
 }
@@ -114,7 +117,7 @@ function moveAll() {
     for (var i = 0; i < tabIds.length; i++) {
       chrome.tabs.move(tabIds[i], moveTabData(tabIds[i]));
     }
-  } catch(e) {
+  } catch (e) {
     alert(e);
   }
 }
@@ -131,8 +134,8 @@ function removeTab(tabId) {
 
 function appendToLog(logLine) {
   document.getElementById('log')
-      .appendChild(document.createElement('div'))
-      .innerText = "> " + logLine;
+    .appendChild(document.createElement('div'))
+    .innerText = "> " + logLine;
 }
 
 function clearLog() {
@@ -157,22 +160,22 @@ chrome.windows.onRemoved.addListener(function(windowId) {
 
 chrome.tabs.onCreated.addListener(function(tab) {
   appendToLog(
-      'tabs.onCreated -- window: ' + tab.windowId + ' tab: ' + tab.id +
-      ' title: ' + tab.title + ' index ' + tab.index + ' url ' + tab.url);
+    'tabs.onCreated -- window: ' + tab.windowId + ' tab: ' + tab.id +
+    ' title: ' + tab.title + ' index ' + tab.index + ' url ' + tab.url);
   loadWindowList();
 });
 
 chrome.tabs.onAttached.addListener(function(tabId, props) {
   appendToLog(
-      'tabs.onAttached -- window: ' + props.newWindowId + ' tab: ' + tabId +
-      ' index ' + props.newPosition);
+    'tabs.onAttached -- window: ' + props.newWindowId + ' tab: ' + tabId +
+    ' index ' + props.newPosition);
   loadWindowList();
 });
 
 chrome.tabs.onMoved.addListener(function(tabId, props) {
   appendToLog(
-      'tabs.onMoved -- window: ' + props.windowId + ' tab: ' + tabId +
-      ' from ' + props.fromIndex + ' to ' +  props.toIndex);
+    'tabs.onMoved -- window: ' + props.windowId + ' tab: ' + tabId +
+    ' from ' + props.fromIndex + ' to ' + props.toIndex);
   loadWindowList();
 });
 
@@ -187,22 +190,22 @@ function refreshTab(tabId) {
 
 chrome.tabs.onUpdated.addListener(function(tabId, props) {
   appendToLog(
-      'tabs.onUpdated -- tab: ' + tabId + ' status ' + props.status +
-      ' url ' + props.url);
+    'tabs.onUpdated -- tab: ' + tabId + ' status ' + props.status +
+    ' url ' + props.url);
   refreshTab(tabId);
 });
 
 chrome.tabs.onDetached.addListener(function(tabId, props) {
   appendToLog(
-      'tabs.onDetached -- window: ' + props.oldWindowId + ' tab: ' + tabId +
-      ' index ' + props.oldPosition);
+    'tabs.onDetached -- window: ' + props.oldWindowId + ' tab: ' + tabId +
+    ' index ' + props.oldPosition);
   loadWindowList();
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId, props) {
   appendToLog(
-      'tabs.onSelectionChanged -- window: ' + props.windowId + ' tab: ' +
-      tabId);
+    'tabs.onSelectionChanged -- window: ' + props.windowId + ' tab: ' +
+    tabId);
   loadWindowList();
 });
 
@@ -233,7 +236,7 @@ function createWindow() {
 
   try {
     chrome.windows.create(args);
-  } catch(e) {
+  } catch (e) {
     alert(e);
   }
 }
@@ -246,8 +249,8 @@ function refreshWindow(windowId) {
       var output = document.getElementById('window_' + window.id);
       jstProcess(input, output);
       appendToLog(
-          'window refreshed -- windowId: ' + window.id + ' tab count:' +
-          window.tabs.length);
+        'window refreshed -- windowId: ' + window.id + ' tab count:' +
+        window.tabs.length);
     });
   });
 }
@@ -271,7 +274,7 @@ function updateWindowData(id) {
   return retval;
 }
 
-function updateWindow(id){
+function updateWindow(id) {
   try {
     chrome.windows.update(id, updateWindowData(id));
   } catch (e) {
@@ -290,13 +293,16 @@ function removeWindow(windowId) {
 }
 
 function refreshSelectedTab(windowId) {
-  chrome.tabs.query({active: true, currentWindow: true} function(tabs) {
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, function(tabs) {
     var input = new JsExprContext(tabs[0]);
     var output = document.getElementById('tab_' + tabs[0].id);
     jstProcess(input, output);
     appendToLog(
-        'selected tab refreshed -- tabId: ' + tabs[0].id +
-        ' url:' + tabs[0].url);
+      'selected tab refreshed -- tabId: ' + tabs[0].id +
+      ' url:' + tabs[0].url);
   });
 }
 

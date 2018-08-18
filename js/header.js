@@ -5,12 +5,16 @@
 var tabId = parseInt(window.location.search.substring(1));
 
 window.addEventListener("load", function() {
-  chrome.debugger.sendCommand({tabId:tabId}, "Network.enable");
+  chrome.debugger.sendCommand({
+    tabId: tabId
+  }, "Network.enable");
   chrome.debugger.onEvent.addListener(onEvent);
 });
 
 window.addEventListener("unload", function() {
-  chrome.debugger.detach({tabId:tabId});
+  chrome.debugger.detach({
+    tabId: tabId
+  });
 });
 
 var requests = {};
@@ -35,7 +39,7 @@ function onEvent(debuggeeId, message, params) {
 
     var requestLine = document.createElement("div");
     requestLine.textContent = "\n" + params.request.method + " " +
-        parseURL(params.request.url).path + " HTTP/1.1";
+      parseURL(params.request.url).path + " HTTP/1.1";
     requestDiv.appendChild(requestLine);
     document.getElementById("container").appendChild(requestDiv);
   } else if (message == "Network.responseReceived") {
@@ -49,7 +53,7 @@ function appendResponse(requestId, response) {
 
   var statusLine = document.createElement("div");
   statusLine.textContent = "\nHTTP/1.1 " + response.status + " " +
-      response.statusText;
+    response.statusText;
   requestDiv.appendChild(statusLine);
   requestDiv.appendChild(formatHeaders(response.headers));
 }
@@ -66,7 +70,7 @@ function formatHeaders(headers) {
 function parseURL(url) {
   var result = {};
   var match = url.match(
-      /^([^:]+):\/\/([^\/:]*)(?::([\d]+))?(?:(\/[^#]*)(?:#(.*))?)?$/i);
+    /^([^:]+):\/\/([^\/:]*)(?::([\d]+))?(?:(\/[^#]*)(?:#(.*))?)?$/i);
   if (!match)
     return result;
   result.scheme = match[1].toLowerCase();
