@@ -288,6 +288,20 @@ function sendOpts(theOpts) {
 }
 
 
+function sendOpts() {
+	var s = document.getElementById('shtin').value.trim();
+	var t = document.getElementById('fldin').value.trim();
+	var f = document.getElementById('tplin').value.trim();
+	if (typeof s !== 'undefined') {
+		var newIds = [s, t, f];
+		browser.storage.sync.set({ theIds: newIds });
+		exec_Optsdata = "[\"sheetId\":\"" + s + "\",\"folderId\":\"" + f + "\",\"templateId\":\"" + t + "\"}";
+		getAuthToken({
+			'interactive': false,
+			'callback': sendOptsToSheet,
+		});
+	}
+}
 function sendOptsToExecutionAPI() {
 	getAuthToken({
 		'interactive': false,

@@ -1,4 +1,5 @@
 'use strict';
+var bk = browser.runtime.getBackgroundPage();
 
 var exec_info_div, exec_data, exec_result;
 var o1b, o2b, o3b;
