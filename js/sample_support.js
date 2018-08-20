@@ -28,6 +28,7 @@
         messageStr = JSON.stringify(message);
       }
 
+=======
       // log to the textarea HTML element
       this.log_area.innerText += messageStr;
 
@@ -39,22 +40,17 @@
           "[WIN:"+currentAppWindowId+"]",message);
       }
 
+=======
     }
   };
-
-
   function SampleSupport() {
-
   }
-
   SampleSupport.prototype.log = function(message) {
     this.logger.log(message, window);
   };
-
   SampleSupport.SNIPPET_WIN_ID = 'show_snippets';
   SampleSupport.OPEN_SNIPPETS_ANCHOR_ID = '_open_snippets';
   SampleSupport.LOG_AREA_ID = '__sample_support_logarea';
-
   SampleSupport.prototype.addListeners = function() {
     var open_snippets = document.getElementById(
       SampleSupport.OPEN_SNIPPETS_ANCHOR_ID);

@@ -48,6 +48,5 @@ Temporary Items
 .vscode/formatter.json
 css/materialize.min.css
 
-\.vscode/
 
 node_modules/
