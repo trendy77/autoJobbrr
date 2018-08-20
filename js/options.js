@@ -1,6 +1,6 @@
 'use strict';
 <<<<<<< HEAD
-var bk = chrome.runtime.getBackgroundPage();
+var bk = browser.runtime.getBackgroundPage();
 
 var exec_info_div, exec_data, exec_result;
 var o1b, o2b, o3b;
@@ -9,7 +9,7 @@ var exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + o1 + "\",\""
 var signin_button, revoke_button, returnTo, upIds;
 
 function displayIds() {
-	chrome.storage.local.get(['theIds'], function(object) {
+	browser.storage.local.get(['theIds'], function(object) {
 		var newIds = object.theIds;
 		o1 = newIds.sheetId || [];
 		o2 = newIds[1];
@@ -41,7 +41,7 @@ function sendOpts() {
 		var f = document.getElementById('tplin').value.trim();
 		if(s!=""){
 			var newIds=[s,t,f];
-			chrome.storage.local.set({theIds: newIds});
+			browser.storage.local.set({theIds: newIds});
 			exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + s + "\",\"" + t + "\",\"" + f + "\"]]";
 		}else{
 		exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + o1 + "\",\"" + o2 + "\",\"" + o3 + "\"]]";
@@ -130,7 +130,7 @@ window.onload = executionAPIExample.onload;
 function createOptionsForm() {
 	let div = document.createElement('div');
 	   div.setAttribute('class','container');
-	   chrome.storage.sync.get('theIds', function(list) {
+	   browser.storage.sync.get('theIds', function(list) {
 	 let form = document.getElementById('form');
 	 for (var i=0;i<list.length;i++){
 	 for (let key of Object.keys(list[i])) {
@@ -158,7 +158,7 @@ function createOptionsForm() {
 	   newArr.push([changed,newVal]);
 	   }
  }
- chrome.storage.sync.set(newArr);
+ browser.storage.sync.set(newArr);
    //window.close();
  }
   var gobutton, signin_button, xhr_button, revoke_button, exec_info_div, exec_data, exec_result;
@@ -212,7 +212,7 @@ var executionAPIExample = (function() {
 
 	function getAuthToken(options) {
 
-		chrome.identity.getAuthToken({ 'interactive': options.interactive }, options.callback);
+		browser.identity.getAuthToken({ 'interactive': options.interactive }, options.callback);
 
 	}
 
@@ -270,9 +270,9 @@ var executionAPIExample = (function() {
 
 	function getAuthTokenCallback(token) {
 
-		// Catch chrome error if user is not authorized.
+		// Catch browser error if user is not authorized.
 
-		if (chrome.runtime.lastError) {
+		if (browser.runtime.lastError) {
 
 			sampleSupport.log('No token aquired'); 
 
@@ -406,13 +406,13 @@ var executionAPIExample = (function() {
 
 	function revokeAuthTokenCallback(current_token) {
 
-		if (!chrome.runtime.lastError) {
+		if (!browser.runtime.lastError) {
 
 
 
 			// Remove the local cached token
 
-			chrome.identity.removeCachedAuthToken({ token: current_token }, function() {});
+			browser.identity.removeCachedAuthToken({ token: current_token }, function() {});
 
 			
 
@@ -434,7 +434,7 @@ var executionAPIExample = (function() {
 
 			sampleSupport.log('Token revoked and removed from cache. '+
 
-							'Check chrome://identity-internals to confirm.');
+							'Check browser://identity-internals to confirm.');
 
 		}
 

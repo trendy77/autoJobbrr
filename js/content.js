@@ -1,6 +1,6 @@
 <<<<<<< HEAD
-var bk = chrome.extension.getBackgroundPage();
-var bkJsPort = chrome.runtime.connect( { name: "port-content" } );;
+var bk = browser.extension.getBackgroundPage();
+var bkJsPort = browser.runtime.connect( { name: "port-content" } );;
 
 function renderButton() {
  var dom_item = document.createElement('a');
@@ -9,7 +9,7 @@ function renderButton() {
  var goButt = document.createElement('i');
  domSetAttribute('goButt', 'class', 'material-icons right');
 
-goButt.addEventListener('click', chrome.extension.getBackgroundPage.set.bind(aBut,true));
+goButt.addEventListener('click', browser.extension.getBackgroundPage.set.bind(aBut,true));
 var t = document.createTextNode();
 t.innerText="Set Highlighted Text" ;
 domAppendChild(goButt,t);
@@ -64,7 +64,7 @@ function process(info, tab) {
 			  const ele = idz[t];
 			  if(ele==id){
 				theVals[t]=text;
-				chrome.contextMenus.update(id,{"title": thatits[t] +": "+text });
+				browser.contextMenus.update(id,{"title": thatits[t] +": "+text });
 				return ;  
 			  }
 		  }
@@ -79,12 +79,12 @@ for (var i = 0; i < contexts.length; i++) {
 // Create some checkbox items.
 function checkboxOnClick(info, tab) {
 	console.log(JSON.stringify(info));
-	var parent = chrome.contextMenus.create({"title":  "aux"});
+	var parent = browser.contextMenus.create({"title":  "aux"});
 
 for (var i = 6; i < 8; i++) {
 	var context = "selection";
   var thatit = titles[i];
-  var deei = chrome.contextMenus.create({"title": thatit,"parentId": parent, "onclick": process});
+  var deei = browser.contextMenus.create({"title": thatit,"parentId": parent, "onclick": process});
    idz[i] = deei;
 	console.log("'" + context + "' item:" + idz[i]);
   }
@@ -93,21 +93,21 @@ for (var i = 6; i < 8; i++) {
 for (var i = 0; i < 3; i++) {
   var context = "selection";
 var thatit = titles[i];
-var deei = chrome.contextMenus.create({"title": thatit,"parentId": parent, "onclick": process});
+var deei = browser.contextMenus.create({"title": thatit,"parentId": parent, "onclick": process});
  idz[i] = deei;
   console.log("'" + context + "' item:" + idz[i]);
 }
-var checkbox1 = chrome.contextMenus.create(
+var checkbox1 = browser.contextMenus.create(
 	{"title": "Rec", "type": "checkbox", "onclick":checkboxOnClick});
 	
-var checkbox2 = chrome.contextMenus.create(
+var checkbox2 = browser.contextMenus.create(
   {"title": "Checkbox2", "type": "checkbox", "onclick":checkboxOnClick});
   
   
 for (var i = 3; i < 6; i++) {
   var context = "selection";
 var thatit = titles[i];
-var deei = chrome.contextMenus.create({"title": thatit,"parentId": parent, "onclick": process});
+var deei = browser.contextMenus.create({"title": thatit,"parentId": parent, "onclick": process});
  idz[i] = deei;
   console.log("'" + context + "' item:" + idz[i]);
 }
@@ -123,7 +123,7 @@ var deei = chrome.contextMenus.create({"title": thatit,"parentId": parent, "oncl
 	 *   @value {function} callback - Async function to receive getAuthToken result.
 	 */
 	function getAuthToken(options) {
-		chrome.identity.getAuthToken({ 'interactive': options.interactive }, options.callback);
+		browser.identity.getAuthToken({ 'interactive': options.interactive }, options.callback);
 	}
 	/**
 	 * Get users access_token in background with now UI prompts.
@@ -149,8 +149,8 @@ var deei = chrome.contextMenus.create({"title": thatit,"parentId": parent, "oncl
 	 * @param {string} token - Google access_token to authenticate request with.
 	 */
 	function getAuthTokenCallback(token) {
-		// Catch chrome error if user is not authorized.
-		if (chrome.runtime.lastError) {
+		// Catch browser error if user is not authorized.
+		if (browser.runtime.lastError) {
 			sampleSupport.log('No token aquired');
 			changeState(STATE_START);
 		} else {
@@ -209,10 +209,10 @@ getAuthToken({
 	 * Revoking the access token callback
 	 */
 	function revokeAuthTokenCallback(current_token) {
-		if (!chrome.runtime.lastError) {
+		if (!browser.runtime.lastError) {
 
 			// Remove the local cached token
-			chrome.identity.removeCachedAuthToken({ token: current_token }, function() {});
+			browser.identity.removeCachedAuthToken({ token: current_token }, function() {});
 
 			// Make a request to revoke token in the server
 			var xhr = new XMLHttpRequest();
@@ -223,7 +223,7 @@ getAuthToken({
 			// Update the user interface accordingly
 			changeState(STATE_START);
 			sampleSupport.log('Token revoked and removed from cache. '+
-							'Check chrome://identity-internals to confirm.');
+							'Check browser://identity-internals to confirm.');
 		}
 	}
 
@@ -237,7 +237,7 @@ getAuthToken({
 	 *   @value {function} callback - Function to receive response.
 	 */
 	 function openOptions(){
-	 chrome.runtime.openOptionsPage();
+	 browser.runtime.openOptionsPage();
 	 }
 	 
 	function post(options) {

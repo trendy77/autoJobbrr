@@ -2,8 +2,8 @@
 // LISTENERS...
 
 var executionAPIpopup = (function () {
-	var bk = chrome.extension.getBackgroundPage();
-	var bkJsPort = chrome.runtime.connect({name:"port-popup"});
+	var bk = browser.extension.getBackgroundPage();
+	var bkJsPort = browser.runtime.connect({name:"port-popup"});
 	var exec_info;
 	var state = bk.state;
 	// divs
@@ -11,7 +11,7 @@ var executionAPIpopup = (function () {
 	// buttons
 	var exec_div, exec_info_div, exec_result, reset, goButton, optsButton, signin, revoke_button, returnTo;
 	var f1b, f2b, f4b, f3b, f5b, f6b, f7b, o1b, o2b, o3b;
-	var popupJsPort = chrome.runtime.connect( { name: "port-popup" } );
+	var popupJsPort = browser.runtime.connect( { name: "port-popup" } );
 
 	popupJsPort.onMessage.addListener( function ( m ) {
 		var keys = Object.keys( m );
@@ -29,7 +29,7 @@ var executionAPIpopup = (function () {
 		}
 	} );
 	// on storage change
-	chrome.storage.onChanged.addListener(function (changes, namespace) {
+	browser.storage.onChanged.addListener(function (changes, namespace) {
 		for (var key in changes) {
 			var storageChange = changes[key];
 			exec_info.innerHTML += (key + ' onChange notification, now: ' + storageChange[key].value);
@@ -67,7 +67,7 @@ function enableEl(eleid, attr, atval) {
 }
 
 function createFields() {
-	chrome.storage.sync.get(['jobAppFields'], function (object) {
+	browser.storage.sync.get(['jobAppFields'], function (object) {
 		var jobFields = object.jobAppFields;
 		for (var key in jobFields) {
 			var box = document.getElementById(key);
@@ -81,7 +81,7 @@ function createFields() {
 }
 
 function createOpts() {
-	chrome.storage.sync.get(['theIds'], function (object) {
+	browser.storage.sync.get(['theIds'], function (object) {
 		var theIds = object.theIds || [];
 		var box = document.getElementById('idButtons');
 		for (var key of theIds)) {
@@ -96,11 +96,11 @@ function createOpts() {
 
 
 function displayFs() {
-	state = chrome.extension.getBackgroundPage.state;
+	state = browser.extension.getBackgroundPage.state;
 	o1b = enableEl('#sheeti', ,bk.o1);
 		o2b = enableEl('#tplin', 'placeholder', bk.o2);
 	o3b = enableEl('#fldin', 'placeholder', bk.o3);
-	chrome.storage.local.get('jobAppFields', function (object) {
+	browser.storage.local.get('jobAppFields', function (object) {
 		var theV = object.jobAppFields || [];
 		jt = enableEl('#tit', 'placeholder', theV.JobTitle);
 		emp = enableEl('#emp', 'placeholder', theV.Company);
@@ -110,7 +110,7 @@ function displayFs() {
 		u1 = enableEl('#u1', 'placeholder', theV.USP1);
 		u3 = enableEl('#u3', 'placeholder', theV.USP2);
 		u2 = enableEl('#u2', 'placeholder', theV.USP3);
-		document.querySelector('#exec_data').innerHTML = chrome.extension.getBackgroundPage.exec_Senddata;
+		document.querySelector('#exec_data').innerHTML = browser.extension.getBackgroundPage.exec_Senddata;
 
 	});
 }
@@ -126,15 +126,15 @@ function onError(error) {
 }
 
 function bkrevokeToken() {
-	chrome.extension.getBackgroundPage.revokeToken();
+	browser.extension.getBackgroundPage.revokeToken();
 }
 function bkresetIt() {
-	chrome.extension.getBackgroundPage.resetIt();
+	browser.extension.getBackgroundPage.resetIt();
 }
 	
 return {
 	onload: function () {
-		bk = chrome.extension.getBackgroundPage();
+		bk = browser.extension.getBackgroundPage();
 		state = bk.getState;
 createFields();
 		var sidenavs = document.querySelectorAll('.sidenav')
@@ -183,7 +183,7 @@ createOpts();
 		goButton.addEventListener('click', bksendVals.bind(goButton, true));		///getAuthTokenInteractive);
 
 		signin = document.querySelector('#signin');
-		signin.addEventListener('click', chrome.extension.getBackgroundPage.getAuthTokenInteractive);
+		signin.addEventListener('click', browser.extension.getBackgroundPage.getAuthTokenInteractive);
 
 		returnTo = document.querySelector('#returnTo');
 		returnTo.addEventListener('click', bk.closeWindow);
