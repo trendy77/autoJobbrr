@@ -1,23 +1,34 @@
 chrome.tabs.executeScript({
-  file: 'js/index.js',
-  runAt: 'document_start'
-});
-chrome.tabs.executeScript({
-  file: 'js/plnzqb.js',
+  file: 'js/lize.min.js',
   runAt: 'document_end'
 });
-
 chrome.tabs.injectCSS({
-  file: 'css/content.js',
-  runAt: 'document_start'
+  file: 'css/content.css'
 });
 
+var a = document.createElement('a');
+a.setAttribute('href', '');
+a.setAttribute('target', '_blank');
+a.setAttribute('class', 'btn btn-floating btn-large green pulse');
+a.innerHTML = helper;
+var b = document.createElement('div');
+b.setAttribute('id', 'helper');
+b.innerText = 'JT';
+var c = document.createElement('i');
+c.setAttribute('class', 'material-icons');
+c.innerText = 'search';
+var d = document.createElement('a');
+d.setAttribute('href', '#');
+d.setAttribute('class', 'dropdown-button dropdown-trigger btn btn-large z-depth-0');
+c.innerHTML = d;
+b.innerHTML = c;
+a.innerHTML = b;
 
-var port = chrome.runtime.connect({
+var contentJsPort = chrome.runtime.connect({
   name: "port-content"
 });
 
-contentJsPort.onMessage.addListener(function(m) {
+contentJsPort.onMessage.addListener(function (m) {
   var keys = Object.keys(m);
   for (var r in keys) {
     var key = keys[r];
@@ -60,21 +71,32 @@ function renderButton() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.body.addEventListener("click", function () {
+  var valu = window.selectionText.toString();
+  contentJsPort.postMessage({
+    msg: "click",
+    value: valu
+  }, function () {
+    chrome.tabs.create({
+      file: 'popup.html'
+    });
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
   contentJsPort.postMessage({
     msg: "loaded"
   });
   renderButton();
 });
 
-document.body.addEventListener("click", function() {
-      var valu = window.selectionText.toString();
-      contentJsPort.postMessage({
-        msg: "click",
-        value: valu
-      }, function {
-        chrome.tabs.create({
-          file: 'popup.html'
-        });
-      });
-    }
+document.body.appendChild(a);
+
+$(document).ready(function () {
+  $('.dropdown-button').dropdown({
+    hover: true,
+    constrainWidth: false,
+  }
+  );
+});
