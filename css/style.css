@@ -520,6 +520,21 @@ h1, h2, h3, h4, h5, h6 {
         color: #444;
     }
 
+.log {
+  margin: 10px 20px 20px 20px;
+}
+.log textarea {
+  width: 100%;
+  min-height: 120px;
+  font-family: "Courier New", Courier, monospace;
+  margin: 2px;
+  background:brown;
+  color:yellow;
+  border: 1px solid rgb(182, 182, 182);
+}
+#exec_data{
+  min-height: 50px;
+}
     p {
         line-height: 2rem;
     }

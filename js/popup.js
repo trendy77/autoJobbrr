@@ -26,6 +26,14 @@ popupJsPort.onMessage.addListener( function( m ) {
 		}
 		console.log( key + "= " + key.value );
 	}
+	else if( key == 'load' ) {
+		var vall=key.value;
+if (vall=="on"){
+	loadingOn();
+}else if (vall=="off"){
+		loadingOff();
+		}
+	}
 }, recievedOK );
 
 function recievedOK() {
@@ -79,11 +87,11 @@ popupJsPort.onMessage.addListener( function( m ) {
 				break;
 		}
 	}
-} );
+},recievedOK);
 
 
 function changeState( newState ) {
-	var fun = chrome.extension.getBackgroundPage;
+	var fun = chrome.extension.getBackgroundPage();
 	fpstate = newState;
 	switch( state ) {
 		case STATE_START:
@@ -163,8 +171,7 @@ var executionAPIpopup = ( function() {
 	}
 
 	function displayFs() {
-		var bk = chrome.extension.getBackgroundPage;
-
+		var bk = chrome.extension.getBackgroundPage();
 		chrome.storage.sync.get( [ 'theIds' ], function( object ) {
 			var theV = object.theIds || [];
 			bk.domSetAttribute( '#shtin', 'placeholder', theV[ 0 ] );
@@ -219,9 +226,10 @@ var executionAPIpopup = ( function() {
 	}
 	return {
 		onload: function() {
-			var fstate = chrome.extension.getBackgroundPage.fstate;
-			createFields();
-
+			M.AutoInit();
+			var fstate = chrome.extension.getBackgroundPage.fstate();
+		
+/*
 			var sidenavs = document.querySelectorAll( '.sidenav' )
 			for( var i = 0; i < sidenavs.length; i++ ) {
 				M.Sidenav.init( sidenavs[ i ] );
@@ -262,7 +270,7 @@ var executionAPIpopup = ( function() {
 			for( i = 0; i < tooltips.length; i++ ) {
 				M.Tooltip.init( tooltips[ i ] );
 			}
-			exec_info_div = document.querySelector( '#exec_info' );
+	*/		exec_info_div = document.querySelector( '#exec_info' );
 
 			optsButton = document.querySelector( '#optsButton' );
 			optsButton.addEventListener( 'click', getNewIds );
@@ -290,6 +298,7 @@ var executionAPIpopup = ( function() {
 			reset = document.querySelector( '#reset' );
 			reset.addEventListener( 'click', bkresetIt.bind( reset, true ) );
 
+			createFields();
 			displayFs();
 			createOpts();
 		}

@@ -218,10 +218,18 @@ function setIcon(opt_badgeObj) {
 		var badgeOpts = {};
 		if (opt_badgeObj && opt_badgeObj.text != undefined) {
 			badgeOpts.text = opt_badgeObj.text;
+=======
+
+function disableField(field) {
+	field.setAttribute('opacity', '0.6');
+	field.setAttribute('font-size', '12px');
 		}
 		chrome.browserAction.setBadgeText(badgeOpts);
 	}
 }
+function enableField(field) {
+	field.setAttribute('opacity', '1');
+	field.setAttribute('font-size', '16px');
 
 function sendLoad(msg, which) {
 	if (msg == 'on') {
@@ -846,3 +854,10 @@ function containsNode(parent, child) {
 	}
 	return parent == child;
 }
+
+
+chrome.contextMenus.onClicked.addListener(function(item, tab) {
+	process(item,tab);
+});
+
+>>>>>>> master
