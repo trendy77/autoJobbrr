@@ -9,9 +9,9 @@ focusedWindowId = undefined;
 currentWindowId = undefined;
 
 function bootStrap() {
-  chrome.windows.getCurrent(function(currentWindow) {
+  browser.windows.getCurrent(function(currentWindow) {
     currentWindowId = currentWindow.id;
-    chrome.windows.getLastFocused(function(focusedWindow) {
+    browser.windows.getLastFocused(function(focusedWindow) {
       focusedWindowId = focusedWindow.id;
       loadWindowList();
     });
@@ -23,7 +23,7 @@ function isInt(i) {
 }
 
 function loadWindowList() {
-  chrome.windows.getAll({
+  browser.windows.getAll({
     populate: true
   }, function(windowList) {
     tabs = {};
@@ -55,7 +55,7 @@ function updateTabData(id) {
 
 function updateTab(id) {
   try {
-    chrome.tabs.update(id, updateTabData(id));
+    browser.tabs.update(id, updateTabData(id));
   } catch (e) {
     alert(e);
   }
@@ -70,7 +70,7 @@ function moveTabData(id) {
 
 function moveTab(id) {
   try {
-    chrome.tabs.move(id, moveTabData(id));
+    browser.tabs.move(id, moveTabData(id));
   } catch (e) {
     alert(e);
   }
@@ -95,7 +95,7 @@ function createTab() {
     delete args.index;
 
   try {
-    chrome.tabs.create(args);
+    browser.tabs.create(args);
   } catch (e) {
     alert(e);
   }
@@ -104,7 +104,7 @@ function createTab() {
 function updateAll() {
   try {
     for (var i = 0; i < tabIds.length; i++) {
-      chrome.tabs.update(tabIds[i], updateTabData(tabIds[i]));
+      browser.tabs.update(tabIds[i], updateTabData(tabIds[i]));
     }
   } catch (e) {
     alert(e);
@@ -115,7 +115,7 @@ function moveAll() {
   appendToLog('moving all');
   try {
     for (var i = 0; i < tabIds.length; i++) {
-      chrome.tabs.move(tabIds[i], moveTabData(tabIds[i]));
+      browser.tabs.move(tabIds[i], moveTabData(tabIds[i]));
     }
   } catch (e) {
     alert(e);
@@ -124,7 +124,7 @@ function moveAll() {
 
 function removeTab(tabId) {
   try {
-    chrome.tabs.remove(tabId, function() {
+    browser.tabs.remove(tabId, function() {
       appendToLog('tab: ' + tabId + ' removed.');
     });
   } catch (e) {
@@ -142,37 +142,37 @@ function clearLog() {
   document.getElementById('log').innerText = '';
 }
 
-chrome.windows.onCreated.addListener(function(createInfo) {
+browser.windows.onCreated.addListener(function(createInfo) {
   appendToLog('windows.onCreated -- window: ' + createInfo.id);
   loadWindowList();
 });
 
-chrome.windows.onFocusChanged.addListener(function(windowId) {
+browser.windows.onFocusChanged.addListener(function(windowId) {
   focusedWindowId = windowId;
   appendToLog('windows.onFocusChanged -- window: ' + windowId);
   loadWindowList();
 });
 
-chrome.windows.onRemoved.addListener(function(windowId) {
+browser.windows.onRemoved.addListener(function(windowId) {
   appendToLog('windows.onRemoved -- window: ' + windowId);
   loadWindowList();
 });
 
-chrome.tabs.onCreated.addListener(function(tab) {
+browser.tabs.onCreated.addListener(function(tab) {
   appendToLog(
     'tabs.onCreated -- window: ' + tab.windowId + ' tab: ' + tab.id +
     ' title: ' + tab.title + ' index ' + tab.index + ' url ' + tab.url);
   loadWindowList();
 });
 
-chrome.tabs.onAttached.addListener(function(tabId, props) {
+browser.tabs.onAttached.addListener(function(tabId, props) {
   appendToLog(
     'tabs.onAttached -- window: ' + props.newWindowId + ' tab: ' + tabId +
     ' index ' + props.newPosition);
   loadWindowList();
 });
 
-chrome.tabs.onMoved.addListener(function(tabId, props) {
+browser.tabs.onMoved.addListener(function(tabId, props) {
   appendToLog(
     'tabs.onMoved -- window: ' + props.windowId + ' tab: ' + tabId +
     ' from ' + props.fromIndex + ' to ' + props.toIndex);
@@ -180,7 +180,7 @@ chrome.tabs.onMoved.addListener(function(tabId, props) {
 });
 
 function refreshTab(tabId) {
-  chrome.tabs.get(tabId, function(tab) {
+  browser.tabs.get(tabId, function(tab) {
     var input = new JsExprContext(tab);
     var output = document.getElementById('tab_' + tab.id);
     jstProcess(input, output);
@@ -188,28 +188,28 @@ function refreshTab(tabId) {
   });
 }
 
-chrome.tabs.onUpdated.addListener(function(tabId, props) {
+browser.tabs.onUpdated.addListener(function(tabId, props) {
   appendToLog(
     'tabs.onUpdated -- tab: ' + tabId + ' status ' + props.status +
     ' url ' + props.url);
   refreshTab(tabId);
 });
 
-chrome.tabs.onDetached.addListener(function(tabId, props) {
+browser.tabs.onDetached.addListener(function(tabId, props) {
   appendToLog(
     'tabs.onDetached -- window: ' + props.oldWindowId + ' tab: ' + tabId +
     ' index ' + props.oldPosition);
   loadWindowList();
 });
 
-chrome.tabs.onSelectionChanged.addListener(function(tabId, props) {
+browser.tabs.onSelectionChanged.addListener(function(tabId, props) {
   appendToLog(
     'tabs.onSelectionChanged -- window: ' + props.windowId + ' tab: ' +
     tabId);
   loadWindowList();
 });
 
-chrome.tabs.onRemoved.addListener(function(tabId) {
+browser.tabs.onRemoved.addListener(function(tabId) {
   appendToLog('tabs.onRemoved -- tab: ' + tabId);
   loadWindowList();
 });
@@ -235,15 +235,15 @@ function createWindow() {
     delete args.url;
 
   try {
-    chrome.windows.create(args);
+    browser.windows.create(args);
   } catch (e) {
     alert(e);
   }
 }
 
 function refreshWindow(windowId) {
-  chrome.windows.get(windowId, function(window) {
-    chrome.tabs.getAllInWindow(window.id, function(tabList) {
+  browser.windows.get(windowId, function(window) {
+    browser.tabs.getAllInWindow(window.id, function(tabList) {
       window.tabs = tabList;
       var input = new JsExprContext(window);
       var output = document.getElementById('window_' + window.id);
@@ -276,7 +276,7 @@ function updateWindowData(id) {
 
 function updateWindow(id) {
   try {
-    chrome.windows.update(id, updateWindowData(id));
+    browser.windows.update(id, updateWindowData(id));
   } catch (e) {
     alert(e);
   }
@@ -284,7 +284,7 @@ function updateWindow(id) {
 
 function removeWindow(windowId) {
   try {
-    chrome.windows.remove(windowId, function() {
+    browser.windows.remove(windowId, function() {
       appendToLog('window: ' + windowId + ' removed.');
     });
   } catch (e) {
@@ -293,7 +293,7 @@ function removeWindow(windowId) {
 }
 
 function refreshSelectedTab(windowId) {
-  chrome.tabs.query({
+  browser.tabs.query({
     active: true,
     currentWindow: true
   }, function(tabs) {

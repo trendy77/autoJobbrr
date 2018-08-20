@@ -6,7 +6,7 @@ var theOpts = [o1, o2, o3];
 var signin_button, revoke_button, returnTo, upIds;
 
 function displayIds() {
-	chrome.storage.local.get(['theIds'], function(object) {
+	browser.storage.local.get(['theIds'], function(object) {
 		var newIds = object.theIds;
 		o1 = newIds.sheetId || getNewIds();
 		o2 = newIds[1];
@@ -35,7 +35,7 @@ var executionAPIExample = (function() {
 
 		if (s != "") {
 			var newIds = [s, t, f];
-			chrome.storage.local.set({
+			browser.storage.local.set({
 				theIds: newIds
 			});
 			exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + s +

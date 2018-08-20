@@ -10,7 +10,7 @@ var exec_div, exec_info_div, exec_result;
 var f1b, f2b, f4b, f3b, f5b, f6b, f7b;
 var o1b, o2b, o3b;
 
-var popupJsPort = chrome.runtime.connect( {
+var popupJsPort = browser.runtime.connect( {
 	name: "port-popup"
 } );
 
@@ -44,20 +44,20 @@ function recievedOK() {
 
 function loadingOn() {
 	var ele = document.querySelector( '#loadspin' );
-	chrome.extension.getBackgroundPage.displayDefault( ele );
+	browser.extension.getBackgroundPage.displayDefault( ele );
 }
 
 function loadingOff() {
 	var ele = document.querySelectorAll( '#loadspin' );
 	for( var th in ele ) {
 		var itd = ele.th;
-		chrome.extension.getBackgroundPage.displayNone( itd );
+		browser.extension.getBackgroundPage.displayNone( itd );
 	}
 }
 
 
 // on storage change
-chrome.storage.onChanged.addListener( function( changes, namespace ) {
+browser.storage.onChanged.addListener( function( changes, namespace ) {
 	for( var key in changes ) {
 		var storageChange = changes[ key ];
 		exec_info_div.innerText += ( key + ' onChange notification, now: ' + storageChange[ key ].value );
@@ -80,7 +80,7 @@ popupJsPort.onMessage.addListener( function( m ) {
 				break;
 			case 'log':
 				exec_info_div.innerText += val;
-				// 	chrome.extension.getBackgroundPage.createTextNode(val,'exec_info_div');
+				// 	browser.extension.getBackgroundPage.createTextNode(val,'exec_info_div');
 				break;
 			case 'state':
 				changeState( val );
@@ -91,7 +91,7 @@ popupJsPort.onMessage.addListener( function( m ) {
 
 
 function changeState( newState ) {
-	var fun = chrome.extension.getBackgroundPage();
+	var fun = browser.extension.getBackgroundPage();
 	fpstate = newState;
 	switch( state ) {
 		case STATE_START:
@@ -134,7 +134,7 @@ var executionAPIpopup = ( function() {
 	}
 
 	function createFields() {
-		chrome.storage.local.get( [ 'jobAppFields' ], function( object ) {
+		browser.storage.local.get( [ 'jobAppFields' ], function( object ) {
 			var jobFields = object.jobAppFields;
 			for( var key in jobFields ) {
 
@@ -149,7 +149,7 @@ var executionAPIpopup = ( function() {
 	}
 
 	function createOpts() {
-		chrome.storage.sync.get( [ 'theIds' ], function( object ) {
+		browser.storage.sync.get( [ 'theIds' ], function( object ) {
 			var theIds = object.theIds || [];
 			var box = document.querySelector( '#idButtons' );
 			for( var key in theIds ) {
@@ -171,14 +171,14 @@ var executionAPIpopup = ( function() {
 	}
 
 	function displayFs() {
-		var bk = chrome.extension.getBackgroundPage();
-		chrome.storage.sync.get( [ 'theIds' ], function( object ) {
+		var bk = browser.extension.getBackgroundPage();
+		browser.storage.sync.get( [ 'theIds' ], function( object ) {
 			var theV = object.theIds || [];
 			bk.domSetAttribute( '#shtin', 'placeholder', theV[ 0 ] );
 			bk.domSetAttribute( '#tplin', 'placeholder', theV[ 1 ] );
 			bk.domSetAttribute( '#fldin', 'placeholder', theV[ 2 ] );
 		} );
-		chrome.storage.local.get( [ 'jobAppFields' ], function( object ) {
+		browser.storage.local.get( [ 'jobAppFields' ], function( object ) {
 			var theV = object.jobAppFields || [];
 			jt = bk.domSetAttribute( '#tit', 'placeholder', theV.JobTitle.value || "" );
 			emp = bk.domSetAttribute( '#emp', 'placeholder', theV.Company.value || "" );
@@ -201,33 +201,33 @@ var executionAPIpopup = ( function() {
 	}
 
 	function bkrevokeToken() {
-		chrome.extension.getBackgroundPage.revokeToken();
+		browser.extension.getBackgroundPage.revokeToken();
 	}
 
 	function bkresetIt() {
-		chrome.extension.getBackgroundPage.resetIt();
+		browser.extension.getBackgroundPage.resetIt();
 	}
 
 	function bkSignin() {
-		chrome.extension.getBackgroundPage.getAuthTokenInteractive();
+		browser.extension.getBackgroundPage.getAuthTokenInteractive();
 	}
 
 	function bksendVals() {
-		chrome.extension.getBackgroundPage.sendVals();
+		browser.extension.getBackgroundPage.sendVals();
 	}
 
 	function bksendOpts() {
 		var theNewIds = getNewIds();
-		chrome.extension.getBackgroundPage.sendOpts( theNewIds );
+		browser.extension.getBackgroundPage.sendOpts( theNewIds );
 	}
 
 	function bkClose() {
-		chrome.extension.getBackgroundPage.closeWindow();
+		browser.extension.getBackgroundPage.closeWindow();
 	}
 	return {
 		onload: function() {
 			M.AutoInit();
-			var fstate = chrome.extension.getBackgroundPage.fstate();
+			var fstate = browser.extension.getBackgroundPage.fstate();
 		
 /*
 			var sidenavs = document.querySelectorAll( '.sidenav' )

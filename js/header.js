@@ -5,14 +5,14 @@
 var tabId = parseInt(window.location.search.substring(1));
 
 window.addEventListener("load", function() {
-  chrome.debugger.sendCommand({
+  browser.debugger.sendCommand({
     tabId: tabId
   }, "Network.enable");
-  chrome.debugger.onEvent.addListener(onEvent);
+  browser.debugger.onEvent.addListener(onEvent);
 });
 
 window.addEventListener("unload", function() {
-  chrome.debugger.detach({
+  browser.debugger.detach({
     tabId: tabId
   });
 });

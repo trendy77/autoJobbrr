@@ -38,8 +38,8 @@ contentJsPort.onMessage.addListener(function (m) {
 });
 
 // 		LONGTERM CONNECTIONs
-chrome.runtime.onConnect.addListener(popListener, true);
-chrome.runtime.onConnect.addListener(conListener, true);
+browser.runtime.onConnect.addListener(popListener, true);
+browser.runtime.onConnect.addListener(conListener, true);
 
 function popListener(port) {
 	console.assert(port.name == popupJsPort);
@@ -67,59 +67,59 @@ function conListener(port) {
 	});
 }
 
-chrome.runtime.onInstalled.addListener(function () {
+browser.runtime.onInstalled.addListener(function () {
 	browser.menus.create({
 		id: "SEEKrSidebar",
 		title: "SEEKrSidebar",
 		contexts: ["all"]
 	});
-	var parent = chrome.contextMenus.create({
+	var parent = browser.contextMenus.create({
 		title: "autoSEEKr",
 		id: "parent",
 		contexts: ['all']
 	});
 	for (var key in Object.keys(jobAppFields)) {
-		chrome.contextMenus.create({
+		browser.contextMenus.create({
 			id: key,
 			parentId: parent,
 			title: key,
 			contexts: ['selection']
 		});
 	}
-	//		chrome.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
-	chrome.contextMenus.create({
+	//		browser.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
+	browser.contextMenus.create({
 		id: 's2',
 		parentId: parent,
 		type: 'separator',
 		contexts: ['all']
 	});
-	chrome.contextMenus.create({
+	browser.contextMenus.create({
 		id: "Send2Sheet",
 		parentId: parent,
 		title: "Send2Sheet",
 		contexts: ["all"],
 		visible: false
 	});
-	chrome.contextMenus.create({
+	browser.contextMenus.create({
 		id: "ResetFields",
 		parentId: parent,
 		title: "ResetFields",
 		contexts: ['all'],
 		visible: false
 	});
-	chrome.contextMenus.create({
+	browser.contextMenus.create({
 		id: 's1',
 		parentId: parent,
 		type: 'separator',
 		contexts: ['all']
 	});
-	chrome.contextMenus.create({
+	browser.contextMenus.create({
 		id: "SignIn",
 		parentId: parent,
 		title: "SignIn",
 		contexts: ["all"]
 	});
-	chrome.contextMenus.create({
+	browser.contextMenus.create({
 		id: "RevokeToken",
 		parentId: parent,
 		title: "RevokeToken",
@@ -129,8 +129,8 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 
-chrome.contextMenus.onClicked.addListener(function (item, tab) {
-	//	let url = 'https://google.' + item.menuItemId + '/search?q=' + item.selectionText; chrome.tabs.create({url: url, index: tab.index + 1});
+browser.contextMenus.onClicked.addListener(function (item, tab) {
+	//	let url = 'https://google.' + item.menuItemId + '/search?q=' + item.selectionText; browser.tabs.create({url: url, index: tab.index + 1});
 	var sel2 = item.selectionText;
 	var tit = item.menuItemId;
 	iconText += "!";
@@ -140,16 +140,16 @@ chrome.contextMenus.onClicked.addListener(function (item, tab) {
 	} else if (tit == 'SignIn') {
 		getAuthTokenInteractive();
 	} else if (tit == 'GoToSheet') {
-		chrome.tabs.create({
-			url: chrome.extension.getURL("tabs_api.html")
+		browser.tabs.create({
+			url: browser.extension.getURL("tabs_api.html")
 		});
 	} else if (tit == 'ResetFields') {
 		resetIt();
 	} else {
-		chrome.storage.local.get(['jobAppFields'], function (object) {
+		browser.storage.local.get(['jobAppFields'], function (object) {
 			var fields = object.jobAppFields;
 			fields[tit] = sel2;
-			chrome.storage.local.set({
+			browser.storage.local.set({
 				jobAppFields: fields
 			}, function () {
 
@@ -159,7 +159,7 @@ chrome.contextMenus.onClicked.addListener(function (item, tab) {
 });
 
 // on storage change
-chrome.storage.onChanged.addListener(function (changes, namespace) {
+browser.storage.onChanged.addListener(function (changes, namespace) {
 	for (var key in changes) {
 		var storageChange = changes[key];
 		if (key == 'jobAppFields') {
@@ -167,7 +167,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 			for (var fkey in changedKeys) {
 				var fieldChg = changedKeys.fkey.value;
 				var newKey = changedKeys.fkey;
-				chrome.contextMenus.update(newKey, {
+				browser.contextMenus.update(newKey, {
 					title: newKey + '= ' + fieldChg
 				});
 			}
@@ -224,7 +224,7 @@ function disableField(field) {
 	field.setAttribute('opacity', '0.6');
 	field.setAttribute('font-size', '12px');
 		}
-		chrome.browserAction.setBadgeText(badgeOpts);
+		browser.browserAction.setBadgeText(badgeOpts);
 	}
 }
 function enableField(field) {
@@ -279,7 +279,7 @@ var newIds;
 
 function sendOpts(theOpts) {
 	sendLoad('on', 'upIds');
-	chrome.storage.sync.set({
+	browser.storage.sync.set({
 		theIds: theOpts
 	}, getAuthToken({
 		'interactive': false,
@@ -329,7 +329,7 @@ function sendDataToSheet(token) {
 
 function sendVals() {
 	sendLoad('on', 'fields');
-	chrome.storage.local.get(['jobAppFields'], function (object) {
+	browser.storage.local.get(['jobAppFields'], function (object) {
 		var thedat = object.jobAppFields;
 		jobAppFields = thedat;
 		//"[" + viObj[0] + "\,\"" + viObj[1] + "\",\"" + viObj[2] + "\",\"" + viObj[3] + "\",\"" + viObj[4] + "\",\"" + viObj[5] + "\",\"" + viObj[6] + "\"]]";
@@ -343,7 +343,7 @@ function sendVals() {
 // AUTH
 
 function getAuthToken(options) {
-	chrome.identity.getAuthToken({
+	browser.identity.getAuthToken({
 		'interactive': options.interactive
 	}, options.callback);
 }
@@ -363,7 +363,7 @@ function getAuthTokenInteractive() {
 }
 
 function getAuthTokenCallback(token) {
-	if (chrome.runtime.lastError) {
+	if (browser.runtime.lastError) {
 		sendLog('No token aquired');
 		changeState(STATE_START);
 	} else {
@@ -394,8 +394,8 @@ function revokeToken() {
 }
 
 function revokeAuthTokenCallback(current_token) {
-	if (!chrome.runtime.lastError) {
-		chrome.identity.removeCachedAuthToken({
+	if (!browser.runtime.lastError) {
+		browser.identity.removeCachedAuthToken({
 			token: current_token
 		}, function () { });
 		var xhr = new XMLHttpRequest();
@@ -404,7 +404,7 @@ function revokeAuthTokenCallback(current_token) {
 		xhr.send();
 		changeState(STATE_START);
 		sendLog(
-			'Token revoked and removed from cache. chrome://identity-internals to confirm.'
+			'Token revoked and removed from cache. browser://identity-internals to confirm.'
 		);
 	}
 	sendLoad('off', '');
@@ -427,7 +427,7 @@ function post(options) {
 }
 
 function resetIt() {
-	chrome.storage.local.clear();
+	browser.storage.local.clear();
 }
 
 // code: 'document.body.style.backgroundColor="red"'
@@ -437,21 +437,21 @@ function resetIt() {
 
 /*
 for (var w in tiObj) {
-	chrome.contextMenus.update(tiObj[w], {
+	browser.contextMenus.update(tiObj[w], {
 		title: tiObj[w] + "= " + tiObj[w].value,
 		contexts: ["all"]
 	});
 }
-chrome.tabs.insertCSS(integer tabId, object details, function callback)
+browser.tabs.insertCSS(integer tabId, object details, function callback)
 */
 
 //Code for displaying <extensionDir>/images/myimage.png:
-//var imgURL = chrome.runtime.getURL("images/myimage.png");
+//var imgURL = browser.runtime.getURL("images/myimage.png");
 //document.getElementById("someImage").src = imgURL;
 
 //// tabs API
-//chrome.browserAction.onClicked.addListener(function(tab) {
-//	chrome.tabs.create({url:chrome.extension.getURL("tabs_api.html")});
+//browser.browserAction.onClicked.addListener(function(tab) {
+//	browser.tabs.create({url:browser.extension.getURL("tabs_api.html")});
 //  });
 
 /**
@@ -856,7 +856,7 @@ function containsNode(parent, child) {
 }
 
 
-chrome.contextMenus.onClicked.addListener(function(item, tab) {
+browser.contextMenus.onClicked.addListener(function(item, tab) {
 	process(item,tab);
 });
 

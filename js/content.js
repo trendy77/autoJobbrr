@@ -1,8 +1,8 @@
-chrome.tabs.executeScript({
+browser.tabs.executeScript({
   file: 'js/lize.min.js',
   runAt: 'document_end'
 });
-chrome.tabs.injectCSS({
+browser.tabs.injectCSS({
   file: 'css/content.css'
 });
 
@@ -24,7 +24,7 @@ c.innerHTML = d;
 b.innerHTML = c;
 a.innerHTML = b;
 
-var contentJsPort = chrome.runtime.connect({
+var contentJsPort = browser.runtime.connect({
   name: "port-content"
 });
 
@@ -53,7 +53,7 @@ function recOK() {
 function renderButton() {
   var dom_item = document.body.innerHTML;
   var newele = document.createElement('a');
-  var backpage = chrome.extension.getBackgroundPage();
+  var backpage = browser.extension.getBackgroundPage();
   backpage.domSetAttribute('dom_item', 'class',
     'floating btn-large hoverable blue-grey darken-4 pulse');
   backpage.domSetAttribute('dom_item', 'id', 'seekBut');
@@ -64,8 +64,8 @@ function renderButton() {
   // t.innerText= ;
   backpage.domAppendChild(newele, goButt);
   backpage.domAppendChild(dom_item, newele);
-  //chrome.tabs.getSelected(function(tab) //{});
-  chrome.tabs.executeScript({
+  //browser.tabs.getSelected(function(tab) //{});
+  browser.tabs.executeScript({
     file: 'plnzqb.js',
     runAt: 'document_end'
   });
@@ -77,7 +77,7 @@ document.body.addEventListener("click", function () {
     msg: "click",
     value: valu
   }, function () {
-    chrome.tabs.create({
+    browser.tabs.create({
       file: 'popup.html'
     });
   });
