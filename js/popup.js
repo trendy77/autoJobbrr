@@ -23,16 +23,15 @@ popupJsPort.onMessage.addListener(function (m) {
 		}
 		else if (key == 'log') {
 			exec_info_div.innerText += key.value;
+		} else if (key == 'load') {
+			var vall = key.value;
+			if (vall == "on") {
+				loadingOn();
+			} else if (vall == "off") {
+				loadingOff();
+			}
 		}
 		console.log(key + "= " + key.value);
-	}
-	else if (key == 'load') {
-		var vall = key.value;
-		if (vall == "on") {
-			loadingOn();
-		} else if (vall == "off") {
-			loadingOff();
-		}
 	}
 }, recievedOK);
 
@@ -89,12 +88,19 @@ popupJsPort.onMessage.addListener(function (m) {
 	}
 }, recievedOK);
 
+function disableButton(button) {
+	button.setAttribute('disabled', 'disabled');
+}
+
+function enableButton(button) {
+	button.removeAttribute('disabled');
+}
 
 function changeState(newState) {
 	var fun = browser.extension.getBackgroundPage();
 	fpstate = newState;
-	switch (state) {
-		case STATE_START:
+	switch (fpstate) {
+		case fun.STATE_START:
 			enableButton(signin);
 			disableButton(optsButton);
 			disableButton(revoke_button);
@@ -104,12 +110,12 @@ function changeState(newState) {
 			disableButton(goButton);
 			disableButton(upIds);
 			break;
-		case STATE_ACQUIRING_AUTHTOKEN:
+		case fun.STATE_ACQUIRING_AUTHTOKEN:
 			sampleSupport.log('Acquiring token...');
 			disableButton(signin);
 			disableButton(revoke_button);
 			break;
-		case STATE_AUTHTOKEN_ACQUIRED:
+		case fun.STATE_AUTHTOKEN_ACQUIRED:
 			disableButton(signin);
 			enableButton(optsButton);
 			enableButton(revoke_button);
@@ -192,13 +198,6 @@ var executionAPIpopup = (function () {
 		});
 	}
 
-	function disableButton(button) {
-		button.setAttribute('disabled', 'disabled');
-	}
-
-	function enableButton(button) {
-		button.removeAttribute('disabled');
-	}
 
 	function bkrevokeToken() {
 		browser.extension.getBackgroundPage.revokeToken();
@@ -228,49 +227,47 @@ var executionAPIpopup = (function () {
 		onload: function () {
 			M.AutoInit();
 			var fstate = browser.extension.getBackgroundPage.fstate();
-
-/*
-			var sidenavs = document.querySelectorAll( '.sidenav' )
-			for( var i = 0; i < sidenavs.length; i++ ) {
-				M.Sidenav.init( sidenavs[ i ] );
+			var sidenavs = document.querySelectorAll('.sidenav')
+			for (var i = 0; i < sidenavs.length; i++) {
+				M.Sidenav.init(sidenavs[i]);
 			}
-			var dropdowns = document.querySelectorAll( '.dropdown-trigger' )
-			for( i = 0; i < dropdowns.length; i++ ) {
-				M.Dropdown.init( dropdowns[ i ] );
+			var dropdowns = document.querySelectorAll('.dropdown-trigger')
+			for (i = 0; i < dropdowns.length; i++) {
+				M.Dropdown.init(dropdowns[i]);
 			}
-			var collapsibles = document.querySelectorAll( '.collapsible' )
-			for( i = 0; i < collapsibles.length; i++ ) {
-				M.Collapsible.init( collapsibles[ i ] );
+			var collapsibles = document.querySelectorAll('.collapsible')
+			for (i = 0; i < collapsibles.length; i++) {
+				M.Collapsible.init(collapsibles[i]);
 			}
-			var featureDiscoveries = document.querySelectorAll( '.tap-target' )
-			for( i = 0; i < featureDiscoveries.length; i++ ) {
-				M.FeatureDiscovery.init( featureDiscoveries[ i ] );
+			var featureDiscoveries = document.querySelectorAll('.tap-target')
+			for (i = 0; i < featureDiscoveries.length; i++) {
+				M.FeatureDiscovery.init(featureDiscoveries[i]);
 			}
-			var materialboxes = document.querySelectorAll( '.materialboxed' );
-			for( i = 0; i < materialboxes.length; i++ ) {
-				M.Materialbox.init( materialboxes[ i ] );
+			var materialboxes = document.querySelectorAll('.materialboxed');
+			for (i = 0; i < materialboxes.length; i++) {
+				M.Materialbox.init(materialboxes[i]);
 			}
-			var modals = document.querySelectorAll( '.modal' );
-			for( i = 0; i < modals.length; i++ ) {
-				M.Modal.init( modals[ i ] );
+			var modals = document.querySelectorAll('.modal');
+			for (i = 0; i < modals.length; i++) {
+				M.Modal.init(modals[i]);
 			}
-			var parallax = document.querySelectorAll( '.parallax' );
-			for( i = 0; i < parallax.length; i++ ) {
-				M.Parallax.init( parallax[ i ] );
+			var parallax = document.querySelectorAll('.parallax');
+			for (i = 0; i < parallax.length; i++) {
+				M.Parallax.init(parallax[i]);
 			}
-			var scrollspies = document.querySelectorAll( '.scrollspy' );
-			for( i = 0; i < scrollspies.length; i++ ) {
-				M.ScrollSpy.init( scrollspies[ i ] );
+			var scrollspies = document.querySelectorAll('.scrollspy');
+			for (i = 0; i < scrollspies.length; i++) {
+				M.ScrollSpy.init(scrollspies[i]);
 			}
-			var tabs = document.querySelectorAll( '.tabs' );
-			for( i = 0; i < tabs.length; i++ ) {
-				M.Tabs.init( tabs[ i ] );
+			var tabs = document.querySelectorAll('.tabs');
+			for (i = 0; i < tabs.length; i++) {
+				M.Tabs.init(tabs[i]);
 			}
-			var tooltips = document.querySelectorAll( '.tooltipped' );
-			for( i = 0; i < tooltips.length; i++ ) {
-				M.Tooltip.init( tooltips[ i ] );
+			var tooltips = document.querySelectorAll('.tooltipped');
+			for (i = 0; i < tooltips.length; i++) {
+				M.Tooltip.init(tooltips[i]);
 			}
-	*/		exec_info_div = document.querySelector('#exec_info');
+			exec_info_div = document.querySelector('#exec_info');
 
 			optsButton = document.querySelector('#optsButton');
 			optsButton.addEventListener('click', getNewIds);
@@ -300,7 +297,7 @@ var executionAPIpopup = (function () {
 
 			createFields();
 			displayFs();
-			createOpts();
+
 		}
 	};
 

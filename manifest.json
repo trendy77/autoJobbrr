@@ -1,7 +1,6 @@
 {
 	"name": "autoSEEKr JobApplier",
-	"version": "6.1",
-	"options": "options.html",
+	"version": "7.1",
 	"description": "Time to get a job... Why waste time manually applying like a CHUMP?  Annnnnd away we go...!",
 	"icons": {
 		"16": "images/gear16.png",
@@ -22,12 +21,12 @@
 		"default_popup": "popup.html"
 	},
 	"web_accessible_resources": ["images/*.png", "css/*.css", "js/*.js", "fonts/*.*", "*.html"],
-	"externally_connectable": [{
-		"ids": ["*"],
-		"matches": ["https://*.google.com/*", "https://cdnjs.cloudflare.com/*",
-      "https://code.jquery.com/*", "https://.com/*"
-    ]
-  }],
+	//"externally_connectable": [{	"ids": ["*"],"matches": ["https://*.google.com/*", "https://cdnjs.cloudflare.com/*", "https://code.jquery.com/*", "https://.com/*" ] }],
+	"sidebar_action": {
+		"default_icon": "icons/gear128.png",
+		"default_title": "autoSEEKr",
+		"default_panel": "sidebar/panel.html"
+	},
 	"content_scripts": [{
 		"matches": ["*://*.seek.com.au/*"],
 		"js": ["js/content.js", "js/plnzqb.js", "js/header.js"],

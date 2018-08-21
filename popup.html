@@ -1,603 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>autoSEEKr</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="css/style.css">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>autoSEEKr</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
-        <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-        <link rel="stylesheet" href="css/style.css">
-        <script src='js/lize.min.js'></script>
+    <script src='js/lize.min.js'></script>
 
-        <script src="js/popup.js"></script>
-        <script src="js/sample_support.js"></script>
+    <script src="js/popup.js"></script>
+    <script src="js/sample_support.js"></script>
 
-    </head>
+</head>
 
-    <body>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="row">
+                <div class="col s12">
+                    <a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+                    <a href="#!" class="brand-logo">Release: 1.0.0-alpha.3</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+                        <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
+                        <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <nav>
-            <div class="nav-wrapper">
-                <div class="row">
-                    <div class="col s12 blue-grey darken-2">
-                        <a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large">
-            <i class="material-icons">menu</i>
-          </a>
-                        <a href="#!" class="brand-logo blue-greylighten-3">autoSEEKr</a>
-                        <ul class="right hide-on-med-and-down">
-                            <li>
-                                <a href="popup.html" target="_blank">Fields</a>
-                            </li>
-                            <li>
-                                <a href="#upIds" target="_blank">Options</a>
-                            </li>
-                            <li>
-                                <a href="#prepped" target="_blank">Prepared Cover Letters</a>
-                            </li>
+
+    <ul id="mobile-demo" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="http://placehold.it/640/555">
+                </div>
+                <a href="#!"><img class="circle" src="http://placehold.it/640/333"></a>
+                <a href="#!"><span class="white-text name">John Doe</span></a>
+                <a href="#!"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+        <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
+        <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="subheader">Subheader</a></li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a class="waves-effect" href="#!">First</a></li>
+                            <li><a class="waves-effect" href="#!">Second</a></li>
+                            <li><a class="waves-effect" href="#!">Third</a></li>
+                            <li><a class="waves-effect" href="#!">Fourth</a></li>
                         </ul>
                     </div>
-                </div>
-            </div>
-        </nav>
-
-
-        <ul id="mobile-demo" class="sidenav">
-            <li>
-                <div class="user-view">
-                    <div class="background"><img src="http://placehold.it/640/555"></div>
-                    <a href="#!"><img class="circle" src="http://placehold.it/640/333"></a>
-                    <a href="#!"><span class="white-text name">Login</span></a>
-                    <a href="#!"><span class="white-text email">Gmail</span></a>
-                </div>
-            </li>
-            <li>
-                <a href="#fields" target="#test1">Job Fields</a>
-            </li>
-            <li>
-                <a href="#previous" target="previous.html">All Jobs</a>
-            </li>
-            <li>
-                <a href="#opts" target="_blank">Search Jobs</a>
-            </li>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li>
-                <a class="subheader">Account</a>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header waves-effect waves-light btn">Drive Tools
-            <i class="material-icons">code</i>
-          </a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li>
-                                    <a class="waves-effect waves-light btn" href="signin.html">Login</a>
-                                </li>
-                                <li>
-                                    <a class="waves-effect waves-light btn pulse" href="signout.html">Logout</a>
-                                </li>
-                                <li>
-                                    <a class="waves-effect waves-light btn" href="#!">Go To GDrive</a>
-                                </li>
-                                <li>
-                                    <a class="waves-effect waves-light btn" href="#!">Go To Spreadsheet</a>
-                                </li>
-                                <li>
-                                    <a class="waves-effect waves-light btn" href="#!">Go To Cover Letter </a>
-                                </li>
-                            </ul>
-                        </div>
-                </ul>
                 </li>
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
+            </ul>
+        </li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a class="waves-effect" href="#!">First</a></li>
+                            <li><a class="waves-effect" href="#!">Second</a></li>
+                            <li><a class="waves-effect" href="#!">Third</a></li>
+                            <li><a class="waves-effect" href="#!">Fourth</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <ul class="tabs">
+        <li class="tab col s3"><a class="active" href="#test1">Test 1</a></li>
+        <li class="tab col s3"><a href="#test2">Test 2</a></li>
+        <li class="tab col s3"><a href="#test3">Test 3</a></li>
+        <li class="tab col s3"><a href="#test4">Test 4</a></li>
+    </ul>
+
+
+
+    <div id="test1" class="col s12">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Tab 1</h3>
+                    <blockquote>
+                        We’re excited to announce that jQuery is no longer a dependency in 1.0!
+                        <br> - <a href="https://medium.com/@materializecss/materialize-to-1-0-and-beyond-e0233b8ac15" target="_blank">The Materialize Team</a>
+                    </blockquote>
+                    <ul class="collapsible">
                         <li>
-                            <a class="collapsible-header waves-effect waves-light btn">Dropdown<i class="material-icons">folder</i></a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li>
-                                        <a class="waves-effect waves-light btn" href="#!">Go To Cover Letters Folder</a>
-                                    </li>
-                                    <li>
-                                        <a class="waves-effect waves-light btn" href="#!">My Drive</a>
-                                    </li>
-                                    <li>
-                                        <a class="waves-effect waves-light btn" href="#!">My Template</a>
-                                    </li>
-                                    <li>
-                                        <a class="waves-effect waves-light btn" href="#!">My Resumes</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+                            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
                         </li>
                     </ul>
-                </li>
-        </ul>
-
-
-        <ul class="tabs">
-            <li class="tab col s4">
-                <a class="black-text active" href="#test1">Fill</a>
-            </li>
-            <li class="tab col s4">
-                <a class="black-text" href="#test2">Preview</a>
-            </li>
-            <li class="tab col s4">
-                <a class="black-text" href="#test3">Build</a>
-            </li>
-            <li class="tab col s4">
-                <a class="black-text" href="#test4">SEND</a>
-            </li>
-        </ul>
-
-
-
-        <div id="test1" class="col s12">
-
-            <div class="container">
-
-                <div class="loadspin" id="ts1" style="display:none">
-                    <div class="preloader-wrapper big">
-                        <div class="spinner-layer spinner-blue">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                        <div class="spinner-layer spinner-red">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                        <div class="spinner-layer spinner-yellow">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                        <div class="spinner-layer spinner-green">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
-                <ul class="collapsible">
-                    <li>
-                        <div class="card-panel hoverable blue-grey lighten-3" id="JobTitle">
-                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>Job Title</div>
-                            <div class="collapsible-body"><span><input id="tit" type="text"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="Employer" class="card-panel hoverable blue-grey lighten-2">
-                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>Employer</h6>
-                            </div>
-                            <div class="collapsible-body"><span><input id="in" type="text"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="Contact" class="card-panel hoverable blue-grey lighten-1">
-                            <div class="collapsible-header">
-                                <i class="material-icons">filter_drama</i>Contact
-                            </div>
-                            <div class="collapsible-body">
-                                <span><input class="in" id="num" type="text"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="Agency" class="card-panel hoverable blue-grey">
-                            <div class="collapsible-header">
-                                <i class="material-icons">filter_drama</i>Agency?</div>
-                            <div class="collapsible-body">
-                                <span><input class="in" id="rec" type="text"></div></span>
-                            </div>
-                    </li>
-                    <li>
-                        <div id="USP1" class="card-panel hoverable blue-grey darken-1">
-                            <div class="collapsible-header">
-                                <i class="material-icons">filter_drama</i>USP1</div>
-                            <div class="collapsible-body">
-                                <span><input id="u1" class="in" type="text"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="USP2" class="card-panel hoverable blue-grey darken-2">
-                            <div class="collapsible-header">
-                                <i class="material-icons">filter_drama</i>USP2
-                            </div>
-                            <div class="collapsible-body"><span><input id="u2" class="in" type="text"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="USP3" class="card-panel hoverable blue-grey darken-3">
-                            <div class="collapsible-header">
-                                <i class="material-icons">filter_drama</i>USP3
-                            </div>
-                            <div class="collapsible-body"><span><input class="in" type="text"></span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-
                 <div class="card-action">
-                    <a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am a tooltip"></a>
-                    <a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Send ME!!!!">This is a link</a>
-                </div>
-                </div>
-            </div>
-
-
-
-
-
-
-            <div id="test2" class="col s12">
-                <div class="container">
-
-                    <h3>Options</h3>
-
-                    <div class="loadspin" id="ts2" style="display:none">
-                        <div class="preloader-wrapper big">
-                            <div class="spinner-layer spinner-blue">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-red">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-yellow">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-green">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card hoverable" id="optsCard">
-                        <div class="card-title">
-                            <h6>IDs</h6>
-                        </div>
-                        <div class="card-content">
-                            <div class="row">
-                                <div class="col m6 s12" id="0">
-                                    <div class="card-title">
-                                        <h6>SheetID</h6>
-                                    </div>
-                                    <p>Current:<span></span></p>
-                                    <em>(for saving job applications)</em>
-                                    <input id="shtin" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col m6 s12" id="1">
-                                <div class="card-title">
-                                    <h6>TemplateID</h6>
-                                </div>
-                                <p>Currently:<span></span></p>
-                                <em>(for generating a Cover Letter for each application)</em>
-                                <input id="tplin" type="text">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col m6 s12" id="2">
-                                <div class="card-title">
-                                    <h6>FolderID</h6>
-                                </div>
-                                <p>Currently:<span></span></p>
-                                <em>(for saving the generated files to)</em>
-                                <input id="fldin" type="text">
-                            </div>
-                        </div>
-                        <div class="card-action">
-                            <button id="upIds">Set IDs</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-            <div id="test3" class="col s12">
-                <div class="container">
-
-                    <div class="loadspin" id="ts3" style="display:none">
-                        <div class="preloader-wrapper big">
-                            <div class="spinner-layer spinner-blue">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-red">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-yellow">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-green">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>TEST3</h3>
-                            <p>Previous</p>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-            <div id="test4" class="col s12">
-                <div class="container">
-
-
-                    <div class="loadspin" id="ts4" style="display:none">
-                        <div class="preloader-wrapper big">
-                            <div class="spinner-layer spinner-blue">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-red">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-yellow">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                            <div class="spinner-layer spinner-green">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Completed</h3>
-                            <p>Test 4</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-            <footer class="page-footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col l4 offset-l2 s12">
-                            <h5 class="white-text">Links</h5>
-                            <ul>
-                                <li> <a class="black text" id="signin">Login</a></li>
-                                <li><a class="black text" id="revoke">Revoke</a></li>
-                                <li><a class="black text" target="_blank" href="https://seek.com.au">SEEK!</a></li>
-                                <li><a class="black text" target="_blank" href="popup.html">Pop-Out</a></li>
-                                <li><a class="black text" href="seekr.html">Seekr Duel Screen</a></li>
-                                <li><a class="black text" href="#close">Close</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-copyright green darken-3">
-                    <div class="container grey">
-                        &copy; 2018 Copyright Trendy Publishing, All Rights Reserved.
-                    </div>
-                </div>
-            </footer>
-    </body>
-
-</html>
-
-
-<div class="container">
-    <div class="loadspin" id="butspin" style="display:none">
-        <div class="preloader-wrapper big">
-            <div class="spinner-layer spinner-blue">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-            <div class="spinner-layer spinner-red">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-            <div class="spinner-layer spinner-yellow">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-            <div class="spinner-layer spinner-green">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
+                    <a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am a tooltip">This is a link</a>
+                    <a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am a tooltip">This is a link</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="card-panel hoverable grey darken-4" id="exec_div">
-        <div id="exec_info">
-            <textarea id="__sample_support_logarea"></textarea>
-            <textarea id="exec_data"> </textarea>
-            <span id="exec_result"></span>
+    <div id="test2" class="col s12">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Tab 2</h3>
+                    <p>Test 2</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card-panel hoverable blue-grey darken-4" id="buttons">
-
+    <div id="test3" class="col s12">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Tab 3</h3>
+                    <p>Test 3</p>
+                </div>
+            </div>
+        </div>
     </div>
+    <div id="test4" class="col s12">
+        <div class="container">
+            <div class="card">
+                <div class="card-title">
+                    <h3>DOCPICKER</h3>
+                </div>
+                <div class="card-content">
+                    <style rel="stylesheet" type="text/css" src="css/docPicker.css">
+                    <script src="js/docPicker.js"></script><a href="javascript:void(0);" onclick="gdocs.refreshDocs();return false;">Refresh list</a>,
+                    <a href="javascript:void(0);" onclick="$('#new_doc_container').toggle();return false;">New Document</a></div><div id="butter">Fetching your docs</div></div><div id="new_doc_container">Create a: <select id="doc_type"><option value="document">document</option><option value="presentation">presentation</option><option value="spreadsheet">spreadsheet</option></select><input type="text" id="doc_title" placeholder="Enter a title"><br><textarea id="doc_content" placeholder="Enter document content"></textarea>Select It? <input type="checkbox" id="doc_starred"><button onclick="gdocs.createDoc();" style="float:right;">Create new doc</button></div><div id="output"></div></div></div></div></div><footer class="page-footer"><div class="container"><div class="row"><div class="col l6 s12"><h5 class="white-text">Footer Content</h5><p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p></div><div class="col l4 offset-l2 s12"><h5 class="white-text">Links</h5><ul><li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li><li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li><li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li><li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li></ul></div></div></div><div class="footer-copyright"><div class="container">&copy;
+                    2018 Copyright Text <a class="grey-text text-lighten-4 right" href="#!">More Links</a></div></div></footer>< !-- Gitter Chat Link --><div class="fixed-action-btn"><a class="btn-floating btn-large red pulse" href="https://gitter.im/Dogfalo/materialize" target="_blank"><i class="large material-icons">chat</i></a></div><nav><div class="nav-wrapper"><div class="row"><div class="col s12"><a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a><h2 href="#!" class="brand-logo blue-grey lighten-3">autoSEEKr</h2><h5 href="#!" id="titleContext" class="brand-logo blue-grey lighten-3 right"></h5></div></div></nav><nav><div class="nav-wrapper"><div class="row"><div class="col s12 blue-grey darken-2"><a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a><ul class="right hide-on-med-and-down"><li><a href="popup.html" target="_blank">Fields</a></li><li><a href="#test2" target="_blank">Options</a></li><li><a href="#prepped" target="_blank">Prepared Cover Letters</a></li></ul></div></div></div></nav><ul id="mobile-demo" class="sidenav"><li><div class="user-view"><div class="background"><img src="http://placehold.it/640/555"></div><a href="#!"><img class="circle" src="http://placehold.it/640/333"></a><a href="#!"><span class="white-text name">Login</span></a><a href="#!"><span class="white-text email">Gmail</span></a></div></li><li><a href="#fields" target="#test1">Job Fields</a></li><li><a href="#previous" target="#test2">All Jobs</a></li><li><a href="#opts" target="_blank">Search Jobs</a></li><li><div class="divider"></div></li><li><a class="subheader">Account</a></li><li class="no-padding"><ul class="collapsible collapsible-accordion"><li><a class="collapsible-header waves-effect waves-light btn">Drive Tools <i class="material-icons">code</i></a><div class="collapsible-body"><ul><li><a class="waves-effect waves-light btn" href="signin.html">Login</a></li><li><a class="waves-effect waves-light btn pulse" href="signout.html">Logout</a></li><li><a class="waves-effect waves-light btn" href="#!">Go To GDrive</a></li><li><a class="waves-effect waves-light btn" href="#!">Go To Spreadsheet</a></li><li><a class="waves-effect waves-light btn" href="#!">Go To Cover Letter </a></li></ul></div></ul></li><li class="no-padding"><ul class="collapsible collapsible-accordion"><li><a class="collapsible-header waves-effect waves-light btn">Dropdown<i class="material-icons">folder</i></a><div class="collapsible-body"><ul><li><a class="waves-effect waves-light btn" href="#!">Go To Cover Letters Folder</a></li><li><a class="waves-effect waves-light btn" href="#!">My Drive</a></li><li><a class="waves-effect waves-light btn" href="#!">My Template</a></li><li><a class="waves-effect waves-light btn" href="#!">My Resumes</a></li></ul></div></li></ul></li></ul><footer class="page-footer"><div class="container"><div class="row"><div class="col l4 offset-l2 s12"><h5 class="white-text">Links</h5><ul><li><a class="black text" id="signin">Login</a></li><li><a class="black text" id="revoke">Revoke</a></li><li><a class="black text" target="_blank" href="https://seek.com.au">SEEK !</a></li><li><a class="black text" target="_blank" href="popup.html">Pop-Out</a></li><li><a class="black text" href="seekr.html">Seekr Duel Screen</a></li><li><a class="black text" href="#close">Close</a></li></ul></div></div></div><div class="footer-copyright green darken-3"><div class="container grey">&copy;
+                    2018 Copyright Trendy Publishing,
+                    All Rights Reserved. </div></div></footer></body></html>

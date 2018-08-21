@@ -28,15 +28,6 @@ var STATE_ACQUIRING_AUTHTOKEN = 2;
 var STATE_AUTHTOKEN_ACQUIRED = 3;
 var fstate = STATE_START;
 
-// 		MSG FROM CONTENT.HTML
-contentJsPort.onMessage.addListener(function (m) {
-	var keys = Object.keys(m);
-	for (var r in keys) {
-		console.log(keys[r] + "  " + keys[r].value);
-
-	}
-});
-
 // 		LONGTERM CONNECTIONs
 browser.runtime.onConnect.addListener(popListener, true);
 browser.runtime.onConnect.addListener(conListener, true);
@@ -67,66 +58,66 @@ function conListener(port) {
 	});
 }
 
-browser.runtime.onInstalled.addListener(function () {
-	browser.menus.create({
-		id: "SEEKrSidebar",
-		title: "SEEKrSidebar",
-		contexts: ["all"]
-	});
-	var parent = browser.contextMenus.create({
-		title: "autoSEEKr",
-		id: "parent",
-		contexts: ['all']
-	});
-	for (var key in Object.keys(jobAppFields)) {
-		browser.contextMenus.create({
-			id: key,
-			parentId: parent,
-			title: key,
-			contexts: ['selection']
-		});
-	}
-	//		browser.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
-	browser.contextMenus.create({
-		id: 's2',
-		parentId: parent,
-		type: 'separator',
-		contexts: ['all']
-	});
-	browser.contextMenus.create({
-		id: "Send2Sheet",
-		parentId: parent,
-		title: "Send2Sheet",
-		contexts: ["all"],
-		visible: false
-	});
-	browser.contextMenus.create({
-		id: "ResetFields",
-		parentId: parent,
-		title: "ResetFields",
-		contexts: ['all'],
-		visible: false
-	});
-	browser.contextMenus.create({
-		id: 's1',
-		parentId: parent,
-		type: 'separator',
-		contexts: ['all']
-	});
-	browser.contextMenus.create({
-		id: "SignIn",
-		parentId: parent,
-		title: "SignIn",
-		contexts: ["all"]
-	});
-	browser.contextMenus.create({
-		id: "RevokeToken",
-		parentId: parent,
-		title: "RevokeToken",
-		contexts: ["all"],
-		visible: false
-	});
+//browser.runtime.onInstalled.addListener(function () {
+browser.menus.create({
+	id: "SEEKrSidebar",
+	title: "SEEKrSidebar",
+	contexts: ["all"]
 });
+var parent = browser.contextMenus.create({
+	title: "autoSEEKr",
+	id: "parent",
+	contexts: ['all']
+});
+for (var key in Object.keys(jobAppFields)) {
+	browser.contextMenus.create({
+		id: key,
+		parentId: parent,
+		title: key,
+		contexts: ['selection']
+	});
+}
+//		browser.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
+browser.contextMenus.create({
+	id: 's2',
+	parentId: parent,
+	type: 'separator',
+	contexts: ['all']
+});
+browser.contextMenus.create({
+	id: "Send2Sheet",
+	parentId: parent,
+	title: "Send2Sheet",
+	contexts: ["all"],
+	visible: false
+});
+browser.contextMenus.create({
+	id: "ResetFields",
+	parentId: parent,
+	title: "ResetFields",
+	contexts: ['all'],
+	visible: false
+});
+browser.contextMenus.create({
+	id: 's1',
+	parentId: parent,
+	type: 'separator',
+	contexts: ['all']
+});
+browser.contextMenus.create({
+	id: "SignIn",
+	parentId: parent,
+	title: "SignIn",
+	contexts: ["all"]
+});
+browser.contextMenus.create({
+	id: "RevokeToken",
+	parentId: parent,
+	title: "RevokeToken",
+	contexts: ["all"],
+	visible: false
+});
+//});
 
 
 browser.contextMenus.onClicked.addListener(function (item, tab) {
@@ -218,19 +209,19 @@ function setIcon(opt_badgeObj) {
 		var badgeOpts = {};
 		if (opt_badgeObj && opt_badgeObj.text != undefined) {
 			badgeOpts.text = opt_badgeObj.text;
-=======
-
-function disableField(field) {
-	field.setAttribute('opacity', '0.6');
-	field.setAttribute('font-size', '12px');
 		}
 		browser.browserAction.setBadgeText(badgeOpts);
 	}
 }
+function disableField(field) {
+	field.setAttribute('opacity', '0.6');
+	field.setAttribute('font-size', '12px');
+}
+
 function enableField(field) {
 	field.setAttribute('opacity', '1');
 	field.setAttribute('font-size', '16px');
-
+}
 function sendLoad(msg, which) {
 	if (msg == 'on') {
 		popupJsPort.postMessage({
@@ -874,8 +865,6 @@ function containsNode(parent, child) {
 }
 
 
-browser.contextMenus.onClicked.addListener(function(item, tab) {
-	process(item,tab);
+browser.contextMenus.onClicked.addListener(function (item, tab) {
+	process(item, tab);
 });
-
->>>>>>> master
