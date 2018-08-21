@@ -10,71 +10,71 @@ var exec_div, exec_info_div, exec_result;
 var f1b, f2b, f4b, f3b, f5b, f6b, f7b;
 var o1b, o2b, o3b;
 
-var popupJsPort = browser.runtime.connect( {
+var popupJsPort = browser.runtime.connect({
 	name: "port-popup"
-} );
+});
 
-popupJsPort.onMessage.addListener( function( m ) {
-	var keys = Object.keys( m );
-	for( var r in keys ) {
-		var key = keys[ r ];
-		if( key == 'state' ) {
+popupJsPort.onMessage.addListener(function (m) {
+	var keys = Object.keys(m);
+	for (var r in keys) {
+		var key = keys[r];
+		if (key == 'state') {
 			fpstate = key.value;
 		}
-		else if( key == 'log' ) {
+		else if (key == 'log') {
 			exec_info_div.innerText += key.value;
 		}
-		console.log( key + "= " + key.value );
+		console.log(key + "= " + key.value);
 	}
-	else if( key == 'load' ) {
-		var vall=key.value;
-if (vall=="on"){
-	loadingOn();
-}else if (vall=="off"){
-		loadingOff();
+	else if (key == 'load') {
+		var vall = key.value;
+		if (vall == "on") {
+			loadingOn();
+		} else if (vall == "off") {
+			loadingOff();
 		}
 	}
-}, recievedOK );
+}, recievedOK);
 
 function recievedOK() {
-	popupJsPort.postMessage( {
+	popupJsPort.postMessage({
 		response: '1'
-	} );
+	});
 }
 
 function loadingOn() {
-	var ele = document.querySelector( '#loadspin' );
-	browser.extension.getBackgroundPage.displayDefault( ele );
+	var ele = document.querySelector('#loadspin');
+	browser.extension.getBackgroundPage.displayDefault(ele);
 }
 
 function loadingOff() {
-	var ele = document.querySelectorAll( '#loadspin' );
-	for( var th in ele ) {
+	var ele = document.querySelectorAll('#loadspin');
+	for (var th in ele) {
 		var itd = ele.th;
-		browser.extension.getBackgroundPage.displayNone( itd );
+		browser.extension.getBackgroundPage.displayNone(itd);
 	}
 }
 
 
 // on storage change
-browser.storage.onChanged.addListener( function( changes, namespace ) {
-	for( var key in changes ) {
-		var storageChange = changes[ key ];
-		exec_info_div.innerText += ( key + ' onChange notification, now: ' + storageChange[ key ].value );
+browser.storage.onChanged.addListener(function (changes, namespace) {
+	for (var key in changes) {
+		var storageChange = changes[key];
+		exec_info_div.innerText += (key + ' onChange notification, now: ' + storageChange[key].value);
 	}
-} );
+});
 
-popupJsPort.onMessage.addListener( function( m ) {
-	var keys = Object.keys( m );
-	for( var r in keys ) {
-		var key = keys[ r ];
+popupJsPort.onMessage.addListener(function (m) {
+	var keys = Object.keys(m);
+	for (var r in keys) {
+		var key = keys[r];
 		var val = key.value;
-		switch( key ) {
+		switch (key) {
 			case 'load':
-				if( val == 'on' ) {
+				if (val == 'on') {
 					loadingOn();
 				}
-				else if( val == 'off' ) {
+				else if (val == 'off') {
 					loadingOff();
 				}
 				break;
@@ -83,121 +83,121 @@ popupJsPort.onMessage.addListener( function( m ) {
 				// 	browser.extension.getBackgroundPage.createTextNode(val,'exec_info_div');
 				break;
 			case 'state':
-				changeState( val );
+				changeState(val);
 				break;
 		}
 	}
-},recievedOK);
+}, recievedOK);
 
 
-function changeState( newState ) {
+function changeState(newState) {
 	var fun = browser.extension.getBackgroundPage();
 	fpstate = newState;
-	switch( state ) {
+	switch (state) {
 		case STATE_START:
-			enableButton( signin );
-			disableButton( optsButton );
-			disableButton( revoke_button );
-			disableButton( returnTo );
-			disableButton( close );
-			disableButton( reset );
-			disableButton( goButton );
-			disableButton( upIds );
+			enableButton(signin);
+			disableButton(optsButton);
+			disableButton(revoke_button);
+			disableButton(returnTo);
+			disableButton(close);
+			disableButton(reset);
+			disableButton(goButton);
+			disableButton(upIds);
 			break;
 		case STATE_ACQUIRING_AUTHTOKEN:
-			sampleSupport.log( 'Acquiring token...' );
-			disableButton( signin );
-			disableButton( revoke_button );
+			sampleSupport.log('Acquiring token...');
+			disableButton(signin);
+			disableButton(revoke_button);
 			break;
 		case STATE_AUTHTOKEN_ACQUIRED:
-			disableButton( signin );
-			enableButton( optsButton );
-			enableButton( revoke_button );
-			enableButton( returnTo );
-			enableButton( close );
-			enableButton( reset );
-			enableButton( goButton );
-			enableButton( upIds );
+			disableButton(signin);
+			enableButton(optsButton);
+			enableButton(revoke_button);
+			enableButton(returnTo);
+			enableButton(close);
+			enableButton(reset);
+			enableButton(goButton);
+			enableButton(upIds);
 			break;
 	}
 }
 
 // ONLOAD FUNCTION....
-var executionAPIpopup = ( function() {
+var executionAPIpopup = (function () {
 
-	function disableButton( button ) {
-		button.setAttribute( 'disabled', 'disabled' );
+	function disableButton(button) {
+		button.setAttribute('disabled', 'disabled');
 	}
 
-	function enableButton( button ) {
-		button.removeAttribute( 'disabled' );
+	function enableButton(button) {
+		button.removeAttribute('disabled');
 	}
 
 	function createFields() {
-		browser.storage.local.get( [ 'jobAppFields' ], function( object ) {
+		browser.storage.local.get(['jobAppFields'], function (object) {
 			var jobFields = object.jobAppFields;
-			for( var key in jobFields ) {
+			for (var key in jobFields) {
 
-				var box = document.getElementById( key );
-				var input = box.getElementsByClassName( 'flows' );
-				input.textContent = jobFields[ key ].value;
-				var span = document.createElement( 'span' );
-				span.textContent = 'IS:' + jobFields[ key ].value;
-				box.appendChild( span );
+				var box = document.getElementById(key);
+				var input = box.getElementsByClassName('flows');
+				input.textContent = jobFields[key].value;
+				var span = document.createElement('span');
+				span.textContent = 'IS:' + jobFields[key].value;
+				box.appendChild(span);
 			}
-		} );
+		});
 	}
 
 	function createOpts() {
-		browser.storage.sync.get( [ 'theIds' ], function( object ) {
+		browser.storage.sync.get(['theIds'], function (object) {
 			var theIds = object.theIds || [];
-			var box = document.querySelector( '#idButtons' );
-			for( var key in theIds ) {
-				var input = document.createElement( 'input' );
-				input.innerText = jobFields[ key ].value;
-				var span = box.getElementsByTagName( 'span' );
-				span.textContent = theIds[ key ].value;
-				box.appendChild( input );
+			var box = document.querySelector('#idButtons');
+			for (var key in theIds) {
+				var input = document.createElement('input');
+				input.innerText = jobFields[key].value;
+				var span = box.getElementsByTagName('span');
+				span.textContent = theIds[key].value;
+				box.appendChild(input);
 			}
-		} );
+		});
 	}
 
 	function getNewIds() {
-		var s = document.getElementById( 'shtin' ).value.trim();
-		var t = document.getElementById( 'fldin' ).value.trim();
-		var f = document.getElementById( 'tplin' ).value.trim();
-		var theNewIds = [ s, t, f ];
+		var s = document.getElementById('shtin').value.trim();
+		var t = document.getElementById('fldin').value.trim();
+		var f = document.getElementById('tplin').value.trim();
+		var theNewIds = [s, t, f];
 		return theNewIds;
 	}
 
 	function displayFs() {
 		var bk = browser.extension.getBackgroundPage();
-		browser.storage.sync.get( [ 'theIds' ], function( object ) {
+		browser.storage.sync.get(['theIds'], function (object) {
 			var theV = object.theIds || [];
-			bk.domSetAttribute( '#shtin', 'placeholder', theV[ 0 ] );
-			bk.domSetAttribute( '#tplin', 'placeholder', theV[ 1 ] );
-			bk.domSetAttribute( '#fldin', 'placeholder', theV[ 2 ] );
-		} );
-		browser.storage.local.get( [ 'jobAppFields' ], function( object ) {
+			bk.domSetAttribute('#shtin', 'placeholder', theV[0]);
+			bk.domSetAttribute('#tplin', 'placeholder', theV[1]);
+			bk.domSetAttribute('#fldin', 'placeholder', theV[2]);
+		});
+		browser.storage.local.get(['jobAppFields'], function (object) {
 			var theV = object.jobAppFields || [];
-			jt = bk.domSetAttribute( '#tit', 'placeholder', theV.JobTitle.value || "" );
-			emp = bk.domSetAttribute( '#emp', 'placeholder', theV.Company.value || "" );
-			con = bk.domSetAttribute( '#con', 'placeholder', theV.Contact.value || "" );
-			email = bk.domSetAttribute( '#num', 'placeholder', theV.Number.value || "" );
-			rec = bk.domSetAttribute( '#rec', 'placeholder', theV.Agency.value || "" );
-			u1 = bk.domSetAttribute( '#u1', 'placeholder', theV.USP1.value || "" );
-			u3 = bk.domSetAttribute( '#u3', 'placeholder', theV.USP2.value || "" );
-			u2 = bk.domSetAttribute( '#u2', 'placeholder', theV.USP3.value || "" );
-			document.querySelector( '#exec_data' ).innerText = theV;
-		} );
+			jt = bk.domSetAttribute('#tit', 'placeholder', theV.JobTitle.value || "");
+			emp = bk.domSetAttribute('#emp', 'placeholder', theV.Company.value || "");
+			con = bk.domSetAttribute('#con', 'placeholder', theV.Contact.value || "");
+			email = bk.domSetAttribute('#num', 'placeholder', theV.Number.value || "");
+			rec = bk.domSetAttribute('#rec', 'placeholder', theV.Agency.value || "");
+			u1 = bk.domSetAttribute('#u1', 'placeholder', theV.USP1.value || "");
+			u3 = bk.domSetAttribute('#u3', 'placeholder', theV.USP2.value || "");
+			u2 = bk.domSetAttribute('#u2', 'placeholder', theV.USP3.value || "");
+			document.querySelector('#exec_data').innerText = theV;
+		});
 	}
 
-	function disableButton( button ) {
-		button.setAttribute( 'disabled', 'disabled' );
+	function disableButton(button) {
+		button.setAttribute('disabled', 'disabled');
 	}
 
-	function enableButton( button ) {
-		button.removeAttribute( 'disabled' );
+	function enableButton(button) {
+		button.removeAttribute('disabled');
 	}
 
 	function bkrevokeToken() {
@@ -218,17 +218,17 @@ var executionAPIpopup = ( function() {
 
 	function bksendOpts() {
 		var theNewIds = getNewIds();
-		browser.extension.getBackgroundPage.sendOpts( theNewIds );
+		browser.extension.getBackgroundPage.sendOpts(theNewIds);
 	}
 
 	function bkClose() {
 		browser.extension.getBackgroundPage.closeWindow();
 	}
 	return {
-		onload: function() {
+		onload: function () {
 			M.AutoInit();
 			var fstate = browser.extension.getBackgroundPage.fstate();
-		
+
 /*
 			var sidenavs = document.querySelectorAll( '.sidenav' )
 			for( var i = 0; i < sidenavs.length; i++ ) {
@@ -270,33 +270,33 @@ var executionAPIpopup = ( function() {
 			for( i = 0; i < tooltips.length; i++ ) {
 				M.Tooltip.init( tooltips[ i ] );
 			}
-	*/		exec_info_div = document.querySelector( '#exec_info' );
+	*/		exec_info_div = document.querySelector('#exec_info');
 
-			optsButton = document.querySelector( '#optsButton' );
-			optsButton.addEventListener( 'click', getNewIds );
+			optsButton = document.querySelector('#optsButton');
+			optsButton.addEventListener('click', getNewIds);
 
-			upIds = document.querySelector( '#upIds' );
-			upIds.addEventListener( 'click', bksendOpts );
+			upIds = document.querySelector('#upIds');
+			upIds.addEventListener('click', bksendOpts);
 
-			goButton = document.querySelector( '#go' );
-			goButton.addEventListener( 'click', bksendVals.bind( goButton, true ) );
+			goButton = document.querySelector('#go');
+			goButton.addEventListener('click', bksendVals.bind(goButton, true));
 
-			signin = document.querySelector( '#signin' );
-			signin.addEventListener( 'click', bkgetAuthTokenInteractive );
+			signin = document.querySelector('#signin');
+			signin.addEventListener('click', bkgetAuthTokenInteractive);
 
-			close = document.querySelector( '#close' );
-			close.addEventListener( 'click', bkclose );
+			close = document.querySelector('#close');
+			close.addEventListener('click', bkclose);
 
-			returnTo = document.querySelector( '#returnTo' );
-			returnTo.addEventListener( 'click', bkclose );
+			returnTo = document.querySelector('#returnTo');
+			returnTo.addEventListener('click', bkclose);
 
-			revoke_button = document.querySelector( '#revoke' );
-			revoke_button.addEventListener( 'click', bkrevokeToken );
+			revoke_button = document.querySelector('#revoke');
+			revoke_button.addEventListener('click', bkrevokeToken);
 
-			exec_result = document.querySelector( '#exec_result' );
+			exec_result = document.querySelector('#exec_result');
 
-			reset = document.querySelector( '#reset' );
-			reset.addEventListener( 'click', bkresetIt.bind( reset, true ) );
+			reset = document.querySelector('#reset');
+			reset.addEventListener('click', bkresetIt.bind(reset, true));
 
 			createFields();
 			displayFs();
@@ -304,6 +304,6 @@ var executionAPIpopup = ( function() {
 		}
 	};
 
-} )();
+})();
 
 window.onload = executionAPIpopup.onload;

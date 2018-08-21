@@ -1,5 +1,5 @@
 var bk = browser.extension.getBackgroundPage();
-var bkJsPort = browser.runtime.connect( { name: "port-content" } );;
+var bkJsPort = browser.runtime.connect({ name: "port-content" });
 browser.tabs.executeScript({
   file: 'js/lize.min.js',
   runAt: 'document_end'

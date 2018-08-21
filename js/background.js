@@ -567,6 +567,10 @@ function displayNone(node) {
 function displayDefault(node) {
 	node.style.display = '';
 }
+
+function displayHalf(node) {
+	node.style.opacity = '0.5';
+}
 /**
  * Appends the given child to the given parent in the DOM
  *

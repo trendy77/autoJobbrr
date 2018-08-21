@@ -1,136 +1,127 @@
 'use strict';
-var bk = browser.runtime.getBackgroundPage();
 
-var exec_info_div, exec_data, exec_result;
-var o1b, o2b, o3b;
-var theOpts = [o1, o2, o3];
-var signin_button, revoke_button, returnTo, upIds;
 
-function displayIds() {
-	browser.storage.local.get(['theIds'], function(object) {
-		var newIds = object.theIds;
-		o1 = newIds.sheetId || getNewIds();
-		o2 = newIds[1];
-		o3 = newIds[2];
-		var sht = document.getElementById('shtin');
-		var att1 = document.createAttribute('placeholder');
-		att1.value = o1;
-		sht.setAttributeNode(att1);
-		var o2b = document.querySelector('#tplin');
-		var att2 = document.createAttribute('placeholder');
-		att2.value = o2;
-		o2b.setAttributeNode(att2);
-		var o3b = document.querySelector('#fldin');
-		var att3 = document.createAttribute('placeholder');
-		att3.value = o3;
-		o3b.setAttributeNode(att3);
+var optsPanel = (function () {
+	var exec_info, exec_data, exec_result;
+	var o1, o2, o3;
+	var exec_Optsdata = [o1, o2, o3];
+	var revoke_button, returnTo, upIds;
+
+	function inTestInput() {
+		//	var sht = document.querySelector('#shtin');
+		var checkboxes = document.getElementsByClass('input');
+		for (i = 0; i < checkboxes.length; i++) {
+			if (checkboxes[i].value !== "") {
+				if (checkboxes[i].value !== exec_Optsdata[i]) {
+					exec_Optsdata[i] = checkboxes[i].value;
+				}
+			}
+		}
+		browser.storage.sync.set({ theIds: exec_Optsdata }, tellSendIds);
+	}
+
+	var optsTab = browser.runtime.connect({
+		name: "optsTab"
+	});
+
+	optsTab.onMessage.addListener(function (m) {
+		var keys = Object.keys(m);
+		for (var r in keys) {
+			var key = keys[r];
+			if (key == 'state') {
+				fpstate = key.value;
+			}
+			else if (key == 'log') {
+				exec_info_div.innerText += key.value;
+			}
+			console.log(key + "= " + key.value);
+		}
+	else if (key == 'load') {
+	var vall = key.value;
+	if (vall == "on") {
+		loadingOn();
+	} else if (vall == "off") {
+		loadingOff();
+	}
+}
+}, recievedOK );
+
+function recievedOK() {
+	optsTab.postMessage({
+		response: '1'
 	});
 }
-displayIds
 
+function loadingOn() {
+	var ele = document.querySelector('#loadspin');
+	browser.extension.getBackgroundPage.displayDefault(ele);
+}
 
-var executionAPIExample = (function() {
+function loadingOff() {
+	var ele = document.querySelectorAll('#loadspin');
+	for (var th in ele) {
+		var itd = ele.th;
+		browser.extension.getBackgroundPage.displayNone(itd);
+	}
+}
+function tellSendIds() {
+	optsTab.postMessage({
+		send: 'options'
+	});
+}
 
-
-	function sendOpts() {
-
-		if (s != "") {
-			var newIds = [s, t, f];
-			browser.storage.local.set({
-				theIds: newIds
-			});
-			exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + s +
-				"\",\"" + t + "\",\"" + f + "\"]]";
-		} else {
-			exec_Optsdata = "[[\"sheetId,\"templateId\",\"folderId\"][\"" + o1 +
-				"\",\"" + o2 + "\",\"" + o3 + "\"]]";
+function createOptionsForm(bk) {
+	var contentBox = document.querySelector("#content");
+	var bk = browser.extension.getBackgroundPage();
+	browser.storage.sync.get(['theIds'], function (list) {
+		var savedIds = list.theIds || [];
+		o1 = savedIds[0];
+		o2 = savedIds[1];
+		o3 = savedIds[2];
+		var ns = ['shtin', 'tplin', 'fldin'];
+		var ns = ['SheetId', 'TemplateId', 'FolderId'];
+		for (var i = 0; i < savedIds.length; i++) {
+			var deItem = bk.createElement(document, ns[i]);
+			bk.domAddClass(deItem, 'input');
+			bk.domSetAttribute(deItem, 'placeholder', savedIds[i]);
+			bk.domSetAttribute(deItem, 'value', '');
+			bk.domAppendChild(contentBox, deItem);
 		}
-		getAuthToken({
-			'interactive': false,
-			'callback': sendOptsToSheet,
-		});
+		var toolt = bk.createElement(document, 'but');
+		bk.domAddClass(toolt, 'tooltipped');
+		bk.domSetAttribute(toolt, 'data-position', 'bottom');
+		bk.domSetAttribute(toolt, 'data-tooltip', 'Set / Sync IDs');
+		bk.domSetAttribute(toolt, 'data-delay', '40');
+		var idbutton = bk.createElement(document, 'upIds');
+		bk.domAddClass(idbutton, 'waves-effect waves-light btn pulse');
+		bk.domSetAttribute(idbutton, 'placeholder', savedIds[i]);
+		bk.domSetAttribute(idbutton, 'value', '');
+		bk.domAppendChild(contentBox, idbutton);
+		bk.createTextNode('SendIds', idButton);
+		bk.appendChild(toolt, idbutton);
+		bk.appendChild(contentBox, toolt);
+	});
+}
+
+return {
+	onload: function () {
+		createOptionsForm();
+		exec_data = document.querySelector('#exec_data');
+		exec_data.innerText = exec_Optsdata;
+
+		exec_info_div = document.querySelector('#exec_info');
+
+		signin_button = document.querySelector('#signin');
+		signin_button.addEventListener('onClick', getAuthTokenInteractive);
+
+		revoke_button = document.querySelector('#revoke');
+		revoke_button.addEventListener('click', revokeToken);
+
+		upIds = document.querySelector('#upIds');
+		upIds.addEventListener('click', inTestInput);
+		exec_result = document.querySelector('#exec_result');
 	}
-	disableButton(upIds);
+};
+}) ();
 
-	function sendOptsToExecutionAPI() {
-		disableButton(upIds);
-		upIds.className = 'loading';
-		getAuthToken({
-			'interactive': false,
-			'callback': sendDataToExecutionAPICallback,
-		});
-	}
-
-	function sendOptsToExecutionAPICallback(token) {
-		sampleSupport.log('Sending data to Execution API script');
-		post({
-			'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID + ':run',
-			'callback': executionOptsAPIResponse,
-			'token': token,
-			'request': {
-				'function': 'sendOpts',
-				'parameters': {
-					'data': JSON.parse(exec_data.value)
-				}
-			}
-		});
-	}
-
-	function executionOptsAPIResponse(response) {
-		sampleSupport.log(response);
-		enableButton(upIds);
-		upIds.classList.remove('loading');
-		var info;
-		if (response.response.result.status == 'ok') {
-			info = 'IDs have been entered into <a href="' + response.response.result.doc +
-				'" target="_blank"><strong>this sheet</strong></a>';
-		} else {
-			info = 'Error...';
-		}
-		exec_result.innerHTML = info;
-	}
-
-	function sendOptsToSheet(token) {
-		alert('Sending data to Execution API script');
-		post({
-			'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID + ':run',
-			'callback': executionAPIResponse,
-			'token': token,
-			'request': {
-				'function': 'setIds',
-				'parameters': {
-					'data': JSON.parse(exec_Optsdata.value),
-					'sheetId': 'itWorks!'
-				}
-			}
-		});
-	}
-
-
-
-	return {
-		onload: function() {
-			getOptsFields();
-			exec_data = document.querySelector('#exec_data');
-			var att4 = document.createAttribute("value");
-			exec_Optsdata.innerHTML = exec_Optsdata;
-
-			exec_info_div = document.querySelector('#exec_info');
-
-			signin_button = document.querySelector('#signin');
-			signin_button.addEventListener('onClick', getAuthTokenInteractive);
-
-			revoke_button = document.querySelector('#revoke');
-			revoke_button.addEventListener('click', revokeToken);
-
-			upIds = document.querySelector('#upIds');
-			upIds.addEventListener('clicked', sendOpts);
-
-			exec_result = document.querySelector('#exec_result');
-			getAuthTokenSilent();
-		}
-	};
-
-})();
-
-window.onload = executionAPIExample.onload;
+window.onload = optsPanel.onload;
