@@ -1,88 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/css/materialize.min.css'>
-        <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-        <link rel="stylesheet" href="css/style.css">
-        <title>Options</title>
-    </head>
+<head>
+<meta charset="UTF-8">
+<title>autoSEEKr</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="css/normalize.min.css">
+<link rel="stylesheet" href="css/materialize.min.css">
+<link rel="stylesheet" href="css/googlefonts.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-    <body>
-        <div class="container">
-            <div class="card-panel hoverable blue-grey darken-1">
-                <div id="ids" class="collection">
-                    <h3>IDs</h3>
-                    <form id="form">
-                        <script src="js/options.js"></script> <a href="#!" class="collection-item">
-            <span class="badge" id="shtid"></span>
-            <input id="sheetIdin" placeholder="sheetId" type="text">
-          </a> <a href="#!" class="collection-item">
-            <span class="badge" id="tplid"></span>
-            <input id="templateIdin" placeholder="templateId" type="text">
-          </a> <a href="#!" class="collection-item">
-            <span class="badge" id="fldid"></span>
-            <input id="folderIdin" placeholder="folderId" type="text">
-          </a>
-                        <a class="waves-effect waves-light btn">
-                            <button type='submit' value='Submit' id='optionsSubmit'>Submit</button>
-                        </a>
-                    </form>
-                    <div class="flows">
-                        <h6 class="card-title">Options</h6>
-                        <div class="flow" id="ids">
-                            <input id="shtin" placeholder="sheetId" type="text">
-                            <input id="tplin" placeholder="" type="text">
-                            <input id="fldin" type="text">
-                            <button id="upIds">Set IDs</button>
-                            <script src="js/dispIds.js"></script>
+<div class="container">
+<div class="card-panel hoverable blue-grey darken-1">
+<div id="ids" class="collection">
+ <div class="loadspin" id="spin" style="display:none">
+                <div class="preloader-wrapper big">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
                         </div>
-                        <div id="buttons" class="flow">
-                            <button id="signin">Authenticate</button>
-                            <button id="revoke" disabled>Revoke token</button>
-                            <button id="returnTo">Return</button>
-                            <div id="exec_info"></div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
                         </div>
-                        <div class="card-action">
-                            <div class="log">
-                                <textarea id="__sample_support_logarea" disabled></textarea>
-                                <div id="exec_info">
-                                    <p><strong>Test Data to send via Execution API</strong> (data to be sent on Call Execution API)
-                                        <textarea id="exec_data"> </textarea> <span id="exec_result"></span> </p>
-                                </div>
-                            </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
                         </div>
                     </div>
                 </div>
-                <script src="js/sample_support.js"></script>
-                </footer>
-    </body>
-    <div class="divider"></div>
-    <div class="section">
-        <div class="card blue-grey darken-1">
-            <div class="row black">
-                <div class="col s6">
-                    <div class="flows"> <span class="card-title">OAuth Google Login - Execution API Integration</span>
-                        <div class="flow">
-                            <button id="optsButton">Open JobAddr Page</button>
-                            <button id="xhrbutton" disabled>Login</button>
-                            <button id="revoke" disabled>Logout</button>
-                            <div id="exec_info"></div>
-                        </div>
-                    </div>
-                    <div class="log">
-                        <textarea id="__sample_support_logarea" disabled></textarea>
-                        <div id="exec_info">
-                            <p> <strong>Data to send via Execution API</strong> (data to be sent on Call Execution API)
-                                <textarea id="exec_data">[["Rank","NOC","Gold","Silver","Bronze","Total"],[1,"United States (USA)",46,37,38,121],[2,"Great Britain (GBR)",27,23,17,67],[3,"China (CHN)",26,18,26,70]]</textarea> <span id="exec_result"></span> </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+				
+<h3>IDs</h3>
 
+<a href="#!" class="collection-item">
+<span class="badge" id="shtid"></span>
+<input id="sheetIdin" placeholder="sheetId" type="text">
+</a> <a href="#!" class="collection-item">
+<span class="badge" id="tplid"></span>
+<input id="templateIdin" placeholder="templateId" type="text">
+</a> <a href="#!" class="collection-item">
+<span class="badge" id="fldid"></span>
+<input id="folderIdin" placeholder="folderId" type="text">
+</a>
+<a class="waves-effect waves-light btn pulse">
+<button type="submit" value="Submit" id="upIds">Submit</button>
+</a>
+<div id="buttons" class="flow">
+<button id="signin">Authenticate</button>
+<button id="revoke" disabled>Revoke token</button>
+<button id="returnTo">Return</button>
+</div>
+<div id="exec_info"></div>
+<div class="log">
+	<textarea id="__sample_support_logarea" disabled></textarea>
+<div id="exec_info">
+		<p><strong>Test Data to send via Execution API</strong> (data to be sent on Call Execution API)
+			<textarea id="exec_data"> </textarea> <span id="exec_result"></span> </p>
+	</div>
+</div>
+</div>
+</div>
+</div>
+
+<script src="js/materialize.1.0.0.min.js"></script> 
+<script src="js/options.js"></script> 
+<script src="js/sample_support.js"></script> 
+
+<script src="js/mz-init.js"></script> 
+</footer>
+</body>
 </html>
