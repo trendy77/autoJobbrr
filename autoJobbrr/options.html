@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/materialize.min.css">
         <link rel="stylesheet" href="css/googlefonts.css">
         <link rel="stylesheet" href="css/style.css">
-        <script src="js/materialize.1.0.0.min.js"></script>
+        <script src="js/materialize.1.0.0.min.js" async="true"></script>
         <script src="js/sample_support.js" async="true"></script>
         <script src="js/mz-init.js" async="true"></script>
     </head>
@@ -29,6 +29,16 @@
                 </div>
             </div>
         </nav>
+        <div id='test1' class='col s12 '>
+            <ul class='collapsible'>
+                <div class='card-panel hoverable blue-grey lighten-2' id='tester'>
+                    <li>
+                        <div class='collapsible-header'><i class='material-icons'>filter_drama</i>test</div>
+                        <button id='buttest'>test</button>
+                    </li>
+                </div>
+            </ul>
+        </div>
         <div id='fieldsContainer' class='col s12 blue-grey lighten-3'>
             <div class='card-panel hoverable blue-grey lighten-1' id='JobTitle'>
                 <li>
@@ -66,7 +76,7 @@
                     <div class='collapsible-body'><span><input class='in' type='text'></span> </div>
                 </li>
             </div>
-            <div class='card-action'> <a id="go" class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Send Fields to Sheet'>SendToSheet</a> <a id="reset" class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Clear'>ResetFields</a> </div>
+            <div class='card-action'> <a href='#' class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Send Fields to Sheet'>SendToSheet</a> </div>
             <script src="js/popup.js"></script>
         </div>
         <div id='optsContainer' class='col s12 indigo lighten-2'>
@@ -75,15 +85,15 @@
             <div id='SheetId' class='card-content indigo'>
                 <h6 class='center'>SheetID</h6>
                 <p class='black-text'>Currently set to: <span id="SheetIdplaceholder"></span><em>(for saving job applications)</em></p>
-                <input id='shtin' type='text'> </div>
+                <input id='SheetIdin' type='text'> </div>
             <div id='TemplateId' class='card-content indigo darken-1'>
                 <h6 class='center'>TemplateID</h6>
                 <p class='black-text'>Currently Set To: <span id="TemplateIdplaceholder"></span><em>(for generating a Cover Letter for each application)</em></p>
-                <input id='tplin' type='text'> </div>
+                <input id='TemplateIdin' type='text'> </div>
             <div id='2' class='card-content indigo darken-2'>
                 <h6 class='center'>FolderID</h6>
                 <p class='black-text'>Currently Set To: <span id="FolderIdplaceholder"></span><em>(for saving the generated files to)</em></p>
-                <input id='fldin' type='text'> </div>
+                <input id='FolderIdin' type='text'> </div>
             <div class='card-action'>
                 <a class="waves-effect waves-light btn pulse">
                     <button id='upIds' class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Save Them!'>Set IDs</button>
@@ -141,18 +151,13 @@
                 </div>
             </div>
             <div class='card-panel hoverable grey darken-4' id='test3'>
-                <div class='card-content' id='popup2'>
-                    <script src="js/popup2.js">
-
-
-                    </script>
-                </div>
-                <div class='card-action'>
-                    <p>stuff</p>
+                <div class='card-content'>
+                    <h3>TEST3</h3> </div>
+                <div class='card-content'>
+                    <!-- TAB 3 CONTENT HERE... -->
                 </div>
             </div>
         </div>
-        <!-- END OF TAB #3 -->
         <div id='test4' class='col s12'>
             <div class='loadspin' id='spin4' style='display:block'>
                 <div class='preloader-wrapper big'>
@@ -202,29 +207,30 @@
                     </div>
                 </div>
             </div>
-            <div class='card-panel hoverable grey darken-4' id='test3'>
-                <div class="card-title white-text"> my title </div>
-                <div class="card-content" id="optsContent2">
-                    <script src="js/options2.js">
-
-
-                    </script>
-                    <button id="upIds2"> </button>
-                    <div id="opts_info">
-                        <p> <strong> Test Data to send via Execution API
-                                </strong> (data to be sent on Call Execution API)
-                            <textarea id="opts_data"> </textarea> <span id="opts_result">
-                                                </span> </p>
-                    </div>
-                    <div id="opts_data"> </div>
+            <div class='card-content'>
+                <!-- TAB 4 CONTENT HERE... -->
+            </div>
+        </div>
+        <footer>
+            <div id="buttons" class="card-panel hoverable">
+                <div id="auth" class="card-content">
+                    <a class="waves-effect waves-light btn pulse">
+                        <button id="signin">Login</button>
+                    </a>
+                    <a class="waves-effect waves-light btn pulse">
+                        <button id="revoke" disabled>Logout</button>
+                    </a>
+                </div>
+                <div id="nav" class="card-content">
+                    <a class="waves-effect waves-light btn pulse">
+                        <button id="returnTo">Return</button>
+                    </a>
+                    <a class="waves-effect waves-light btn pulse">
+                        <button id="close">Close</button>
+                    </a>
                 </div>
             </div>
-            <!-- END OF TAB #4 -->
-            <footer>
-                <div id="auth" class="card-content"> <a class="waves-effect waves-light btn pulse" id="signin">Login                    </a> <a class="waves-effect waves-light btn pulse" id="revoke" disabled>
-                    Logout
-                    </a> </div>
-                <div id="nav" class="card-content"> <a href="#fieldsContainer" class="waves-effect waves-light btn pulse">Return To Fields</a> </br> <a class="waves-effect waves-light btn pulse" id="close">Close Window</a> </div>
+            <div class="card-panel hoverable">
                 <div class="log">
                     <textarea id="__sample_support_logarea" disabled></textarea>
                     <div id="exec_info">
@@ -232,7 +238,8 @@
                             <textarea id="exec_data"> </textarea> <span id="exec_result"></span> </p>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
     </body>
 
 </html>

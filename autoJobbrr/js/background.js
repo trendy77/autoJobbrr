@@ -7,40 +7,78 @@ var jobAppFields = {
 	"Phone-Email": f4,
 	"USP1": f5,
 	"USP2": f6,
-	"USP3": f7
+	"USP3": f7,
+	"JobUrl": ""
 };
 var theTitz = Object.keys(jobAppFields);
 var theVals = Object.values(jobAppFields);
 var entries = Object.entries(jobAppFields);
+var SCRIPTID = "1OyjlytEo2uEorwa12PyFanPBm549L9Koe2Fl5Mwkg-p-5V4k7k-KgDsc";
+/// https://script.google.com/macros/s/AKfycbxB5hPATZclDz6hwe-HKi5o-g9bXtnug6x9nNT5zyBlyeY0pB0/exec
+
+
+//// !!! ONLY FOR TESTING....!
+var o1 = "1TBqN2KpOMse7_pyKDSZW1QIFii1-5VAL9Zbz2np_TUM";
+var o2 = "14850XpEs5bNWo8RttAMgUdvA4LE1UK2mFEhPpI9wk18";
+var o3 = "1yOQqQ2Nwae5xvS2tuGbUNGUIRqGwqhWw";
+////////////////////
+
+var eOdata = [o1, o2, o3];
 var iconText = "!";
 
-// 		LONGTERM CONNECTIONs
-chrome.runtime.onConnect.addListener(popListener);
-
-function popListener(port) {
-	if(port.name == popupJsPort){
-	port.onMessage.addListener(function (msg) {
-		if (typeof (msg.response) !== undefined) {
-
-			return;
-		} else if (typeof (msg.state) !== undefined) { }
-		port.postMessage({
-			state: fstate
-		});
-	});
-} else if (port.name == contentJsPort){
-	port.onMessage.addListener(function (msg) {
-		if (typeof (msg.response) !== undefined) {
-			return;
-		} else if (typeof (msg.state) !== 'undefined') {
-			port.postMessage({
-				state: fstate
+// s/t msg
+chrome.runtime.onMessage.addListener(
+	function (request, sender, sendResponse)
+	{
+		alert(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
+		if (request.msg == "getVals") {
+			var url = request.url;
+			var toget = [url];
+			//alert(url);
+			//	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs){
+			//	var theTab = tabs[0].id;
+			//	var theUrl = tabs[0].url;
+			chrome.storage.local.get(toget, function (storedInfo)
+			{
+				var info = storedInfo.jobAppFields || jobAppFields;
+				alert(JSON.stringify(storedInfo));
+				sendResponse({ msg: "theVals", vals: info });
 			});
+			//	chrome.tabs.sendMessage(tabs[0].id, { vals: theVals }, function (response){
 		}
 	});
+
+
+/*
+Update content when a new tab becomes active.
+*/
+chrome.tabs.onActivated.addListener(updateContent);
+
+/*
+Update content when a new page is loaded into a tab.
+*/
+chrome.tabs.onUpdated.addListener(updateContent);
+
+function updateContent()
+{
+	chrome.windows.getCurrent({ populate: true }, function (windowInfo)
+	{
+		var myWindowId = windowInfo.id;
+		chrome.tabs.query({ windowId: myWindowId, active: true }, function (tabs)
+		{
+			var toget = [tabs[0].url];
+			chrome.storage.local.get(toget, function (storedInfo)
+			{
+				var theFields = storedInfo.jobAppFields || jobAppFields;
+				theFields.JobUrl = toget;
+				chrome.storage.local.set({ toget: jobAppFields });
+			});
+		});
+	});
 }
-}
-chrome.runtime.onInstalled.addListener(function () {
+
+chrome.runtime.onInstalled.addListener(function ()
+{
 	var parent = chrome.contextMenus.create({
 		title: "autoSEEKr",
 		id: "parent",
@@ -51,7 +89,7 @@ chrome.runtime.onInstalled.addListener(function () {
 		parentId: parent,
 		title: "SignIn",
 		contexts: ["all"]
-		});
+	});
 	chrome.contextMenus.create({
 		id: "RevokeToken",
 		parentId: parent,
@@ -60,7 +98,7 @@ chrome.runtime.onInstalled.addListener(function () {
 		visible: false
 	});
 	chrome.contextMenus.create({
-		id: 's1',parentId: parent,type: 'separator',contexts: ['all']
+		id: 's1', parentId: parent, type: 'separator', contexts: ['all']
 	});
 	chrome.contextMenus.create({
 		id: "Send2Sheet",
@@ -69,7 +107,6 @@ chrome.runtime.onInstalled.addListener(function () {
 		contexts: ["all"],
 		visible: false
 	});
-	
 	chrome.contextMenus.create({
 		id: "Go2Sheet",
 		parentId: parent,
@@ -77,13 +114,13 @@ chrome.runtime.onInstalled.addListener(function () {
 		contexts: ["all"],
 		visible: false
 	});
-		chrome.contextMenus.create({
+	chrome.contextMenus.create({
 		id: 's2',
 		parentId: parent,
 		type: 'separator',
 		contexts: ['all']
 	});
-	for (var k=0;k<theTitz.length;k++) {
+	for (var k = 0; k < theTitz.length; k++) {
 		var key = theTitz[k];
 		chrome.contextMenus.create({
 			id: key,
@@ -99,94 +136,67 @@ chrome.runtime.onInstalled.addListener(function () {
 		contexts: ['all'],
 		visible: false
 	});
-//	chrome.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
+	//	chrome.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
 });
 
-chrome.contextMenus.onClicked.addListener(function (item, tab) {
+chrome.contextMenus.onClicked.addListener(function (item, tab)
+{
 	var sel2 = item.selectionText;
 	var tit = item.menuItemId;
-	//iconText += "!";
-	//iconTit(iconText);
 	if (tit == 'Send2Sheet') {
 		sendVals();
-		} 
+	}
 	else if (tit == 'SignIn') {
 		getAuthTokenInteractive();
-	} 
+	}
 	else if (tit == 'GoToSheet') {
-		var url = "https://docs.google.com/spreadsheets/d/" + o1 + "/edit" || "https://docs.google.com/spreadsheets/d/" + getIds(0) + "/edit";
-		chrome.tabs.create({url: url, index: tab.index + 1});
-		} 
+		var url = "https://docs.google.com/spreadsheets/d/" + o1 + "/edit";
+		chrome.tabs.create({ url: url, index: tab.index + 1 });
+	}
 	else if (tit == 'ResetFields') {
 		resetIt();
-		} 
+	}
 	else if (tit == 'RevokeToken') {
 		revokeToken();
-	} 
+	}
 	else {
-		chrome.tabs.query({ active: true },function(tabs){
-		var this1 = tabs[0].url;
-		chrome.storage.local.get([this1], function (object) {
-			var fields = object.jobAppFields || {};
-			fields[tit] = sel2;
-			var toStore={};
-			toStore[tabs[0].url] = fields;
-			chrome.storage.local.set({	toStore });	
-			chrome.contextMenus.update(tit,{title:tit+":"+sel2});
-			
+		chrome.tabs.query({ active: true }, function (tabs)
+		{
+			var this1 = tabs[0].url;
+			chrome.storage.local.get([this1], function (object)
+			{
+				var fields = object.jobAppFields || {};
+				fields[tit] = sel2;
+				var toStore = {};
+				toStore[this1] = fields;
+				chrome.storage.local.set({ toStore });
+				chrome.contextMenus.update(tit, { title: tit + ":" + sel2 });
 			});
 		});
 	}
-	});
-
-// on storage change
-chrome.storage.onChanged.addListener(function (changes, namespace) {
-	for (var key in changes) {
-		var storageChange = changes[key];
-		if (key == 'jobAppFields') {
-			var changedKeys = Object.keys(storageChange);
-			for (var fkey in changedKeys) {
-				var fieldChg = changedKeys.fkey.value;
-				var newKey = changedKeys.fkey;
-				chrome.contextMenus.update(newKey, {
-					title: newKey + '= ' + fieldChg
-				});
-			}
-		}
-		console.log('Storage key "%s" in namespace "%s" changed. ' + 'Old value was "%s", new value is "%s".', key, namespace, storageChange.oldValue, storageChange.newValue);
-	}
 });
 
-function closeWindow() {
+function closeWindow()
+{
 	window.close();
 }
-
-function disableField(field) {
-	field.setAttribute('opacity', '0.6');
-	field.setAttribute('font-size', '12px');
-}
-
-function enableField(field) {
-	field.setAttribute('opacity', '1');
-	field.setAttribute('font-size', '16px');
-}
-
-function disableButton(button) {
+function disableButton(button)
+{
 	button.setAttribute('disabled', 'disabled');
 }
-
-function enableButton(button) {
+function enableButton(button)
+{
 	button.removeAttribute('disabled');
 }
-
-function iconTit(text) {
+function iconTit(text)
+{
 	var opt_badgeObj = {};
 	var textArr = text;
 	opt_badgeObj.text = textArr;
 	setIcon(opt_badgeObj);
 }
-
-function setIcon(opt_badgeObj) {
+function setIcon(opt_badgeObj)
+{
 	if (opt_badgeObj) {
 		var badgeOpts = {};
 		if (opt_badgeObj && opt_badgeObj.text != undefined) {
@@ -195,75 +205,87 @@ function setIcon(opt_badgeObj) {
 		chrome.chromeAction.setBadgeText(badgeOpts);
 	}
 }
-function sendLoad(msg, which) {
+function sendLoad(msg, which)
+{
 	if (msg == 'on') {
-		popupJsPort.postMessage({
-			load: msg,
+		chrome.runtime.sendMessage({
+			msg: 'load',
+			load: 'on',
 			which: which
 		});
 	} else if (msg == 'off') {
-		popupJsPort.postMessage({
-			load: msg
+		chrome.runtime.sendMessage({
+			msg: 'load',
+			load: 'off'
 		});
 	}
 }
 
-function sendLog(msg) {
-	popupJsPort.postMessage({
+function sendLog(msg)
+{
+	chrome.runtime.sendMessage({
+		msg: 'log',
 		log: msg
 	});
 }
 
-function sendStateChg(msg) {
-	popupJsPort.postMessage({
+function sendStateChg(msg)
+{
+	chrome.runtime.sendMessage({
+		msg: 'state',
 		state: msg
 	});
 }
 
-function getSet() {
-	chrome.tabs.query({ active: true },function(tabs){
-	var info = tabs[0].url;
-		chrome.storage.local.get([ info ], function(obj){
-		var fields = obj.info.jobAppFields || {};
-		return fields;
+function getSet()
+{
+	chrome.tabs.query({ active: true }, function (tabs)
+	{
+		var info = tabs[0].url;
+		chrome.storage.local.get([info], function (obj)
+		{
+			var fields = obj.info.jobAppFields || {};
+			return fields;
+		});
 	});
-});
 }
 
-function setSet(fields) {
-	chrome.tabs.query({ active: true },function(tabs){
-	var info = tabs[0].url;
-		chrome.storage.local.get([ info ], function(obj){
-		var oldField = obj.info.jobAppFields || {};
-		for(var k in fields){
-			oldField[k] = fields.k
-		}
+function setSet(fields)
+{
+	chrome.tabs.query({ active: true }, function (tabs)
+	{
+		var info = tabs[0].url;
+		chrome.storage.local.get([info], function (obj)
+		{
+			var oldField = obj.info.jobAppFields || {};
+			for (var k in fields) {
+				oldField[k] = fields.k
+			}
 			//chrome.storage.local.set([info: ], function(obj){
+		});
 	});
-});
 }
 
-
-
-function changeState(newState) {
+function changeState(newState)
+{
 	fstate = newState;
 	sendStateChg(fstate);
 	switch (fstate) {
 		case STATE_START:
 			authd = false;
-		chrome.contextMenus.update('SignIn',{visible:true});
-		chrome.contextMenus.update('Revoke',{visible:false});
-		chrome.contextMenus.update('SendToSheet',{visible:false});
-		chrome.contextMenus.update('GoToSheet',{visible:false});
+			chrome.contextMenus.update('SignIn', { visible: true });
+			chrome.contextMenus.update('Revoke', { visible: false });
+			chrome.contextMenus.update('SendToSheet', { visible: false });
+			chrome.contextMenus.update('GoToSheet', { visible: false });
 
 			break;
 		case STATE_ACQUIRING_AUTHTOKEN:
 			sendLog('Acquiring token...');
-		chrome.contextMenus.update('SignIn',{title:"SIGNING IN..."});
-		sendLoad('on', 'auth');
+			chrome.contextMenus.update('SignIn', { title: "SIGNING IN..." });
+			sendLoad('on', 'auth');
 			break;
 		case STATE_AUTHTOKEN_ACQUIRED:
-		sendLoad('off', '');
+			sendLoad('off', '');
 			authd = true;
 			break;
 	}
@@ -272,40 +294,18 @@ function changeState(newState) {
 // SENDING./..
 var newIds;
 
-function sendOpts() {
+function sendOpts(theOpts)
+{
+	newIds = theOpts
 	sendLoad('on', 'upIds');
-	chrome.storage.sync.set({
-		theIds: theOpts
-	}, getAuthToken({
-		'interactive': false,
-		'callback': sendOptsToExecutionAPI
-	}));
-}
-
-/*
-function sendOpts() {
-	var s = document.getElementById('shtin').value.trim();
-	var t = document.getElementById('fldin').value.trim();
-	var f = document.getElementById('tplin').value.trim();
-	if (typeof s !== 'undefined') {
-		var newIds = [s, t, f];
-		chrome.storage.sync.set({ theIds: newIds });
-		exec_Optsdata = "[\"sheetId\":\"" + s + "\",\"folderId\":\"" + f + "\",\"templateId\":\"" + t + "\"}";
-		getAuthToken({
-			'interactive': false,
-			'callback': sendOptsToSheet,
-		});
-	}
-}
-*/
-function sendOptsToExecutionAPI() {
 	getAuthToken({
 		'interactive': false,
 		'callback': sendOptsToSheet
 	});
 }
 
-function sendOptsToSheet(token) {
+function sendOptsToSheet(token)
+{
 	alert('sending ids to Sheet');
 	post({
 		'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
@@ -315,13 +315,14 @@ function sendOptsToSheet(token) {
 		'request': {
 			'function': 'setIds',
 			'parameters': {
-				'ids': JSON.parse(exec_Optsdata)
+				'data': JSON.parse(newIds)
 			}
 		}
 	});
 }
 
-function sendDataToSheet(token) {
+function sendDataToSheet(token)
+{
 	sendLog('sending fields to Sheet');
 	post({
 		'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
@@ -337,34 +338,37 @@ function sendDataToSheet(token) {
 	});
 }
 
-function sendVals() {
+function sendVals()
+{
 	var dat = getSet();
-	
-		var thedat = object.jobAppFields;
-		jobAppFields = thedat;
-		//"[" + viObj[0] + "\,\"" + viObj[1] + "\",\"" + viObj[2] + "\",\"" + viObj[3] + "\",\"" + viObj[4] + "\",\"" + viObj[5] + "\",\"" + viObj[6] + "\"]]";
-		getAuthToken({
-			'interactive': false,
-			'callback': sendValsToSheet
-		});
+	var thedat = object.jobAppFields;
+	jobAppFields = thedat;
+	//"[" + viObj[0] + "\,\"" + viObj[1] + "\",\"" + viObj[2] + "\",\"" + viObj[3] + "\",\"" + viObj[4] + "\",\"" + viObj[5] + "\",\"" + viObj[6] + "\"]]";
+	getAuthToken({
+		'interactive': false,
+		'callback': sendValsToSheet
+	});
 }
 
 // AUTH
 
-function getAuthToken(options) {
+function getAuthToken(options)
+{
 	chrome.identity.getAuthToken({
 		'interactive': options.interactive
 	}, options.callback);
 }
 
-function getAuthTokenSilent() {
+function getAuthTokenSilent()
+{
 	getAuthToken({
 		'interactive': false,
 		'callback': getAuthTokenCallback
 	});
 }
 
-function getAuthTokenInteractive() {
+function getAuthTokenInteractive()
+{
 	alert('signing in...');
 	getAuthToken({
 		'interactive': true,
@@ -372,22 +376,24 @@ function getAuthTokenInteractive() {
 	});
 }
 
-function getAuthTokenCallback(token) {
+function getAuthTokenCallback(token)
+{
 	if (chrome.runtime.lastError) {
 		alert('No token aquired');
 		changeState(STATE_START);
 	} else {
 		alert('Logged In');
-		chrome.contextMenus.update('SignIn',{visible:false});
-		chrome.contextMenus.update('RevokeToken',{visible:true});
-		chrome.contextMenus.update('Send2Sheet',{visible:true});
-		chrome.contextMenus.update('Go2Sheet',{visible:true});
-			
+		chrome.contextMenus.update('SignIn', { visible: false });
+		chrome.contextMenus.update('RevokeToken', { visible: true });
+		chrome.contextMenus.update('Send2Sheet', { visible: true });
+		chrome.contextMenus.update('Go2Sheet', { visible: true });
+
 		changeState(STATE_AUTHTOKEN_ACQUIRED);
 	}
 }
 
-function executionAPIResponse(response) {
+function executionAPIResponse(response)
+{
 	var resp = JSON.stringify(response);
 	alert(resp);
 	var info;
@@ -401,14 +407,16 @@ function executionAPIResponse(response) {
 	sendLoad('off', '');
 }
 
-function revokeToken() {
+function revokeToken()
+{
 	getAuthToken({
 		'interactive': false,
 		'callback': revokeAuthTokenCallback,
 	});
 }
 
-function revokeAuthTokenCallback(current_token) {
+function revokeAuthTokenCallback(current_token)
+{
 	if (!chrome.runtime.lastError) {
 		chrome.identity.removeCachedAuthToken({
 			token: current_token
@@ -425,10 +433,12 @@ function revokeAuthTokenCallback(current_token) {
 	sendLoad('off', '');
 }
 
-function post(options) {
+function post(options)
+{
 	sendLog('posting');
 	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function () {
+	xhr.onreadystatechange = function ()
+	{
 		if (xhr.readyState === 4 && xhr.status === 200) {
 			// JSON response assumed. Other APIs may have different responses.
 			options.callback(JSON.parse(xhr.responseText));
@@ -441,34 +451,13 @@ function post(options) {
 	xhr.send(JSON.stringify(options.request));
 }
 
-function resetIt() {
+function resetIt()
+{
 	chrome.storage.local.clear();
-	
+
 }
 
 // code: 'document.body.style.backgroundColor="red"'
-
-// runAt:	enum of "document_start", "document_end", or "document_idle"
-
-
-/*
-for (var w in tiObj) {
-	chrome.contextMenus.update(tiObj[w], {
-		title: tiObj[w] + "= " + tiObj[w].value,
-		contexts: ["all"]
-	});
-}
-chrome.tabs.insertCSS(integer tabId, object details, function callback)
-*/
-
-//Code for displaying <extensionDir>/images/myimage.png:
-//var imgURL = chrome.runtime.getURL("images/myimage.png");
-//document.getElementById("someImage").src = imgURL;
-
-//// tabs API
-//chrome.chromeAction.onClicked.addListener(function(tab) {
-//	chrome.tabs.create({url:chrome.extension.getURL("tabs_api.html")});
-//  });
 
 /**
  * Creates a DOM element with the given tag name in the document of the
@@ -482,7 +471,8 @@ chrome.tabs.insertCSS(integer tabId, object details, function callback)
  * @param {Boolean} opt_noAppend Do not append the new element to the owner.
  * @return {Element}  The newly created element node.
  */
-function createElement(tagName, owner, opt_position, opt_size, opt_noAppend) {
+function createElement(tagName, owner, opt_position, opt_size, opt_noAppend)
+{
 	var element = ownerDocument(owner).createElement(tagName);
 	if (opt_position) {
 		setPosition(element, opt_position);
@@ -502,7 +492,8 @@ function createElement(tagName, owner, opt_position, opt_size, opt_noAppend) {
  * text node.
  * @return {Text}  The newly created text node.
  */
-function createTextNode(value, owner) {
+function createTextNode(value, owner)
+{
 	var element = ownerDocument(owner).createTextNode(value);
 	if (owner) {
 		appendChild(owner, element);
@@ -517,7 +508,8 @@ function createTextNode(value, owner) {
  * @param {Node} node  The node whose ownerDocument is required.
  * @returns {Document|Null}  The owner document or null if unsupported.
  */
-function ownerDocument(node) {
+function ownerDocument(node)
+{
 	return (node ? node.ownerDocument : null) || document;
 }
 /**
@@ -526,7 +518,8 @@ function ownerDocument(node) {
  * @param {Number} numPixels  Number of pixels, may be floating point.
  * @returns {String}  Corresponding CSS units string.
  */
-function px(numPixels) {
+function px(numPixels)
+{
 	return round(numPixels) + "px";
 }
 /**
@@ -535,7 +528,8 @@ function px(numPixels) {
  * @param {Element} element  The dom element to manipulate.
  * @param {Point} point  The desired position.
  */
-function setPosition(element, point) {
+function setPosition(element, point)
+{
 	var style = element.style;
 	style.position = "absolute";
 	style.left = px(point.x);
@@ -547,7 +541,8 @@ function setPosition(element, point) {
  * @param {Element} element  The dom element to manipulate.
  * @param {Size} size  The desired size.
  */
-function setSize(element, size) {
+function setSize(element, size)
+{
 	var style = element.style;
 	style.width = px(size.width);
 	style.height = px(size.height);
@@ -558,7 +553,8 @@ function setSize(element, size) {
  *
  * @param {Element} node  The dom element to manipulate.
  */
-function displayNone(node) {
+function displayNone(node)
+{
 	node.style.display = 'none';
 }
 /**
@@ -566,11 +562,13 @@ function displayNone(node) {
  *
  * @param {Element} node  The dom element to manipulate.
  */
-function displayDefault(node) {
+function displayDefault(node)
+{
 	node.style.display = '';
 }
 
-function displayHalf(node) {
+function displayHalf(node)
+{
 	node.style.opacity = '0.5';
 }
 /**
@@ -579,7 +577,8 @@ function displayHalf(node) {
  * @param {Element} parent  The parent dom element.
  * @param {Node} child  The new child dom node.
  */
-function appendChild(parent, child) {
+function appendChild(parent, child)
+{
 	parent.appendChild(child);
 }
 
@@ -611,7 +610,8 @@ var DOM_NOTATION_NODE = 12;
  * @param {String} elemId The id of the element to search for.
  * @return {Element|Null} The corresponding element, or null if not found.
  */
-function nodeGetElementById(node, elemId) {
+function nodeGetElementById(node, elemId)
+{
 	for (var c = node.firstChild; c; c = c.nextSibling) {
 		if (c.id == elemId) {
 			return c;
@@ -632,7 +632,8 @@ function nodeGetElementById(node, elemId) {
  * @param {String} name  Name of parameter to extract.
  * @return {String}  Resulting attribute.
  */
-function domGetAttribute(node, name) {
+function domGetAttribute(node, name)
+{
 	return node.getAttribute(name);
 }
 /**
@@ -642,7 +643,8 @@ function domGetAttribute(node, name) {
  * @param {String} name  Name of parameter to set.
  * @param {String} value  Set attribute to this value.
  */
-function domSetAttribute(node, name, value) {
+function domSetAttribute(node, name, value)
+{
 	node.setAttribute(name, value);
 }
 /**
@@ -651,7 +653,8 @@ function domSetAttribute(node, name, value) {
  * @param {Element} node  Element to interrogate.
  * @param {String} name  Name of parameter to remove.
  */
-function domRemoveAttribute(node, name) {
+function domRemoveAttribute(node, name)
+{
 	node.removeAttribute(name);
 }
 /**
@@ -660,7 +663,8 @@ function domRemoveAttribute(node, name) {
  * @param {Node} node  Node to clone.
  * @return {Node}  Cloned node.
  */
-function domCloneNode(node) {
+function domCloneNode(node)
+{
 	return node.cloneNode(true);
 }
 /**
@@ -670,7 +674,8 @@ function domCloneNode(node) {
  * @param {Element} node  DOM element to query.
  * @return {String}
  */
-function domClassName(node) {
+function domClassName(node)
+{
 	return node.className ? "" + node.className : "";
 }
 /**
@@ -679,7 +684,8 @@ function domClassName(node) {
  * @param {Element} node  DOM element to modify.
  * @param {String} className  Class name to add.
  */
-function domAddClass(node, className) {
+function domAddClass(node, className)
+{
 	var name = domClassName(node);
 	if (name) {
 		var cn = name.split(/\s+/);
@@ -704,7 +710,8 @@ function domAddClass(node, className) {
  * @param {Element} node  DOM element to modify.
  * @param {String} className  Class name to remove.
  */
-function domRemoveClass(node, className) {
+function domRemoveClass(node, className)
+{
 	var c = domClassName(node);
 	if (!c || c.indexOf(className) == -1) {
 		return;
@@ -724,7 +731,8 @@ function domRemoveClass(node, className) {
  * @param {String} className  Class name to check for.
  * @return {Boolean}  Node belongs to style class.
  */
-function domTestClass(node, className) {
+function domTestClass(node, className)
+{
 	var cn = domClassName(node).split(/\s+/);
 	for (var i = 0; i < jsLength(cn); ++i) {
 		if (cn[i] == className) {
@@ -740,7 +748,8 @@ function domTestClass(node, className) {
  * @param {Node} oldChild  Sibling node.
  * @return {Node}  Reference to new child.
  */
-function domInsertBefore(newChild, oldChild) {
+function domInsertBefore(newChild, oldChild)
+{
 	return oldChild.parentNode.insertBefore(newChild, oldChild);
 }
 /**
@@ -750,7 +759,8 @@ function domInsertBefore(newChild, oldChild) {
  * @param {Node} child  Child node to append.
  * @return {Node}  Newly appended node.
  */
-function domAppendChild(node, child) {
+function domAppendChild(node, child)
+{
 	return node.appendChild(child);
 }
 /**
@@ -760,7 +770,8 @@ function domAppendChild(node, child) {
  * @param {Node} child  Child node to remove.
  * @return {Node}  Removed node.
  */
-function domRemoveChild(node, child) {
+function domRemoveChild(node, child)
+{
 	return node.removeChild(child);
 }
 /**
@@ -770,7 +781,8 @@ function domRemoveChild(node, child) {
  * @param {Node} oldChild  Old child to remove.
  * @return {Node}  Replaced node.
  */
-function domReplaceChild(newChild, oldChild) {
+function domReplaceChild(newChild, oldChild)
+{
 	return oldChild.parentNode.replaceChild(newChild, oldChild);
 }
 /**
@@ -779,7 +791,8 @@ function domReplaceChild(newChild, oldChild) {
  * @param {Node} node  The node to remove.
  * @return {Node}  The removed node.
  */
-function domRemoveNode(node) {
+function domRemoveNode(node)
+{
 	return domRemoveChild(node.parentNode, node);
 }
 /**
@@ -789,7 +802,8 @@ function domRemoveNode(node) {
  * @param {String} text  Text composing new text node.
  * @return {Text}  Newly constructed text node.
  */
-function domCreateTextNode(doc, text) {
+function domCreateTextNode(doc, text)
+{
 	return doc.createTextNode(text);
 }
 /**
@@ -799,7 +813,8 @@ function domCreateTextNode(doc, text) {
  * @param {String} name  Name of new element (i.e. the tag name)..
  * @return {Element}  Newly constructed element.
  */
-function domCreateElement(doc, name) {
+function domCreateElement(doc, name)
+{
 	return doc.createElement(name);
 }
 /**
@@ -809,68 +824,7 @@ function domCreateElement(doc, name) {
  * @param {String} name  Name of new attribute.
  * @return {Attr}  Newly constructed attribute.
  */
-function domCreateAttribute(doc, name) {
+function domCreateAttribute(doc, name)
+{
 	return doc.createAttribute(name);
-}
-/**
- * Creates a new comment in the given document.
- *
- * @param {Document} doc  Target document.
- * @param {String} text  Comment text.
- * @return {Comment}  Newly constructed comment.
- */
-function domCreateComment(doc, text) {
-	return doc.createComment(text);
-}
-/**
- * Creates a document fragment.
- *
- * @param {Document} doc  Target document.
- * @return {DocumentFragment}  Resulting document fragment node.
- */
-function domCreateDocumentFragment(doc) {
-	return doc.createDocumentFragment();
-}
-/**
- * Redirect to document.getElementById
- *
- * @param {Document} doc  Target document.
- * @param {String} id  Id of requested node.
- * @return {Element|Null}  Resulting element.
- */
-function domGetElementById(doc, id) {
-	return doc.getElementById(id);
-}
-/**
- * Redirect to window.setInterval
- *
- * @param {Window} win  Target window.
- * @param {Function} fun  Callback function.
- * @param {Number} time  Time in milliseconds.
- * @return {Object}  Contract id.
- */
-function windowSetInterval(win, fun, time) {
-	return win.setInterval(fun, time);
-}
-/**
- * Redirect to window.clearInterval
- *
- * @param {Window} win  Target window.
- * @param {object} id  Contract id.
- * @return {any}  NOTE: Return type unknown?
- */
-function windowClearInterval(win, id) {
-	return win.clearInterval(id);
-}
-/**
- * Determines whether one node is recursively contained in another.
- * @param parent The parent node.
- * @param child The node to look for in parent.
- * @return parent recursively contains child
- */
-function containsNode(parent, child) {
-	while (parent != child && child.parentNode) {
-		child = child.parentNode;
-	}
-	return parent == child;
 }
