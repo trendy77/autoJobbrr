@@ -48,8 +48,8 @@ Temporary Items
 .vscode/formatter.json
 css/materialize.min.css
 
-
-node_modules/
+./node_modules
+node_modules
 
 web-ext-artifacts/
 
