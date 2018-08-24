@@ -1,6 +1,7 @@
 "use strict";
 // ONLOAD FUNCTION....
-var executionAPIpopup = (function () {
+var executionAPIpopup = (function ()
+{
 	var fpstate;
 	// fields
 	var jt, emp, con, num, u1, u2, u3, rec, email;
@@ -9,9 +10,8 @@ var executionAPIpopup = (function () {
 	// info divs
 	var exec_div, exec_info_div, exec_result, contentBox;
 	var f1b, f2b, f4b, f3b, f5b, f6b, f7b;
-	var o1b, o2b, o3b;
 
-	var myWindowId;
+
 	contentBox = document.querySelector("#content");
 	test = document.querySelector("#buttest");
 
@@ -21,29 +21,33 @@ var executionAPIpopup = (function () {
 	1) Get the active tab - Get its stored content - IF no store,then create -- Put it in the appropriate job field.
 	*/
 
-	function updateContent() {
-		chrome.tabs.query({ windowId: myWindowId, active: true })
-			.then((tabs) => {
+	function updateContent()
+	{
+		chrome.tabs.query({ active: true })
+			.then((tabs) =>
+			{
 				return chrome.storage.local.get(tabs[0].url);
 			})
-			.then((storedInfo) => {
+			.then((storedInfo) =>
+			{
 				var theFields = storedInfo.theFields;
 				for (var t in theFields) {
 					var key = theFields.t;
-					alert('key = '+ key);
+					alert('key = ' + key);
 					var fieldsObj = key.value;
-					alert('fields = '+ fieldsObj);
+					alert('fields = ' + fieldsObj);
 					setContentField(key, fieldsObj);
 				}
 			});
 	}
 
-	function setContentField(key, fieldsObj) {
-		for (var t in fieldsObj){
+	function setContentField(key, fieldsObj)
+	{
+		for (var t in fieldsObj) {
 			var defield = fieldsObj.t;
 			var deval = fieldsObj[t].value;
-		var box = document.querySelector("#" + key);
-		box.setAttribute('data-tooltip', deval);
+			var box = document.querySelector("#" + key);
+			box.setAttribute('data-tooltip', deval);
 		}
 	}
 	/*
@@ -58,19 +62,21 @@ var executionAPIpopup = (function () {
 	/*
 	When the popup loads, get the ID of its window, and update its content.
 	*/
-	chrome.windows.getCurrent({ populate: true }).then((windowInfo) => {
+	chrome.windows.getCurrent({ populate: true }).then((windowInfo) =>
+	{
 		myWindowId = windowInfo.id;
 		updateContent();
 	});
 
-	
-	
-	
+
+
+
 	var popupJsPort = chrome.runtime.connect({
 		name: "port-popup"
 	});
 
-	popupJsPort.onMessage.addListener(function (m) {
+	popupJsPort.onMessage.addListener(function (m)
+	{
 		var keys = Object.keys(m);
 		for (var r in keys) {
 			var key = keys[r];
@@ -91,18 +97,21 @@ var executionAPIpopup = (function () {
 		}
 	}, recievedOK);
 
-	function recievedOK() {
+	function recievedOK()
+	{
 		popupJsPort.postMessage({
 			response: '1'
 		});
 	}
 
-	function loadingOn() {
+	function loadingOn()
+	{
 		var ele = document.querySelector('#loadspin');
 		chrome.extension.getBackgroundPage.displayDefault(ele);
 	}
 
-	function loadingOff() {
+	function loadingOff()
+	{
 		var ele = document.querySelectorAll('#loadspin');
 		for (var th in ele) {
 			var itd = ele.th;
@@ -112,14 +121,16 @@ var executionAPIpopup = (function () {
 
 
 	// on storage change
-	chrome.storage.onChanged.addListener(function (changes, namespace) {
+	chrome.storage.onChanged.addListener(function (changes, namespace)
+	{
 		for (var key in changes) {
 			var storageChange = changes[key];
 			exec_info_div.innerText += (key + ' onChange notification, now: ' + storageChange[key].value);
 		}
 	});
 
-	popupJsPort.onMessage.addListener(function (m) {
+	popupJsPort.onMessage.addListener(function (m)
+	{
 		var keys = Object.keys(m);
 		for (var r in keys) {
 			var key = keys[r];
@@ -144,15 +155,18 @@ var executionAPIpopup = (function () {
 		}
 	}, recievedOK);
 
-	function disableButton(button) {
+	function disableButton(button)
+	{
 		button.setAttribute('disabled', 'disabled');
 	}
 
-	function enableButton(button) {
+	function enableButton(button)
+	{
 		button.removeAttribute('disabled');
 	}
 
-	function changeState(newState) {
+	function changeState(newState)
+	{
 		var fun = chrome.extension.getBackgroundPage();
 		fpstate = newState;
 		switch (fpstate) {
@@ -184,16 +198,20 @@ var executionAPIpopup = (function () {
 		}
 	}
 
-	function disableButton(button) {
+	function disableButton(button)
+	{
 		button.setAttribute('disabled', 'disabled');
 	}
 
-	function enableButton(button) {
+	function enableButton(button)
+	{
 		button.removeAttribute('disabled');
 	}
 
-	function createFields() {
-		chrome.storage.local.get(['jobAppFields'], function (object) {
+	function createFields()
+	{
+		chrome.storage.local.get(['jobAppFields'], function (object)
+		{
 			var jobFields = object.jobAppFields;
 			for (var key in jobFields) {
 
@@ -207,8 +225,10 @@ var executionAPIpopup = (function () {
 		});
 	}
 
-	function createOpts() {
-		chrome.storage.sync.get(['theIds'], function (object) {
+	function createOpts()
+	{
+		chrome.storage.sync.get(['theIds'], function (object)
+		{
 			var theIds = object.theIds || [];
 			var box = document.querySelector('#idButtons');
 			for (var key in theIds) {
@@ -221,7 +241,8 @@ var executionAPIpopup = (function () {
 		});
 	}
 
-	function getNewIds() {
+	function getNewIds()
+	{
 		var s = document.getElementById('shtin').value.trim();
 		var t = document.getElementById('fldin').value.trim();
 		var f = document.getElementById('tplin').value.trim();
@@ -229,15 +250,18 @@ var executionAPIpopup = (function () {
 		return theNewIds;
 	}
 
-	function displayFs() {
+	function displayFs()
+	{
 		var bk = chrome.extension.getBackgroundPage();
-		chrome.storage.sync.get(['theIds'], function (object) {
+		chrome.storage.sync.get(['theIds'], function (object)
+		{
 			var theV = object.theIds || [];
 			bk.domSetAttribute('#shtin', 'placeholder', theV[0]);
 			bk.domSetAttribute('#tplin', 'placeholder', theV[1]);
 			bk.domSetAttribute('#fldin', 'placeholder', theV[2]);
 		});
-		chrome.storage.local.get(['jobAppFields'], function (object) {
+		chrome.storage.local.get(['jobAppFields'], function (object)
+		{
 			var theV = object.jobAppFields || [];
 			jt = bk.domSetAttribute('#tit', 'placeholder', theV.JobTitle.value || "");
 			emp = bk.domSetAttribute('#emp', 'placeholder', theV.Company.value || "");
@@ -252,94 +276,48 @@ var executionAPIpopup = (function () {
 	}
 
 
-	function bkrevokeToken() {
+	function bkrevokeToken()
+	{
 		chrome.extension.getBackgroundPage.revokeToken();
 	}
 
-	function bkresetIt() {
+	function bkresetIt()
+	{
 		chrome.extension.getBackgroundPage.resetIt();
 	}
 
-	function bkSignin() {
+	function bkSignin()
+	{
 		chrome.extension.getBackgroundPage.getAuthTokenInteractive();
 	}
 
-	function bksendVals() {
+	function bksendVals()
+	{
 		chrome.extension.getBackgroundPage.sendVals();
 	}
 
-	function bksendOpts() {
+	function bksendOpts()
+	{
 		var theNewIds = getNewIds();
 		chrome.extension.getBackgroundPage.sendOpts(theNewIds);
 	}
 
-	function bkClose() {
+	function bkClose()
+	{
 		chrome.extension.getBackgroundPage.closeWindow();
 	}
 	return {
-		onload: function () {
-			M.AutoInit();
-			var fstate = chrome.extension.getBackgroundPage.fstate();
-			var sidenavs = document.querySelectorAll('.sidenav')
-			for (var i = 0; i < sidenavs.length; i++) {
-				M.Sidenav.init(sidenavs[i]);
-			}
-			var dropdowns = document.querySelectorAll('.dropdown-trigger')
-			for (i = 0; i < dropdowns.length; i++) {
-				M.Dropdown.init(dropdowns[i]);
-			}
-			var collapsibles = document.querySelectorAll('.collapsible')
-			for (i = 0; i < collapsibles.length; i++) {
-				M.Collapsible.init(collapsibles[i]);
-			}
-			var featureDiscoveries = document.querySelectorAll('.tap-target')
-			for (i = 0; i < featureDiscoveries.length; i++) {
-				M.FeatureDiscovery.init(featureDiscoveries[i]);
-			}
-			var materialboxes = document.querySelectorAll('.materialboxed');
-			for (i = 0; i < materialboxes.length; i++) {
-				M.Materialbox.init(materialboxes[i]);
-			}
-			var modals = document.querySelectorAll('.modal');
-			for (i = 0; i < modals.length; i++) {
-				M.Modal.init(modals[i]);
-			}
-			var parallax = document.querySelectorAll('.parallax');
-			for (i = 0; i < parallax.length; i++) {
-				M.Parallax.init(parallax[i]);
-			}
-			var scrollspies = document.querySelectorAll('.scrollspy');
-			for (i = 0; i < scrollspies.length; i++) {
-				M.ScrollSpy.init(scrollspies[i]);
-			}
-			var tabs = document.querySelectorAll('.tabs');
-			for (i = 0; i < tabs.length; i++) {
-				M.Tabs.init(tabs[i]);
-			}
-			var tooltips = document.querySelectorAll('.tooltipped');
-			for (i = 0; i < tooltips.length; i++) {
-				M.Tooltip.init(tooltips[i]);
-			}
+		onload: function ()
+		{
+			fstate = chrome.extension.getBackgroundPage.fstate();
+
 			exec_info_div = document.querySelector('#exec_info');
-
-			optsButton = document.querySelector('#optsButton');
-			optsButton.addEventListener('click', getNewIds);
-
-			upIds = document.querySelector('#upIds');
-			upIds.addEventListener('click', bksendOpts);
-
 			goButton = document.querySelector('#go');
 			goButton.addEventListener('click', bksendVals.bind(goButton, true));
-
-			signin = document.querySelector('#signin');
-			signin.addEventListener('click', bkgetAuthTokenInteractive);
-
 			close = document.querySelector('#close');
-			close.addEventListener('click', bkclose);
-
-			returnTo = document.querySelector('#returnTo');
-			returnTo.addEventListener('click', bkclose);
-
+			close.addEventListener('click', bkclose.bind(close, true));
+			signin = document.querySelector('#signin');
+			signin.addEventListener('click', bkSignin);
 			revoke_button = document.querySelector('#revoke');
 			revoke_button.addEventListener('click', bkrevokeToken);
 

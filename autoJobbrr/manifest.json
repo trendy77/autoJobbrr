@@ -3,9 +3,11 @@
 	"name": "autoSEEKr JobApplier",
 	"version": "7.2",
 	"version_name": "chrome",
+	"minimum_chrome_version": "29",
 	"options_page": "options.html",
 	"description": "Time to get a job... Why waste time manually applying like a CHUMP?  Annnnnd away we go...!",
-	"permissions": [ "declarativeContent","contextMenus", "https://*/", "tabs", "storage", "activeTab", "<all_urls>", "identity",
+	"permissions": [ "declarativeContent", "contextMenus", "https://*/", "tabs", "storage", "activeTab", "<all_urls>",
+		"identity",
 		"https://*.googleapis.com/*"
 	],
 	"icons": {
@@ -15,34 +17,38 @@
 		"128": "images/gear128.png"
 	},
 	"background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
-  },
+		"scripts": [ "js/background.js" ],
+		"persistent": false
+	},
 	"browser_action": {
 		"default_icon": "images/gear128.png",
 		"default_title": "Launch",
 		"default_popup": "popup.html"
 	},
 	"content_scripts": [ {
-		"matches": [ "https://seek.com.au/*" ],
-		"js": [ "js/content.js" ],
-		"css": [ "css/content.css" ],
-		"all_frames": true,
-		"exclude_matches": [ "*://*/*/jobs*" ]
-	},
-	{
-		"matches": [ "https://seek.com.au/jobs*" ],
-		"js": [ "js/content.js" ],
-		"css": [ "css/content.css" ],
-		"all_frames": true
-	},
-	{
-		"matches": ["<all_urls>"],
-		"js": [	"js/content.js"],
-		"css": [ "css/content.css" ],
-		"all_frames": true
-	}],
-	"web_accessible_resources": [ "images/*.png", "css/*.css", "js/*.js", "fonts/*.*", "*.html" ,"https://code.jquery.com/jquery-3.2.1.min.js", "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"],
+			"matches": [ "https://seek.com.au/*" ],
+			"js": [ "js/content.js" ],
+			"css": [ "css/content.css" ],
+			"all_frames": true,
+			"exclude_matches": [ "*://*/*/jobs*" ]
+		},
+		{
+			"matches": [ "https://seek.com.au/jobs*" ],
+			"js": [ "js/content.js" ],
+			"css": [ "css/content.css" ],
+			"all_frames": true
+		},
+		{
+			"matches": [ "<all_urls>" ],
+			"js": [ "js/content.js" ],
+			"css": [ "css/content.css" ],
+			"all_frames": true
+		}
+	],
+	"web_accessible_resources": [ "images/*.png", "css/*.css", "js/*.js", "fonts/*.*", "*.html",
+		"https://code.jquery.com/jquery-3.2.1.min.js",
+		"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"
+	],
 	"externally_connectable": {
 		"matches": [ "https://*.google.com/*", "https://cdnjs.cloudflare.com/*", "https://code.jquery.com/*",
 			"https://.com/*", "https://script.google.com/*"

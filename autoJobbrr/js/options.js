@@ -1,12 +1,15 @@
 'use strict';
 
-var optsPanel = (function () {
+var optsPanel = (function ()
+{
+	var fpstate;
 	var exec_info_div, exec_data, exec_result;
 	var oo1, oo2, oo3;
 	var eOdata = [oo1, oo2, oo3];
-	var revoke_button, returnTo, signin_button;
+	var revoke_button, returnTo, signin_button, fstate;
 
-	function inTestInput() {
+	function inTestInput()
+	{
 		//	var sht = document.querySelector('#shtin');
 		var checkboxes = document.querySelectorAll('input');
 		for (i = 0; i < checkboxes.length; i++) {
@@ -16,16 +19,17 @@ var optsPanel = (function () {
 				}
 			}
 		}
-		chrome.storage.sync.set({ theIds: eOdata }, function(){
-		chrome.extension.getBackgroundPage.sendOpts();	
+		chrome.storage.sync.set({ theIds: eOdata }, function ()
+		{
+			chrome.extension.getBackgroundPage.sendOpts();
 		});
 	}
 
 	var optsTab = chrome.runtime.connect({
 		name: "optsTab"
 	});
-
-	optsTab.onMessage.addListener(function (m) {
+	optsTab.onMessage.addListener(function (m)
+	{
 		var keys = Object.keys(m);
 		for (var r in keys) {
 			var key = keys[r];
@@ -46,25 +50,33 @@ var optsPanel = (function () {
 		}
 	});
 
-	function loadingOn() {
+	function bkclose()
+	{
+		chrome.extension.getBackgroundPage.closeWindow();
+	}
+
+	function loadingOn()
+	{
 		var ele = document.querySelector('#spin');
 		ele.display = 'block';
-		}
-
-	function loadingOff() {
+	}
+	function loadingOff()
+	{
 		var ele = document.querySelector('.loadspin');
 		ele.display.value = 'none';
 	}
 
-	function createOptionsForm() {
+	function createOptionsForm()
+	{
 		var contentBox = document.querySelector("#ids");
 		var bk = chrome.extension.getBackgroundPage;
-		chrome.storage.sync.get(['theIds'], function (list) {
+		chrome.storage.sync.get(['theIds'], function (list)
+		{
 			var savedIds = list.theIds || [];
 			oo1 = savedIds[0];
 			oo2 = savedIds[1];
 			oo3 = savedIds[2];
-				var ns = ['shtin', 'tplin', 'fldin'];
+			var ns = ['shtin', 'tplin', 'fldin'];
 			//var ns = ['SheetId', 'TemplateId', 'FolderId'];
 			for (var i = 0; i < savedIds.length; i++) {
 				var deItem = document.createElement('input');
@@ -89,16 +101,24 @@ var optsPanel = (function () {
 	}
 
 	return {
-		onload: function () {
+		onload: function ()
+		{
+			fstate = chrome.extension.getBackgroundPage.fstate();
 
 			createOptionsForm();
 			exec_data = document.querySelector('#exec_data');
 			exec_data.innerText = eOdata;
 
+			returnTo = document.querySelector('#close');
+			returnTo.addEventListener('click', bkclose);
+
 			exec_info_div = document.querySelector('#exec_info');
 
-			signin_button = document.querySelector('#signin');
-			signin_button.addEventListener('onClick', bk.getAuthTokenInteractive);
+			close = document.querySelector('#close');
+			close.addEventListener('click', bkclose);
+
+			signin = document.querySelector('#signin');
+			signin.addEventListener('onClick', bkgetAuthTokenInteractive);
 
 			revoke_button = document.querySelector('#revoke');
 			revoke_button.addEventListener('click', revokeToken);
