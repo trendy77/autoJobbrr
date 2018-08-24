@@ -1,208 +1,188 @@
 "use strict";
+// ONLOAD FUNCTION....
+var executionAPIpopup = (function () {
+	var fpstate;
+	// fields
+	var jt, emp, con, num, u1, u2, u3, rec, email;
+	// buttons
+	var reset, goButton, optsButton, signin, revoke_button, returnTo, close, upIds, test;
+	// info divs
+	var exec_div, exec_info_div, exec_result, contentBox;
+	var f1b, f2b, f4b, f3b, f5b, f6b, f7b;
+	var o1b, o2b, o3b;
 
-var fpstate;
-// fields
-var jt, emp, con, num, u1, u2, u3, rec, email;
-// buttons
-var reset, goButton, optsButton, signin, revoke_button, returnTo, close, upIds;
-// info divs
-var exec_div, exec_info_div, exec_result;
-var f1b, f2b, f4b, f3b, f5b, f6b, f7b;
-var o1b, o2b, o3b;
-
-var myWindowId;
-var contentBox = document.querySelector("#content");
-
-window.addEventListener("mouseover", () => {
-  contentBox.setAttribute("contenteditable", true);
-});
-
-window.addEventListener("change",) ) => {
-	saveContent();
-	contentBox.setAttribute("loading", true);
-});
+	var myWindowId;
+	contentBox = document.querySelector("#content");
+	test = document.querySelector("#buttest");
 
 
-/*
-Update the popup's content.
-1) Get the active tab - Get its stored content - IF no store,then create -- Put it in the appropriate job field.
-*/
+	/*
+	Update the popup's content.
+	1) Get the active tab - Get its stored content - IF no store,then create -- Put it in the appropriate job field.
+	*/
 
-function updateContent() {
-  browser.tabs.query({ windowId: myWindowId, active: true })
-    .then((tabs) => {
-      return browser.storage.local.get(tabs[0].url);
-    })
-    .then((storedInfo) => {
-      var theFields = storedInfo.theFields;
-		for (var t in theFields){
-		  var key = theFields[Object.keys(theFields)[t]];
-		  var fval = key.value;
-alert(fval);
-		setContentField(key,fval);
-	  }
-    });
-}
+	function updateContent() {
+		chrome.tabs.query({ windowId: myWindowId, active: true })
+			.then((tabs) => {
+				return chrome.storage.local.get(tabs[0].url);
+			})
+			.then((storedInfo) => {
+				var theFields = storedInfo.theFields;
+				for (var t in theFields) {
+					var key = theFields.t;
+					alert('key = '+ key);
+					var fieldsObj = key.value;
+					alert('fields = '+ fieldsObj);
+					setContentField(key, fieldsObj);
+				}
+			});
+	}
 
-function setContentField(key,fval) {
-	
-	var box = document.querySelector("#"+key);
-	box.setAttribute('placeholder',fval);
-}
+	function setContentField(key, fieldsObj) {
+		for (var t in fieldsObj){
+			var defield = fieldsObj.t;
+			var deval = fieldsObj[t].value;
+		var box = document.querySelector("#" + key);
+		box.setAttribute('data-tooltip', deval);
+		}
+	}
 	/*
 	Update content when a new tab becomes active.
 	*/
-browser.tabs.onActivated.addListener(updateContent);
+	chrome.tabs.onActivated.addListener(updateContent);
 
 	/*
 	Update content when a new page is loaded into a tab.
 	*/
-browser.tabs.onUpdated.addListener(updateContent);
-
-
-
-
-
-
+	chrome.tabs.onUpdated.addListener(updateContent);
 	/*
 	When the popup loads, get the ID of its window, and update its content.
 	*/
-browser.windows.getCurrent({ populate: true }).then((windowInfo) => {
-	myWindowId = windowInfo.id;
-	updateContent();
-});
-
-
-
-
-
-
-
-
-
-
-
-
-var popupJsPort = browser.runtime.connect({
-	name: "port-popup"
-});
-
-popupJsPort.onMessage.addListener(function (m) {
-	var keys = Object.keys(m);
-	for (var r in keys) {
-		var key = keys[r];
-		if (key == 'state') {
-			fpstate = key.value;
-		}
-		else if (key == 'log') {
-			exec_info_div.innerText += key.value;
-		} else if (key == 'load') {
-			var vall = key.value;
-			if (vall == "on") {
-				loadingOn();
-			} else if (vall == "off") {
-				loadingOff();
-			}
-		}
-		console.log(key + "= " + key.value);
-	}
-}, recievedOK);
-
-function recievedOK() {
-	popupJsPort.postMessage({
-		response: '1'
+	chrome.windows.getCurrent({ populate: true }).then((windowInfo) => {
+		myWindowId = windowInfo.id;
+		updateContent();
 	});
-}
 
-function loadingOn() {
-	var ele = document.querySelector('#loadspin');
-	browser.extension.getBackgroundPage.displayDefault(ele);
-}
+	
+	
+	
+	var popupJsPort = chrome.runtime.connect({
+		name: "port-popup"
+	});
 
-function loadingOff() {
-	var ele = document.querySelectorAll('#loadspin');
-	for (var th in ele) {
-		var itd = ele.th;
-		browser.extension.getBackgroundPage.displayNone(itd);
-	}
-}
-
-
-// on storage change
-browser.storage.onChanged.addListener(function (changes, namespace) {
-	for (var key in changes) {
-		var storageChange = changes[key];
-		exec_info_div.innerText += (key + ' onChange notification, now: ' + storageChange[key].value);
-	}
-});
-
-popupJsPort.onMessage.addListener(function (m) {
-	var keys = Object.keys(m);
-	for (var r in keys) {
-		var key = keys[r];
-		var val = key.value;
-		switch (key) {
-			case 'load':
-				if (val == 'on') {
+	popupJsPort.onMessage.addListener(function (m) {
+		var keys = Object.keys(m);
+		for (var r in keys) {
+			var key = keys[r];
+			if (key == 'state') {
+				fpstate = key.value;
+			}
+			else if (key == 'log') {
+				exec_info_div.innerText += key.value;
+			} else if (key == 'load') {
+				var vall = key.value;
+				if (vall == "on") {
 					loadingOn();
-				}
-				else if (val == 'off') {
+				} else if (vall == "off") {
 					loadingOff();
 				}
+			}
+			console.log(key + "= " + key.value);
+		}
+	}, recievedOK);
+
+	function recievedOK() {
+		popupJsPort.postMessage({
+			response: '1'
+		});
+	}
+
+	function loadingOn() {
+		var ele = document.querySelector('#loadspin');
+		chrome.extension.getBackgroundPage.displayDefault(ele);
+	}
+
+	function loadingOff() {
+		var ele = document.querySelectorAll('#loadspin');
+		for (var th in ele) {
+			var itd = ele.th;
+			chrome.extension.getBackgroundPage.displayNone(itd);
+		}
+	}
+
+
+	// on storage change
+	chrome.storage.onChanged.addListener(function (changes, namespace) {
+		for (var key in changes) {
+			var storageChange = changes[key];
+			exec_info_div.innerText += (key + ' onChange notification, now: ' + storageChange[key].value);
+		}
+	});
+
+	popupJsPort.onMessage.addListener(function (m) {
+		var keys = Object.keys(m);
+		for (var r in keys) {
+			var key = keys[r];
+			var val = key.value;
+			switch (key) {
+				case 'load':
+					if (val == 'on') {
+						loadingOn();
+					}
+					else if (val == 'off') {
+						loadingOff();
+					}
+					break;
+				case 'log':
+					exec_info_div.innerText += val;
+					// 	chrome.extension.getBackgroundPage.createTextNode(val,'exec_info_div');
+					break;
+				case 'state':
+					changeState(val);
+					break;
+			}
+		}
+	}, recievedOK);
+
+	function disableButton(button) {
+		button.setAttribute('disabled', 'disabled');
+	}
+
+	function enableButton(button) {
+		button.removeAttribute('disabled');
+	}
+
+	function changeState(newState) {
+		var fun = chrome.extension.getBackgroundPage();
+		fpstate = newState;
+		switch (fpstate) {
+			case fun.STATE_START:
+				enableButton(signin);
+				disableButton(optsButton);
+				disableButton(revoke_button);
+				disableButton(returnTo);
+				disableButton(close);
+				disableButton(reset);
+				disableButton(goButton);
+				disableButton(upIds);
 				break;
-			case 'log':
-				exec_info_div.innerText += val;
-				// 	browser.extension.getBackgroundPage.createTextNode(val,'exec_info_div');
+			case fun.STATE_ACQUIRING_AUTHTOKEN:
+				sampleSupport.log('Acquiring token...');
+				disableButton(signin);
+				disableButton(revoke_button);
 				break;
-			case 'state':
-				changeState(val);
+			case fun.STATE_AUTHTOKEN_ACQUIRED:
+				disableButton(signin);
+				enableButton(optsButton);
+				enableButton(revoke_button);
+				enableButton(returnTo);
+				enableButton(close);
+				enableButton(reset);
+				enableButton(goButton);
+				enableButton(upIds);
 				break;
 		}
 	}
-}, recievedOK);
-
-function disableButton(button) {
-	button.setAttribute('disabled', 'disabled');
-}
-
-function enableButton(button) {
-	button.removeAttribute('disabled');
-}
-
-function changeState(newState) {
-	var fun = browser.extension.getBackgroundPage();
-	fpstate = newState;
-	switch (fpstate) {
-		case fun.STATE_START:
-			enableButton(signin);
-			disableButton(optsButton);
-			disableButton(revoke_button);
-			disableButton(returnTo);
-			disableButton(close);
-			disableButton(reset);
-			disableButton(goButton);
-			disableButton(upIds);
-			break;
-		case fun.STATE_ACQUIRING_AUTHTOKEN:
-			sampleSupport.log('Acquiring token...');
-			disableButton(signin);
-			disableButton(revoke_button);
-			break;
-		case fun.STATE_AUTHTOKEN_ACQUIRED:
-			disableButton(signin);
-			enableButton(optsButton);
-			enableButton(revoke_button);
-			enableButton(returnTo);
-			enableButton(close);
-			enableButton(reset);
-			enableButton(goButton);
-			enableButton(upIds);
-			break;
-	}
-}
-
-// ONLOAD FUNCTION....
-var executionAPIpopup = (function () {
 
 	function disableButton(button) {
 		button.setAttribute('disabled', 'disabled');
@@ -213,7 +193,7 @@ var executionAPIpopup = (function () {
 	}
 
 	function createFields() {
-		browser.storage.local.get(['jobAppFields'], function (object) {
+		chrome.storage.local.get(['jobAppFields'], function (object) {
 			var jobFields = object.jobAppFields;
 			for (var key in jobFields) {
 
@@ -228,7 +208,7 @@ var executionAPIpopup = (function () {
 	}
 
 	function createOpts() {
-		browser.storage.sync.get(['theIds'], function (object) {
+		chrome.storage.sync.get(['theIds'], function (object) {
 			var theIds = object.theIds || [];
 			var box = document.querySelector('#idButtons');
 			for (var key in theIds) {
@@ -250,14 +230,14 @@ var executionAPIpopup = (function () {
 	}
 
 	function displayFs() {
-		var bk = browser.extension.getBackgroundPage();
-		browser.storage.sync.get(['theIds'], function (object) {
+		var bk = chrome.extension.getBackgroundPage();
+		chrome.storage.sync.get(['theIds'], function (object) {
 			var theV = object.theIds || [];
 			bk.domSetAttribute('#shtin', 'placeholder', theV[0]);
 			bk.domSetAttribute('#tplin', 'placeholder', theV[1]);
 			bk.domSetAttribute('#fldin', 'placeholder', theV[2]);
 		});
-		browser.storage.local.get(['jobAppFields'], function (object) {
+		chrome.storage.local.get(['jobAppFields'], function (object) {
 			var theV = object.jobAppFields || [];
 			jt = bk.domSetAttribute('#tit', 'placeholder', theV.JobTitle.value || "");
 			emp = bk.domSetAttribute('#emp', 'placeholder', theV.Company.value || "");
@@ -273,33 +253,33 @@ var executionAPIpopup = (function () {
 
 
 	function bkrevokeToken() {
-		browser.extension.getBackgroundPage.revokeToken();
+		chrome.extension.getBackgroundPage.revokeToken();
 	}
 
 	function bkresetIt() {
-		browser.extension.getBackgroundPage.resetIt();
+		chrome.extension.getBackgroundPage.resetIt();
 	}
 
 	function bkSignin() {
-		browser.extension.getBackgroundPage.getAuthTokenInteractive();
+		chrome.extension.getBackgroundPage.getAuthTokenInteractive();
 	}
 
 	function bksendVals() {
-		browser.extension.getBackgroundPage.sendVals();
+		chrome.extension.getBackgroundPage.sendVals();
 	}
 
 	function bksendOpts() {
 		var theNewIds = getNewIds();
-		browser.extension.getBackgroundPage.sendOpts(theNewIds);
+		chrome.extension.getBackgroundPage.sendOpts(theNewIds);
 	}
 
 	function bkClose() {
-		browser.extension.getBackgroundPage.closeWindow();
+		chrome.extension.getBackgroundPage.closeWindow();
 	}
 	return {
 		onload: function () {
 			M.AutoInit();
-			var fstate = browser.extension.getBackgroundPage.fstate();
+			var fstate = chrome.extension.getBackgroundPage.fstate();
 			var sidenavs = document.querySelectorAll('.sidenav')
 			for (var i = 0; i < sidenavs.length; i++) {
 				M.Sidenav.init(sidenavs[i]);

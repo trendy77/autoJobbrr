@@ -3,8 +3,8 @@
 /*
 * From: 
 * Identity example in Chrome Apps Samples 
-* https://github.com/GoogleChrome/browser-app-samples/tree/master/samples/identity 
-* https://github.com/GoogleChrome/browser-app-samples/blob/master/LICENSE
+* https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/identity 
+* https://github.com/GoogleChrome/chrome-app-samples/blob/master/LICENSE
 */
 
 (function (context) {
@@ -57,7 +57,7 @@
     if (open_snippets) {
       open_snippets.addEventListener('click', function (e) {
         e.preventDefault();
-        browser.app.window.create('sample_support/show_snippets.html',
+        chrome.app.window.create('sample_support/show_snippets.html',
           {
             "id": SampleSupport.SNIPPET_WIN_ID,
             "innerBounds": {
@@ -73,7 +73,7 @@
     var log_area = document.getElementById(SampleSupport.LOG_AREA_ID);
     // get Logger reference from background page, so
     // all other windows can access it
-    browser.runtime.getBackgroundPage(function (bgpage) {
+    chrome.runtime.getBackgroundPage(function (bgpage) {
       this.logger = bgpage.sample_logger;
 
       // replace existing log area if new log_area is valid

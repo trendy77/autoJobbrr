@@ -14,13 +14,11 @@ var theVals = Object.values(jobAppFields);
 var entries = Object.entries(jobAppFields);
 var iconText = "!";
 
-
 // 		LONGTERM CONNECTIONs
-browser.runtime.onConnect.addListener(popListener, true);
-browser.runtime.onConnect.addListener(conListener, true);
+chrome.runtime.onConnect.addListener(popListener);
 
 function popListener(port) {
-	console.assert(port.name == popupJsPort);
+	if(port.name == popupJsPort){
 	port.onMessage.addListener(function (msg) {
 		if (typeof (msg.response) !== undefined) {
 
@@ -30,9 +28,7 @@ function popListener(port) {
 			state: fstate
 		});
 	});
-}
-function conListener(port) {
-	console.assert(port.name == contentJsPort);
+} else if (port.name == contentJsPort){
 	port.onMessage.addListener(function (msg) {
 		if (typeof (msg.response) !== undefined) {
 			return;
@@ -43,66 +39,74 @@ function conListener(port) {
 		}
 	});
 }
-
-browser.runtime.onInstalled.addListener(function () {
-	var parent = browser.contextMenus.create({
+}
+chrome.runtime.onInstalled.addListener(function () {
+	var parent = chrome.contextMenus.create({
 		title: "autoSEEKr",
 		id: "parent",
 		contexts: ['all']
 	});
-	browser.contextMenus.create({
+	chrome.contextMenus.create({
 		id: "SignIn",
 		parentId: parent,
 		title: "SignIn",
 		contexts: ["all"]
-		visible: true
 		});
-	browser.contextMenus.create({
+	chrome.contextMenus.create({
 		id: "RevokeToken",
 		parentId: parent,
 		title: "RevokeToken",
 		contexts: ["all"],
 		visible: false
 	});
-	browser.contextMenus.create({
+	chrome.contextMenus.create({
 		id: 's1',parentId: parent,type: 'separator',contexts: ['all']
 	});
-	browser.contextMenus.create({
+	chrome.contextMenus.create({
 		id: "Send2Sheet",
 		parentId: parent,
 		title: "Send2Sheet",
 		contexts: ["all"],
 		visible: false
 	});
-	browser.contextMenus.create({
-		id: "ResetFields",
+	
+	chrome.contextMenus.create({
+		id: "Go2Sheet",
 		parentId: parent,
-		title: "ResetFields",
-		contexts: ['all'],
-		visible: true
+		title: "Go2Sheet",
+		contexts: ["all"],
+		visible: false
 	});
-		browser.contextMenus.create({
+		chrome.contextMenus.create({
 		id: 's2',
 		parentId: parent,
 		type: 'separator',
 		contexts: ['all']
 	});
-	for (var key in Object.keys(jobAppFields)) {
-		browser.contextMenus.create({
+	for (var k=0;k<theTitz.length;k++) {
+		var key = theTitz[k];
+		chrome.contextMenus.create({
 			id: key,
 			parentId: parent,
 			title: key,
 			contexts: ['selection']
 		});
 	}
-//	browser.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
+	chrome.contextMenus.create({
+		id: "ResetFields",
+		parentId: parent,
+		title: "ResetFields",
+		contexts: ['all'],
+		visible: false
+	});
+//	chrome.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
 });
 
-browser.contextMenus.onClicked.addListener(function (item, tab) {
+chrome.contextMenus.onClicked.addListener(function (item, tab) {
 	var sel2 = item.selectionText;
 	var tit = item.menuItemId;
-	iconText += "!";
-	iconTit(iconText);
+	//iconText += "!";
+	//iconTit(iconText);
 	if (tit == 'Send2Sheet') {
 		sendVals();
 		} 
@@ -111,24 +115,32 @@ browser.contextMenus.onClicked.addListener(function (item, tab) {
 	} 
 	else if (tit == 'GoToSheet') {
 		var url = "https://docs.google.com/spreadsheets/d/" + o1 + "/edit" || "https://docs.google.com/spreadsheets/d/" + getIds(0) + "/edit";
-		browser.tabs.create({url: url, index: tab.index + 1});
+		chrome.tabs.create({url: url, index: tab.index + 1});
 		} 
 	else if (tit == 'ResetFields') {
 		resetIt();
 		} 
+	else if (tit == 'RevokeToken') {
+		revokeToken();
+	} 
 	else {
-		browser.storage.local.get(['jobAppFields'], function (object) {
-			var fields = object.jobAppFields;
-			fields[tit].value = sel2;
-			browser.storage.local.set({	jobAppFields: fields }, function () {	
+		chrome.tabs.query({ active: true },function(tabs){
+		var this1 = tabs[0].url;
+		chrome.storage.local.get([this1], function (object) {
+			var fields = object.jobAppFields || {};
+			fields[tit] = sel2;
+			var toStore={};
+			toStore[tabs[0].url] = fields;
+			chrome.storage.local.set({	toStore });	
+			chrome.contextMenus.update(tit,{title:tit+":"+sel2});
 			
 			});
 		});
-		}
+	}
 	});
 
 // on storage change
-browser.storage.onChanged.addListener(function (changes, namespace) {
+chrome.storage.onChanged.addListener(function (changes, namespace) {
 	for (var key in changes) {
 		var storageChange = changes[key];
 		if (key == 'jobAppFields') {
@@ -136,7 +148,7 @@ browser.storage.onChanged.addListener(function (changes, namespace) {
 			for (var fkey in changedKeys) {
 				var fieldChg = changedKeys.fkey.value;
 				var newKey = changedKeys.fkey;
-				browser.contextMenus.update(newKey, {
+				chrome.contextMenus.update(newKey, {
 					title: newKey + '= ' + fieldChg
 				});
 			}
@@ -144,44 +156,6 @@ browser.storage.onChanged.addListener(function (changes, namespace) {
 		console.log('Storage key "%s" in namespace "%s" changed. ' + 'Old value was "%s", new value is "%s".', key, namespace, storageChange.oldValue, storageChange.newValue);
 	}
 });
-
-
-
-/*
-Update content when a new job is opened.
-*/
-
-browser.tabs.onActivated.addListener(newSet);
-
-/*
-Update content when a new page is loaded into a tab.
-*/
-
-browser.tabs.onUpdated.addListener(newSet);
-
-
-/*
-setup a new set of fields for this job url.
-*/
-function newSet(){
-	browser.tabs.query({ windowId: myWindowId, active: true }).then((tabs) => {
-	var contentToStore = {};
-    contentToStore[tabs[0].url] = theFields;
-    browser.storage.local.set(contentToStore);
-	return contentToStore;
-  });
-}
-
-
-
-
-
-
-
-
-
-
-
 
 function closeWindow() {
 	window.close();
@@ -205,15 +179,6 @@ function enableButton(button) {
 	button.removeAttribute('disabled');
 }
 
-function changeState(newState) {
-	fstate = newState;
-	sendStateChg(fstate);
-	switch(fstate):
-		case 
-		
-		
-}
-
 function iconTit(text) {
 	var opt_badgeObj = {};
 	var textArr = text;
@@ -227,17 +192,8 @@ function setIcon(opt_badgeObj) {
 		if (opt_badgeObj && opt_badgeObj.text != undefined) {
 			badgeOpts.text = opt_badgeObj.text;
 		}
-		browser.browserAction.setBadgeText(badgeOpts);
+		chrome.chromeAction.setBadgeText(badgeOpts);
 	}
-}
-function disableField(field) {
-	field.setAttribute('opacity', '0.6');
-	field.setAttribute('font-size', '12px');
-}
-
-function enableField(field) {
-	field.setAttribute('opacity', '1');
-	field.setAttribute('font-size', '16px');
 }
 function sendLoad(msg, which) {
 	if (msg == 'on') {
@@ -264,19 +220,50 @@ function sendStateChg(msg) {
 	});
 }
 
+function getSet() {
+	chrome.tabs.query({ active: true },function(tabs){
+	var info = tabs[0].url;
+		chrome.storage.local.get([ info ], function(obj){
+		var fields = obj.info.jobAppFields || {};
+		return fields;
+	});
+});
+}
+
+function setSet(fields) {
+	chrome.tabs.query({ active: true },function(tabs){
+	var info = tabs[0].url;
+		chrome.storage.local.get([ info ], function(obj){
+		var oldField = obj.info.jobAppFields || {};
+		for(var k in fields){
+			oldField[k] = fields.k
+		}
+			//chrome.storage.local.set([info: ], function(obj){
+	});
+});
+}
+
+
+
 function changeState(newState) {
 	fstate = newState;
 	sendStateChg(fstate);
 	switch (fstate) {
 		case STATE_START:
 			authd = false;
+		chrome.contextMenus.update('SignIn',{visible:true});
+		chrome.contextMenus.update('Revoke',{visible:false});
+		chrome.contextMenus.update('SendToSheet',{visible:false});
+		chrome.contextMenus.update('GoToSheet',{visible:false});
+
 			break;
 		case STATE_ACQUIRING_AUTHTOKEN:
 			sendLog('Acquiring token...');
-			sendLoad('on', 'auth');
+		chrome.contextMenus.update('SignIn',{title:"SIGNING IN..."});
+		sendLoad('on', 'auth');
 			break;
 		case STATE_AUTHTOKEN_ACQUIRED:
-			sendLoad('off', '');
+		sendLoad('off', '');
 			authd = true;
 			break;
 	}
@@ -285,9 +272,9 @@ function changeState(newState) {
 // SENDING./..
 var newIds;
 
-function sendOpts(theOpts) {
+function sendOpts() {
 	sendLoad('on', 'upIds');
-	browser.storage.sync.set({
+	chrome.storage.sync.set({
 		theIds: theOpts
 	}, getAuthToken({
 		'interactive': false,
@@ -295,14 +282,14 @@ function sendOpts(theOpts) {
 	}));
 }
 
-
+/*
 function sendOpts() {
 	var s = document.getElementById('shtin').value.trim();
 	var t = document.getElementById('fldin').value.trim();
 	var f = document.getElementById('tplin').value.trim();
 	if (typeof s !== 'undefined') {
 		var newIds = [s, t, f];
-		browser.storage.sync.set({ theIds: newIds });
+		chrome.storage.sync.set({ theIds: newIds });
 		exec_Optsdata = "[\"sheetId\":\"" + s + "\",\"folderId\":\"" + f + "\",\"templateId\":\"" + t + "\"}";
 		getAuthToken({
 			'interactive': false,
@@ -310,6 +297,7 @@ function sendOpts() {
 		});
 	}
 }
+*/
 function sendOptsToExecutionAPI() {
 	getAuthToken({
 		'interactive': false,
@@ -318,7 +306,7 @@ function sendOptsToExecutionAPI() {
 }
 
 function sendOptsToSheet(token) {
-	sendLog('sending ids to Sheet');
+	alert('sending ids to Sheet');
 	post({
 		'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
 			':run',
@@ -343,15 +331,15 @@ function sendDataToSheet(token) {
 		'request': {
 			'function': 'process1',
 			'parameters': {
-				'jobAppFields': JSON.parse(entries)
+				'data': JSON.parse(jobAppFields)
 			}
 		}
 	});
 }
 
 function sendVals() {
-	sendLoad('on', 'fields');
-	browser.storage.local.get(['jobAppFields'], function (object) {
+	var dat = getSet();
+	
 		var thedat = object.jobAppFields;
 		jobAppFields = thedat;
 		//"[" + viObj[0] + "\,\"" + viObj[1] + "\",\"" + viObj[2] + "\",\"" + viObj[3] + "\",\"" + viObj[4] + "\",\"" + viObj[5] + "\",\"" + viObj[6] + "\"]]";
@@ -359,13 +347,12 @@ function sendVals() {
 			'interactive': false,
 			'callback': sendValsToSheet
 		});
-	});
 }
 
 // AUTH
 
 function getAuthToken(options) {
-	browser.identity.getAuthToken({
+	chrome.identity.getAuthToken({
 		'interactive': options.interactive
 	}, options.callback);
 }
@@ -378,6 +365,7 @@ function getAuthTokenSilent() {
 }
 
 function getAuthTokenInteractive() {
+	alert('signing in...');
 	getAuthToken({
 		'interactive': true,
 		'callback': getAuthTokenCallback
@@ -385,18 +373,23 @@ function getAuthTokenInteractive() {
 }
 
 function getAuthTokenCallback(token) {
-	if (browser.runtime.lastError) {
-		sendLog('No token aquired');
+	if (chrome.runtime.lastError) {
+		alert('No token aquired');
 		changeState(STATE_START);
 	} else {
-		sendLog('Logged In');
+		alert('Logged In');
+		chrome.contextMenus.update('SignIn',{visible:false});
+		chrome.contextMenus.update('RevokeToken',{visible:true});
+		chrome.contextMenus.update('Send2Sheet',{visible:true});
+		chrome.contextMenus.update('Go2Sheet',{visible:true});
+			
 		changeState(STATE_AUTHTOKEN_ACQUIRED);
 	}
 }
 
 function executionAPIResponse(response) {
 	var resp = JSON.stringify(response);
-	sendLog(resp);
+	alert(resp);
 	var info;
 	if (response.response.result.status == 'ok') {
 		sendLog('Data has been entered into <a href="' + response.response
@@ -416,8 +409,8 @@ function revokeToken() {
 }
 
 function revokeAuthTokenCallback(current_token) {
-	if (!browser.runtime.lastError) {
-		browser.identity.removeCachedAuthToken({
+	if (!chrome.runtime.lastError) {
+		chrome.identity.removeCachedAuthToken({
 			token: current_token
 		}, function () { });
 		var xhr = new XMLHttpRequest();
@@ -426,7 +419,7 @@ function revokeAuthTokenCallback(current_token) {
 		xhr.send();
 		changeState(STATE_START);
 		sendLog(
-			'Token revoked and removed from cache. browser://identity-internals to confirm.'
+			'Token revoked and removed from cache. chrome://identity-internals to confirm.'
 		);
 	}
 	sendLoad('off', '');
@@ -449,7 +442,8 @@ function post(options) {
 }
 
 function resetIt() {
-	browser.storage.local.clear();
+	chrome.storage.local.clear();
+	
 }
 
 // code: 'document.body.style.backgroundColor="red"'
@@ -459,21 +453,21 @@ function resetIt() {
 
 /*
 for (var w in tiObj) {
-	browser.contextMenus.update(tiObj[w], {
+	chrome.contextMenus.update(tiObj[w], {
 		title: tiObj[w] + "= " + tiObj[w].value,
 		contexts: ["all"]
 	});
 }
-browser.tabs.insertCSS(integer tabId, object details, function callback)
+chrome.tabs.insertCSS(integer tabId, object details, function callback)
 */
 
 //Code for displaying <extensionDir>/images/myimage.png:
-//var imgURL = browser.runtime.getURL("images/myimage.png");
+//var imgURL = chrome.runtime.getURL("images/myimage.png");
 //document.getElementById("someImage").src = imgURL;
 
 //// tabs API
-//browser.browserAction.onClicked.addListener(function(tab) {
-//	browser.tabs.create({url:browser.extension.getURL("tabs_api.html")});
+//chrome.chromeAction.onClicked.addListener(function(tab) {
+//	chrome.tabs.create({url:chrome.extension.getURL("tabs_api.html")});
 //  });
 
 /**
@@ -517,7 +511,7 @@ function createTextNode(value, owner) {
 }
 /**
  * Returns the document owner of the given element. In particular,
- * returns window.document if node is null or the browser does not
+ * returns window.document if node is null or the chrome does not
  * support ownerDocument.
  *
  * @param {Node} node  The node whose ownerDocument is required.
@@ -880,8 +874,3 @@ function containsNode(parent, child) {
 	}
 	return parent == child;
 }
-
-
-browser.contextMenus.onClicked.addListener(function (item, tab) {
-	process(item, tab);
-});
