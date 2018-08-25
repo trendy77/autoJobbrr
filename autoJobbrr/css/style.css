@@ -8,11 +8,14 @@
     url('../fonts/bf.svg#svgbf') format('svg');
 }
 html {
-    background-color: black;
-    width: 400px;
+    text-align: center;
+    padding: 0;
+    width: 500px;
+    background-color: #424242;
 }
 body {
-    background-color: #666;
+    background-color: #424242;
+    color: white;
     margin: 0;
     text-align: center;
     font-family: tinyHands, 'Open Sans Regular', sans;
@@ -20,30 +23,45 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: tinyHands;
 }
+a {
+    cursor: pointer;
+    border: 1px solid #076bd2;
+    text-shadow: 1px 1px 1px #076bd2;
+    color: white;
 
-#go, #reset {
-    color: red;
+    font-size: 13px;
+    margin: .5em 0 1em;
+    padding: 8px 6px 8px 7px;
+    border-radius: 3px;
+}
+#go, #reset, #close, #return {
+    color: black;
+    background-color: orange;
+    box-shadow: 5px 2px 3px #999;
+}
+#go, #reset, #close, #return:hover {
+    color: orange;
+    background-color: black;
     box-shadow: 5px 2px 3px #999;
 }
 
-.header {
-    text-align: center;
+li {
     padding: 0;
     border: none;
     margin-top: 20px;
 }
 
-.header .links * {
+li * {
     margin-left: 5px;
 }
-.header .links a {
+li a {
     color: #666;
 }
 .header:hover .links a {
     color: blue-grey;
 }
 .card-title h2, h5, h6 {
-    font-size: 14px;
+    font-size: 16px;
     color: white;
     border: 3px solid #ddd;
     transition: 0.3s;
@@ -52,18 +70,9 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #3e8e41;
     color: rgb(10, 6, 6);
 }
-#button {
-    cursor: pointer;
-    border: 1px solid #076bd2;
-    text-shadow: 1px 1px 1px #076bd2;
-    color: white;
-    font-weight: 700;
-    font-size: 13px;
-    margin: .5em 0 1em;
-    padding: 8px 17px 8px 17px;
-    border-radius: 3px;
+
 }
-#button.error {
+a:error {
     background: red;
     border: 1px solid #076bd2;
     text-shadow: 1px 1px 1px #076bd2;
@@ -74,21 +83,21 @@ h1, h2, h3, h4, h5, h6 {
     padding: 8px 17px 8px 17px;
     border-radius: 3px;
 }
-#button:disabled {
+a:disabled {
     color: #999;
     text-shadow: 1px 1px 1px #fafafa;
     border: 1px solid #ddd;
     cursor: auto;
 }
 
-.card {
+.card-panel {
     margin-top: 0 !important;
 }
 
 #fieldsContainer {
     height: 100vh;
     padding-top: 0.5rem;
-    background-color: #eee;
+    background-color: teal accent-3;
 }
 
 #optsContainer {

@@ -24,5 +24,8 @@
   "devDependencies": {
     "eslint": "^5.4.0",
     "web-ext": "^2.8.0"
+  },
+  "dependencies": {
+    "clasp": "^0.1.0"
   }
 }

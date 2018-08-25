@@ -1,0 +1,21 @@
+{
+	"name": "tsgappsclasp",
+	"version": "1.0.77",
+	"description": "init clasp google app attempt",
+	"main": "index.js",
+	"scripts": {
+		"test": "clasp status && clasp logs",
+		"pull": "clasp pull",
+		"push": "clasp push",
+		"deploy": "clasp deploy",
+		"versions": "clasp versions",
+		"createversion": "clasp version",
+		"undeploy": "clasp updeploy"
+	},
+	"author": "tf",
+	"license": "ISC",
+	"devDependencies": {
+		"@google/clasp": "^1.5.3",
+		"@types/google-apps-script": "0.0.27"
+	}
+}

@@ -26,29 +26,19 @@
 		"default_popup": "popup.html"
 	},
 	"content_scripts": [ {
-			"matches": [ "https://seek.com.au/*" ],
-			"js": [ "js/content.js" ],
-			"css": [ "css/content.css" ],
-			"all_frames": true,
-			"exclude_matches": [ "*://*/*/jobs*" ]
-		},
-		{
 			"matches": [ "https://seek.com.au/jobs*" ],
-			"js": [ "js/content.js" ],
-			"css": [ "css/content.css" ],
+			"js": [ "js/floating.js", "js/materialize.min.js", "js/mz-init.js" ],
+			"css": [ "css/materialize.min.css" ],
 			"all_frames": true
 		},
 		{
 			"matches": [ "<all_urls>" ],
-			"js": [ "js/content.js" ],
+			"js": [ "js/floating.js" ],
 			"css": [ "css/content.css" ],
 			"all_frames": true
 		}
 	],
-	"web_accessible_resources": [ "images/*.png", "css/*.css", "js/*.js", "fonts/*.*", "*.html",
-		"https://code.jquery.com/jquery-3.2.1.min.js",
-		"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"
-	],
+	"web_accessible_resources": [ "images/*.png", "css/*.css", "js/*.js", "fonts/*.*", "*.html" ],
 	"externally_connectable": {
 		"matches": [ "https://*.google.com/*", "https://cdnjs.cloudflare.com/*", "https://code.jquery.com/*",
 			"https://.com/*", "https://script.google.com/*"

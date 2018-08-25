@@ -1,11 +1,38 @@
-var bk = chrome.extension.getBackgroundPage;
-var clikr,clikr2;
-var port = chrome.runtime.connect({ name: "contentSEEKr" });
-
+var bk = chrome.extension.getBackgroundPage();
+var clikr, clikr2;
 var myWindowId;
-var contentBox = document.querySelector("#content");
+var body = document.querySelector("body");
 
-function renderButton2() {
+var jobAppFields = {
+  "JobTitle": "insert",
+  "Company": "insert",
+  "Agency": "insert",
+  "Contact": "insert",
+  "Phone-Email": "insert",
+  "USP1": "insert",
+  "USP2": "insert",
+  "USP3": "insert",
+  "JobUrl": "insert"
+};
+var theTitles = Object.keys(jobAppFields);
+var theVals = Object.values(jobAppFields);
+var entries = Object.entries(jobAppFields);
+var SCRIPTID = "1OyjlytEo2uEorwa12PyFanPBm549L9Koe2Fl5Mwkg-p-5V4k7k-KgDsc";
+/// https://script.google.com/macros/s/AKfycbxB5hPATZclDz6hwe-HKi5o-g9bXtnug6x9nNT5zyBlyeY0pB0/exec
+//// !!! ONLY FOR TESTING....!
+var o1 = "1TBqN2KpOMse7_pyKDSZW1QIFii1-5VAL9Zbz2np_TUM";
+var o2 = "14850XpEs5bNWo8RttAMgUdvA4LE1UK2mFEhPpI9wk18";
+var o3 = "1yOQqQ2Nwae5xvS2tuGbUNGUIRqGwqhWw";
+////////////////////
+var token;
+var newIds;
+var eOdata = [o1, o2, o3];
+var iconText = "!";
+
+
+
+function renderButton2()
+{
   var dom_item = document.querySelector('body');
   var div = document.createElement('div');
   backpage.domSetAttribute(div, 'id', 'seekr2');
@@ -21,7 +48,8 @@ function renderButton2() {
   backpage.domAppendChild(div3, div2);
   backpage.domAppendChild(dom_item, div);
 }
-function renderButton() {
+function renderButton()
+{
   var dom_item = document.innerHTML;
   var newele = document.createElement('a');
   var backpage = chrome.extension.getBackgroundPage();
@@ -38,48 +66,309 @@ function renderButton() {
   document.body.append(newEle);
 }
 
-
-//port.onMessage.addListener(go);
-/*function (m) {
-  var keyzzz = Object.keys(m);
-  for (var r in keyzzz) {
-    var key = keyzzz[r];
-    var val = key.value;
-    if (key == 'state') {
-
-      //  fpstate=key.value;
-    } else if (key == 'log') {
-      //exec_info.innerText += key.value;
-    }
-    console.log(key + "= " + val);
+function process()
+{
+  var selectedText = window.getSelection().toString().trim();
+  if (selectedText) {
+    window.postMessage({ type: "process", text: selectedText }, "*");
+  } else {
+    alert('hightlight some text first....')
   }
-}, recOK);
-function recOK() {
-  port.postMessage({
-    response: '1'
+}
+
+
+function closeWindow()
+{
+  window.close();
+}
+function disableButton(button)
+{
+  button.setAttribute('disabled', 'disabled');
+}
+function enableButton(button)
+{
+  button.removeAttribute('disabled');
+}
+function iconTit(text)
+{
+  var opt_badgeObj = {};
+  var textArr = text;
+  opt_badgeObj.text = textArr;
+  setIcon(opt_badgeObj);
+}
+function setIcon(opt_badgeObj)
+{
+  if (opt_badgeObj) {
+    var badgeOpts = {};
+    if (opt_badgeObj && opt_badgeObj.text != undefined) {
+      badgeOpts.text = opt_badgeObj.text;
+    }
+    chrome.chromeAction.setBadgeText(badgeOpts);
+  }
+}
+function sendLoad(msg, which)
+{
+  if (msg == 'on') {
+    chrome.runtime.sendMessage({
+      msg: 'load',
+      load: 'on',
+      which: which
+    });
+  } else if (msg == 'off') {
+    chrome.runtime.sendMessage({
+      msg: 'load',
+      load: 'off'
+    });
+  }
+}
+
+function sendLog(msg)
+{
+  chrome.runtime.sendMessage({
+    msg: 'log',
+    log: msg
   });
 }
-*/
-function process(){
-    var selectedText = window.getSelection().toString().trim();
-    if (selectedText) {
-      window.postMessage({ type: "process", text: selectedText }, "*");
-    } else {
-      alert('hightlight some text first....')
-    }
+
+function sendStateChg(msg)
+{
+  chrome.runtime.sendMessage({
+    msg: 'state',
+    state: msg
+  });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function getSet()
+{
+  chrome.tabs.query({ active: true }, function (tabs)
+  {
+    var info = tabs[0].url;
+    chrome.storage.local.get([info], function (obj)
+    {
+      var fields = obj.info.jobAppFields || {};
+      return fields;
+    });
+  });
+}
+function setSet(fields)
+{
+  chrome.tabs.query({ active: true }, function (tabs)
+  {
+    var info = tabs[0].url;
+    chrome.storage.local.get([info], function (obj)
+    {
+      var oldField = obj.info.jobAppFields || {};
+      for (var k in fields) {
+        oldField[k] = fields.k
+      }
+      //chrome.storage.local.set([info: ], function(obj){
+    });
+  });
+}
+
+function changeState(newState)
+{
+  fstate = newState;
+  sendStateChg(fstate);
+  switch (fstate) {
+    case STATE_START:
+      authd = false;
+      chrome.contextMenus.update('SignIn', { visible: true });
+      chrome.contextMenus.update('Revoke', { visible: false });
+      chrome.contextMenus.update('SendToSheet', { visible: false });
+      chrome.contextMenus.update('GoToSheet', { visible: false });
+
+      break;
+    case STATE_ACQUIRING_AUTHTOKEN:
+      sendLog('Acquiring token...');
+      chrome.contextMenus.update('SignIn', { title: "SIGNING IN..." });
+      sendLoad('on', 'auth');
+      break;
+    case STATE_AUTHTOKEN_ACQUIRED:
+      sendLoad('off', '');
+      authd = true;
+      break;
+  }
+}
+
+function sendOpts(theOpts)
+{
+  newIds = theOpts
+  sendLoad('on', 'upIds');
+  getAuthToken({
+    'interactive': false,
+    'callback': sendOptsToSheet
+  });
+}
+function sendOptsToSheet(token)
+{
+  alert('sending ids to Sheet');
+  post({
+    'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
+      ':run',
+    'callback': executionAPIResponse,
+    'token': token,
+    'request': {
+      'function': 'setIds',
+      'parameters': {
+        'data': JSON.parse(newIds)
+      }
+    }
+  });
+}
+
+function sendDataToSheet(token)
+{
+  sendLog('sending fields to Sheet');
+  post({
+    'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
+      ':run',
+    'callback': executionAPIResponse,
+    'token': token,
+    'request': {
+      'function': 'process1',
+      'parameters': {
+        'data': JSON.parse(jobAppFields)
+      }
+    }
+  });
+}
+function sendVals()
+{
+  var dat = getSet();
+  var thedat = object.jobAppFields;
+  jobAppFields = thedat;
+  //"[" + viObj[0] + "\,\"" + viObj[1] + "\",\"" + viObj[2] + "\",\"" + viObj[3] + "\",\"" + viObj[4] + "\",\"" + viObj[5] + "\",\"" + viObj[6] + "\"]]";
+  getAuthToken({
+    'interactive': false,
+    'callback': sendValsToSheet
+  });
+}
+
+function getAuthToken(options)
+{
+  chrome.identity.getAuthToken({
+    'interactive': options.interactive
+  }, options.callback);
+}
+function getAuthTokenSilent()
+{
+  getAuthToken({
+    'interactive': false,
+    'callback': getAuthTokenCallback
+  });
+}
+function getAuthTokenInteractive()
+{
+  alert('signing in...');
+  getAuthToken({
+    'interactive': true,
+    'callback': getAuthTokenCallback
+  });
+}
+function getAuthTokenCallback(token)
+{
+  if (chrome.runtime.lastError) {
+    alert('No token aquired');
+    changeState(STATE_START);
+  } else {
+    alert('Logged In');
+    chrome.contextMenus.update('SignIn', { visible: false });
+    chrome.contextMenus.update('RevokeToken', { visible: true });
+    chrome.contextMenus.update('Send2Sheet', { visible: true });
+    chrome.contextMenus.update('Go2Sheet', { visible: true });
+
+    changeState(STATE_AUTHTOKEN_ACQUIRED);
+  }
+}
+function executionAPIResponse(response)
+{
+  var resp = JSON.stringify(response);
+  alert(resp);
+  var info;
+  if (response.response.result.status == 'ok') {
+    sendLog('Data has been entered into <a href="' + response.response
+      .result
+      .doc + '" target="_blank"><strong>this sheet</strong></a>');
+  } else {
+    sendLog('Error...');
+  }
+  sendLoad('off', '');
+}
+function revokeToken()
+{
+  getAuthToken({
+    'interactive': false,
+    'callback': revokeAuthTokenCallback,
+  });
+}
+function revokeAuthTokenCallback(current_token)
+{
+  if (!chrome.runtime.lastError) {
+    chrome.identity.removeCachedAuthToken({
+      token: current_token
+    }, function () { });
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://accounts.google.com/o/oauth2/revoke?token=' +
+      current_token);
+    xhr.send();
+    changeState(STATE_START);
+    sendLog(
+      'Token revoked and removed from cache. chrome://identity-internals to confirm.'
+    );
+  }
+  sendLoad('off', '');
+}
+
+function post(options)
+{
+  sendLog('posting');
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function ()
+  {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // JSON response assumed. Other APIs may have different responses.
+      options.callback(JSON.parse(xhr.responseText));
+    } else if (xhr.readyState === 4 && xhr.status !== 200) {
+      sendLog('post', xhr.readyState, xhr.status, xhr.responseText);
+    }
+  };
+  xhr.open('POST', options.url, true);
+  xhr.setRequestHeader('Authorization', 'Bearer ' + options.token);
+  xhr.send(JSON.stringify(options.request));
+}
+
+function resetIt()
+{
+  chrome.storage.local.clear();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function ()
+{
   renderButton2();
   renderButton1();
-			var tooltips = document.querySelectorAll('.tooltipped');
-			for (i = 0; i < tooltips.length; i++) {
-				M.Tooltip.init(tooltips[i]);
-			}
+  var tooltips = document.querySelectorAll('.tooltipped');
+  for (i = 0; i < tooltips.length; i++) {
+    M.Tooltip.init(tooltips[i]);
+  }
+
+
   clikr = document.querySelector("#seekr");
   clikr.addEventListener("click", process);
   clikr2 = document.querySelector("#seekr2");
-  clikr2.addEventListener("click", function () {
+  clikr2.addEventListener("click", function ()
+  {
     var selectedText = window.getSelection().toString().trim();
     if (selectedText) {
       window.postMessage({ type: "process", text: selectedText }, "*");
