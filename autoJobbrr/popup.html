@@ -10,229 +10,140 @@
         <link rel="stylesheet" href="css/googlefonts.css">
         <link rel="stylesheet" href="css/style.css">
         <script src="js/materialize.1.0.0.min.js"></script>
-        <script src="js/sample_support.js" async="true"></script>
-        <script src="js/mz-init.js" async="true"></script>
     </head>
 
     <body>
-        <nav>
-            <div class='nav-wrapper'>
-                <div class='row'>
-                    <div class='col s12 blue-grey darken-2'>
-                        <ul class='tabs'>
-                            <li class='tab col s4'> <a class='black-text active' href='#fieldsContainer'>Fill</a> </li>
-                            <li class='tab col s4'> <a class='black-text' href='#optsContainer'>Preview</a> </li>
-                            <li class='tab col s4'> <a class='black-text' href='#templateContainer'>Build</a> </li>
-                            <li class='tab col s4'> <a class='black-text' href='#outputContainer'>SEND</a> </li>
-                        </ul>
+        <div class="container">
+            <nav>
+                <div class="nav-wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 no-pad"> <a href="#!" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+                                <p class="black-text">autoSeekr</a>
+                                    <ul class="right hide-on-med-and-down">
+                                        <li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+                                        <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
+                                        <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+                                    </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+        </div>
         </nav>
+        <ul id="mobile-demo" class="sidenav">
+            <li>
+                <div class="user-view">
+                    <div class="background"> <img src="http://placehold.it/640/555"> </div> <a href="#!"><img class="circle" src="http://placehold.it/640/333"></a> <a href="#!"><span class="white-text name" disabled>Login First</span></a> <a href="#!"><span class="white-text email">login</span></a> </div>
+            </li>
+            <li><a href="#" target="_blank">SheetView</a></li>
+            <li><a href="#" target="_blank">Preview</a></li>
+            <li><a href="#optsContainer" target="_blank">Options</a></li>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li><a class="subheader">Subheader</a></li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li> <a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a class="waves-effect" href="#!">First</a></li>
+                                <li><a class="waves-effect" href="#!">Second</a></li>
+                                <li><a class="waves-effect" href="#!">Third</a></li>
+                                <li><a class="waves-effect" href="#!">Fourth</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li> <a class="collapsible-header waves-effect">Dropdown<i class="material-icons">folder</i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a class="waves-effect" href="#!">First</a></li>
+                                <li><a class="waves-effect" href="#!">Second</a></li>
+                                <li><a class="waves-effect" href="#!">Third</a></li>
+                                <li><a class="waves-effect" href="#!">Fourth</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
         <div id='fieldsContainer' class='col s12 blue-grey lighten-3'>
-            <div class='card-panel hoverable blue-grey lighten-1' id='JobTitle'>
-                <li>
-                    <div class='collapsible-header'><i class='material-icons'>filter_drama</i>Job Title</div>
-                    <div class='collapsible-body'><span><input id='tit' type='text' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip=''></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey' id='Employer'>
-                <li>
-                    <div class='collapsible-header'><i class='material-icons'>assessment</i>Employer</div>
-                    <div class='collapsible-body'><span><input id='empin' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey darken-1' id='Contact'>
-                <li>
-                    <div class='collapsible-header'> <i class='material-icons'>add_to_queue</i>Contact </div>
-                    <div class='collapsible-body'> <span><input class='in' id='num' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey darken-2' id='USP1'>
-                <li>
-                    <div class='collapsible-header'> <i class='material-icons'>attach_file</i>USP1</div>
-                    <div class='collapsible-body'> <span><input id='u1' class='in' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey darken-3' id='USP2'>
-                <li>
-                    <div class='collapsible-header'> <i class='material-icons'>filter_drama</i>USP2 </div>
-                    <div class='collapsible-body'><span><input id='u2' class='in' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey darken-4' id='USP3'>
-                <li>
-                    <div class='collapsible-header'> <i class='material-icons'>filter_drama</i>USP3 </div>
-                    <div class='collapsible-body'><span><input class='in' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-action'> <a id="go" class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Send Fields to Sheet'>SendToSheet</a> <a id="reset" class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Clear'>ResetFields</a> </div>
-            <script src="js/popup.js"></script>
-        </div>
-        <div id='optsContainer' class='col s12 indigo lighten-2'>
-            <div class='card-title' id="optsTitle">
-                <h3>IDs</h3> </div>
-            <div id='SheetId' class='card-content indigo'>
-                <h6 class='center'>SheetID</h6>
-                <p class='black-text'>Currently set to: <span id="SheetIdplaceholder"></span><em>(for saving job applications)</em></p>
-                <input id='shtin' type='text'> </div>
-            <div id='TemplateId' class='card-content indigo darken-1'>
-                <h6 class='center'>TemplateID</h6>
-                <p class='black-text'>Currently Set To: <span id="TemplateIdplaceholder"></span><em>(for generating a Cover Letter for each application)</em></p>
-                <input id='tplin' type='text'> </div>
-            <div id='2' class='card-content indigo darken-2'>
-                <h6 class='center'>FolderID</h6>
-                <p class='black-text'>Currently Set To: <span id="FolderIdplaceholder"></span><em>(for saving the generated files to)</em></p>
-                <input id='fldin' type='text'> </div>
+            <ul class="collapsible">
+                <div class='card-panel hoverable blue-grey lighten-1' id='JobTitle'>
+                    <li>
+                        <div class='collapsible-header'><i class='material-icons'>filter_drama</i>Job Title</div>
+                        <div class='collapsible-body'><span><input id='tit' type='text' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip=''></span> </div>
+                    </li>
+                </div>
+                <div class='card-panel hoverable blue-grey' id='Employer'>
+                    <li>
+                        <div class='collapsible-header'><i class='material-icons'>assessment</i>Employer</div>
+                        <div class='collapsible-body'><span><input id='empin' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='' type='text'></span> </div>
+                    </li>
+                </div>
+                <div class='card-panel hoverable blue-grey darken-1' id='Contact'>
+                    <li>
+                        <div class='collapsible-header'> <i class='material-icons'>add_to_queue</i>Contact </div>
+                        <div class='collapsible-body'> <span><input class='in' id='num' type='text'></span> </div>
+                    </li>
+                </div>
+                <div class='card-panel hoverable blue-grey darken-2' id='USP1'>
+                    <li>
+                        <div class='collapsible-header'> <i class='material-icons'>attach_file</i>USP1</div>
+                        <div class='collapsible-body'> <span><input id='u1' class='in' type='text'></span> </div>
+                    </li>
+                </div>
+                <div class='card-panel hoverable blue-grey darken-3' id='USP2'>
+                    <li>
+                        <div class='collapsible-header'> <i class='material-icons'>filter_drama</i>USP2 </div>
+                        <div class='collapsible-body'><span><input id='u2' class='in' type='text'></span> </div>
+                    </li>
+                </div>
+                <div class='card-panel hoverable blue-grey darken-4' id='USP3'>
+                    <li>
+                        <div class='collapsible-header'> <i class='material-icons'>filter_drama</i>USP3 </div>
+                        <div class='collapsible-body'><span><input class='in' type='text'></span> </div>
+                    </li>
+            </ul>
             <div class='card-action'>
-                <a class="waves-effect waves-light btn pulse">
-                    <button id='upIds' class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Save Them!'>Set IDs</button>
-                </a>
+                <ul>
+                    <div class="row">
+                        <div class="col s6">
+                            <li> <a class="waves-effect waves-dark btn pulse tooltipped" id="go" data-position='bottom' data-delay='100' data-tooltip='Send Fields to Sheet'>Send Fields</a> </li>
+                        </div>
+                        <div class="col s6">
+                            <li> <a id="reset" class="waves-effect waves-dark btn pulse tooltipped" data-position='bottom' data-delay='100' data-tooltip='Clear'>Reset Fields</a></li>
+                        </div>
+                    </div>
+                </ul>
             </div>
-            <script src="js/options.js"></script>
-        </div>
-        <div id='test3' class='col s12'>
-            <div class='loadspin' id='spin3' style='display:block'>
-                <div class='preloader-wrapper big'>
-                    <div class='spinner-layer spinner-blue'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                    <div class='spinner-layer spinner-red'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                    <div class='spinner-layer spinner-yellow'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                    <div class='spinner-layer spinner-green'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class='card-panel hoverable grey darken-4' id='test3'>
-                <div class='card-content' id='popup2'>
-                    <script src="js/popup2.js">
-
-
-                    </script>
-                </div>
-                <div class='card-action'>
-                    <p>stuff</p>
+            <div id="auth" class="card-content">
+                <ul>
+                    <div class="row">
+                        <div class="col s6">
+                            <li><a class="waves-effect waves-dark btn pulse" id="close">Close Window</a> </li>
+                        </div>
+                        <div class="col s6">
+                            <li> <a class="waves-effect waves-dark btn pulse">Return To Fields</a></li>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <div class="log">
+                <textarea id="__sample_support_logarea" disabled></textarea>
+                <div id="exec_info">
+                    <p><strong>Test Data to send via Execution API</strong> (data to be sent on Call Execution API)
+                        <textarea id="exec_data"> </textarea> <span id="exec_result"></span> </p>
                 </div>
             </div>
         </div>
-        <!-- END OF TAB #3 -->
-        <div id='test4' class='col s12'>
-            <div class='loadspin' id='spin4' style='display:block'>
-                <div class='preloader-wrapper big'>
-                    <div class='spinner-layer spinner-blue'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                    <div class='spinner-layer spinner-red'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                    <div class='spinner-layer spinner-yellow'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                    <div class='spinner-layer spinner-green'>
-                        <div class='circle-clipper left'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='gap-patch'>
-                            <div class='circle'></div>
-                        </div>
-                        <div class='circle-clipper right'>
-                            <div class='circle'></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='card-panel hoverable grey darken-4' id='test3'>
-                <div class="card-title white-text"> my title </div>
-                <div class="card-content" id="optsContent2">
-                    <script src="js/options2.js">
-
-
-                    </script>
-                    <button id="upIds2"> </button>
-                    <div id="opts_info">
-                        <p> <strong> Test Data to send via Execution API
-                                </strong> (data to be sent on Call Execution API)
-                            <textarea id="opts_data"> </textarea> <span id="opts_result">
-                                                </span> </p>
-                    </div>
-                    <div id="opts_data"> </div>
-                </div>
-            </div>
-            <!-- END OF TAB #4 -->
-            <footer>
-                <div id="auth" class="card-content"> <a class="waves-effect waves-light btn pulse" id="signin">Login                    </a> <a class="waves-effect waves-light btn pulse" id="revoke" disabled>
-                    Logout
-                    </a> </div>
-                <div id="nav" class="card-content"> <a href="#fieldsContainer" class="waves-effect waves-light btn pulse">Return To Fields</a> </br> <a class="waves-effect waves-light btn pulse" id="close">Close Window</a> </div>
-                <div class="log">
-                    <textarea id="__sample_support_logarea" disabled></textarea>
-                    <div id="exec_info">
-                        <p><strong>Test Data to send via Execution API</strong> (data to be sent on Call Execution API)
-                            <textarea id="exec_data"> </textarea> <span id="exec_result"></span> </p>
-                    </div>
-                </div>
-            </footer>
+        <script src="js/mz-init.js"></script>
     </body>
 
 </html>

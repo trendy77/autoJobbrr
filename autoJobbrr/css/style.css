@@ -9,6 +9,7 @@
 }
 html {
     background-color: black;
+    width: 400px;
 }
 body {
     background-color: #666;
@@ -20,12 +21,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: tinyHands;
 }
 
-.navBut {
-    background-color: #0b6bfa;
-    font-size: 14px;
-    color: #fafafa;
-}
-.contentButton {
+#go, #reset {
     color: red;
     box-shadow: 5px 2px 3px #999;
 }
@@ -44,21 +40,20 @@ h1, h2, h3, h4, h5, h6 {
     color: #666;
 }
 .header:hover .links a {
-    color: #04a6f7;
+    color: blue-grey;
 }
 .card-title h2, h5, h6 {
     font-size: 14px;
-	color: white;
+    color: white;
     border: 3px solid #ddd;
     transition: 0.3s;
 }
-.flow .card-title :hover {
+.card-title :hover {
     background-color: #3e8e41;
     color: rgb(10, 6, 6);
 }
 #button {
     cursor: pointer;
-    background: -webkit-linear-gradient(top, #008dfd 0, #0370ea 100%);
     border: 1px solid #076bd2;
     text-shadow: 1px 1px 1px #076bd2;
     color: white;
@@ -69,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 3px;
 }
 #button.error {
-    background: -webkit-linear-gradient(top, #3e8e41, #0370ea 100%);
+    background: red;
     border: 1px solid #076bd2;
     text-shadow: 1px 1px 1px #076bd2;
     color: white;
@@ -80,67 +75,37 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 3px;
 }
 #button:disabled {
-    background: -webkit-linear-gradient(top, #dcdcdc 0, #fafafa 100%);
     color: #999;
     text-shadow: 1px 1px 1px #fafafa;
     border: 1px solid #ddd;
     cursor: auto;
-}
-#button.loading {
-    background-color: red;
-}
-#button.loading:before {
-    content: '';
-    position: absolute;
-    height: 5px;
-    background-color: inherit;
-    left: 0;
-    bottom: 0;
-    will-change: left, right;
-    -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-    animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-}
-#button.loading:after {
-    content: '';
-    position: absolute;
-    height: 5px;
-    background-color: inherit;
-    left: 0;
-    bottom: 0;
-    will-change: left, right;
-    -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-    animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-    -webkit-animation-delay: 1.15s;
-    animation-delay: 1.15s;
 }
 
 .card {
     margin-top: 0 !important;
 }
 
-#test1 {
+#fieldsContainer {
     height: 100vh;
     padding-top: 0.5rem;
     background-color: #eee;
 }
 
-#test2 {
+#optsContainer {
     height: 100vh;
     padding-top: 0.5rem;
     background-color: grey lighten-1;
-;
+    ;
 }
 
-#test3 {
+#templateContainer {
     height: 100vh;
     padding-top: 0.5rem;
     background-color: green darken-4;
 }
 
-#test4 {
+#completedContainer {
     height: 100vh;
     padding-top: 0.5rem;
-    background-color: blue;
+    background-color: black;
 }
-
-

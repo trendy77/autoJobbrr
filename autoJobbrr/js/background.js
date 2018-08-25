@@ -1,53 +1,29 @@
-var f1, f2, f3, f4, f5, f6, f7, f8;
+
 var jobAppFields = {
-	"JobTitle": f1,
-	"Company": f2,
-	"Agency": f8,
-	"Contact": f3,
-	"Phone-Email": f4,
-	"USP1": f5,
-	"USP2": f6,
-	"USP3": f7,
-	"JobUrl": ""
+	"JobTitle": "insert",
+	"Company": "insert",
+	"Agency": "insert",
+	"Contact": "insert",
+	"Phone-Email": "insert",
+	"USP1": "insert",
+	"USP2": "insert",
+	"USP3": "insert",
+	"JobUrl": "insert"
 };
-var theTitz = Object.keys(jobAppFields);
+var theTitles = Object.keys(jobAppFields);
 var theVals = Object.values(jobAppFields);
 var entries = Object.entries(jobAppFields);
 var SCRIPTID = "1OyjlytEo2uEorwa12PyFanPBm549L9Koe2Fl5Mwkg-p-5V4k7k-KgDsc";
 /// https://script.google.com/macros/s/AKfycbxB5hPATZclDz6hwe-HKi5o-g9bXtnug6x9nNT5zyBlyeY0pB0/exec
-
-
 //// !!! ONLY FOR TESTING....!
 var o1 = "1TBqN2KpOMse7_pyKDSZW1QIFii1-5VAL9Zbz2np_TUM";
 var o2 = "14850XpEs5bNWo8RttAMgUdvA4LE1UK2mFEhPpI9wk18";
 var o3 = "1yOQqQ2Nwae5xvS2tuGbUNGUIRqGwqhWw";
 ////////////////////
-
+var token;
+var newIds;
 var eOdata = [o1, o2, o3];
 var iconText = "!";
-
-// s/t msg
-chrome.runtime.onMessage.addListener(
-	function (request, sender, sendResponse)
-	{
-		alert(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
-		if (request.msg == "getVals") {
-			var url = request.url;
-			var toget = [url];
-			//alert(url);
-			//	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs){
-			//	var theTab = tabs[0].id;
-			//	var theUrl = tabs[0].url;
-			chrome.storage.local.get(toget, function (storedInfo)
-			{
-				var info = storedInfo.jobAppFields || jobAppFields;
-				alert(JSON.stringify(storedInfo));
-				sendResponse({ msg: "theVals", vals: info });
-			});
-			//	chrome.tabs.sendMessage(tabs[0].id, { vals: theVals }, function (response){
-		}
-	});
-
 
 /*
 Update content when a new tab becomes active.
@@ -66,16 +42,13 @@ function updateContent()
 		var myWindowId = windowInfo.id;
 		chrome.tabs.query({ windowId: myWindowId, active: true }, function (tabs)
 		{
-			var toget = [tabs[0].url];
-			chrome.storage.local.get(toget, function (storedInfo)
-			{
-				var theFields = storedInfo.jobAppFields || jobAppFields;
-				theFields.JobUrl = toget;
-				chrome.storage.local.set({ toget: jobAppFields });
-			});
+			var toget = tabs[0].url;
+
 		});
 	});
 }
+
+
 
 chrome.runtime.onInstalled.addListener(function ()
 {
@@ -120,8 +93,8 @@ chrome.runtime.onInstalled.addListener(function ()
 		type: 'separator',
 		contexts: ['all']
 	});
-	for (var k = 0; k < theTitz.length; k++) {
-		var key = theTitz[k];
+	for (var k = 0; k < theTitles.length; k++) {
+		var key = theTitles[k];
 		chrome.contextMenus.create({
 			id: key,
 			parentId: parent,
@@ -142,38 +115,48 @@ chrome.runtime.onInstalled.addListener(function ()
 chrome.contextMenus.onClicked.addListener(function (item, tab)
 {
 	var sel2 = item.selectionText;
-	var tit = item.menuItemId;
-	if (tit == 'Send2Sheet') {
-		sendVals();
+	var title = item.menuItemId;
+	for (var t = 0; t < theTitles.length; t++) {
+		var tryVal = theTitles[t];
+		if (title == tryVal) {
+			theVals[t] = sel2;
+		}
 	}
-	else if (tit == 'SignIn') {
-		getAuthTokenInteractive();
-	}
-	else if (tit == 'GoToSheet') {
-		var url = "https://docs.google.com/spreadsheets/d/" + o1 + "/edit";
-		chrome.tabs.create({ url: url, index: tab.index + 1 });
-	}
-	else if (tit == 'ResetFields') {
-		resetIt();
-	}
-	else if (tit == 'RevokeToken') {
-		revokeToken();
-	}
-	else {
-		chrome.tabs.query({ active: true }, function (tabs)
+
+
+	chrome.storage.local.set({ toget: jobAppFields });
+});
+if (tit == 'Send2Sheet') {
+	sendVals();
+}
+else if (tit == 'SignIn') {
+	getAuthTokenInteractive();
+}
+else if (tit == 'GoToSheet') {
+	var url = "https://docs.google.com/spreadsheets/d/" + o1 + "/edit";
+	chrome.tabs.create({ url: url, index: tab.index + 1 });
+}
+else if (tit == 'ResetFields') {
+	resetIt();
+}
+else if (tit == 'RevokeToken') {
+	revokeToken();
+}
+else {
+	chrome.tabs.query({ active: true }, function (tabs)
+	{
+		var this1 = tabs[0].url;
+		chrome.storage.local.get([this1], function (object)
 		{
-			var this1 = tabs[0].url;
-			chrome.storage.local.get([this1], function (object)
-			{
-				var fields = object.jobAppFields || {};
-				fields[tit] = sel2;
-				var toStore = {};
-				toStore[this1] = fields;
-				chrome.storage.local.set({ toStore });
-				chrome.contextMenus.update(tit, { title: tit + ":" + sel2 });
-			});
+			var fields = object.jobAppFields || {};
+			fields[tit] = sel2;
+			var toStore = {};
+			toStore[this1] = fields;
+			chrome.storage.local.set({ toStore });
+			chrome.contextMenus.update(tit, { title: tit + ":" + sel2 });
 		});
-	}
+	});
+}
 });
 
 function closeWindow()
@@ -249,7 +232,6 @@ function getSet()
 		});
 	});
 }
-
 function setSet(fields)
 {
 	chrome.tabs.query({ active: true }, function (tabs)
@@ -291,9 +273,6 @@ function changeState(newState)
 	}
 }
 
-// SENDING./..
-var newIds;
-
 function sendOpts(theOpts)
 {
 	newIds = theOpts
@@ -303,7 +282,6 @@ function sendOpts(theOpts)
 		'callback': sendOptsToSheet
 	});
 }
-
 function sendOptsToSheet(token)
 {
 	alert('sending ids to Sheet');
@@ -337,7 +315,6 @@ function sendDataToSheet(token)
 		}
 	});
 }
-
 function sendVals()
 {
 	var dat = getSet();
@@ -350,15 +327,12 @@ function sendVals()
 	});
 }
 
-// AUTH
-
 function getAuthToken(options)
 {
 	chrome.identity.getAuthToken({
 		'interactive': options.interactive
 	}, options.callback);
 }
-
 function getAuthTokenSilent()
 {
 	getAuthToken({
@@ -366,7 +340,6 @@ function getAuthTokenSilent()
 		'callback': getAuthTokenCallback
 	});
 }
-
 function getAuthTokenInteractive()
 {
 	alert('signing in...');
@@ -375,7 +348,6 @@ function getAuthTokenInteractive()
 		'callback': getAuthTokenCallback
 	});
 }
-
 function getAuthTokenCallback(token)
 {
 	if (chrome.runtime.lastError) {
@@ -391,7 +363,6 @@ function getAuthTokenCallback(token)
 		changeState(STATE_AUTHTOKEN_ACQUIRED);
 	}
 }
-
 function executionAPIResponse(response)
 {
 	var resp = JSON.stringify(response);
@@ -406,7 +377,6 @@ function executionAPIResponse(response)
 	}
 	sendLoad('off', '');
 }
-
 function revokeToken()
 {
 	getAuthToken({
@@ -414,7 +384,6 @@ function revokeToken()
 		'callback': revokeAuthTokenCallback,
 	});
 }
-
 function revokeAuthTokenCallback(current_token)
 {
 	if (!chrome.runtime.lastError) {
