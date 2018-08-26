@@ -25,9 +25,10 @@
 		"default_title": "Launch",
 		"default_popup": "popup.html"
 	},
+	"devtools_page": "bootstrap.html",
 	"content_scripts": [ {
 			"matches": [ "https://seek.com.au/jobs*" ],
-			"js": [ "js/floating.js", "js/materialize.min.js", "js/mz-init.js" ],
+			"js": [ "js/materialize.min.js", "js/mz-init.js", "js/floating.js" ],
 			"css": [ "css/materialize.min.css" ],
 			"all_frames": true
 		},

@@ -46,94 +46,25 @@
                     <div class='collapsible-body'><span><input id='tit' type='text' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip=''></span> </div>
                 </li>
             </div>
-
-                <li>
-                    <div class='collapsible-header'><i class='material-icons'>assessment</i>Employer</div>
-                    <div class='collapsible-body'><span><input id='empin' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey darken-1' id='Contact'>
-                <li>
-                    <div class='collapsible-header'> <i class='material-icons'>add_to_queue</i>Contact </div>
-                    <div class='collapsible-body'> <span><input class='in' id='num' type='text'></span> </div>
-                </li>
-            </div>
-            <div class='card-panel hoverable blue-grey darken-2' id='USP1'>
-                <li>
-                    <div class='collapsible-header'> <i class='material-icons'>attach_file</i>USP1</div>
-                    <div class='collapsible-body'> <span><input id='u1' class='in' type='text'></span> </div>
-                </li>
-            </div>
-
-  <div class='card-panel hoverable blue-grey' id='optsSwitches'>
-            <!-- Switch -->
-          <div class="row">
-<div class="col s4">
-  <h6>Agency Field</h6>
-            <label>
-              Off
-              <input type="checkbox">
-              <span class="lever"></span>
-              On
-            </label>
-          </div>
-          </div>
-<div class="col s4">
-          <!-- Switch --><h6>Contact Field</h6>
-            <div class="switch">
-              <label>
-                Off
-                <input type="checkbox">
-                <span class="lever"></span>
-                On
-              </label>
-            </div>
-            </div>
-<div class="col s4">
-          <h6>Auto-Prepare CLs</h6>  <!-- Switch -->
-  <div class="switch">
-    <label>
-      Off
-      <input type="checkbox">
-      <span class="lever"></span>
-      On
-    </label>
-  </div>
-</div>
-  <!-- Switch -->
-  <div class="col s4">
-    <h6>Somethin else</h6>
-  <div class="switch">
-    <label>
-      Off
-      <input type="checkbox">
-      <span class="lever"></span>
-      On
-    </label>
-  </div>
-    </div>
-    </div>
-        <div id='optsContainer' class='col s12 indigo lighten-2'>
-            <div class='card-title' id="optsTitle">
-                <h3>IDs</h3> </div>
-            <div id='SheetId' class='card-content indigo'>
-                <h6 class='center'>SheetID</h6>
-                <p class='black-text'>Currently set to: <span id="SheetIdplaceholder"></span><em>(for saving job applications)</em></p>
-                <input id='SheetIdin' type='text'> </div>
-            <div id='TemplateId' class='card-content indigo darken-1'>
-                <h6 class='center'>TemplateID</h6>
-                <p class='black-text'>Currently Set To: <span id="TemplateIdplaceholder"></span><em>(for generating a Cover Letter for each application)</em></p>
-                <input id='TemplateIdin' type='text'> </div>
-            <div id='2' class='card-content indigo darken-2'>
-                <h6 class='center'>FolderID</h6>
-                <p class='black-text'>Currently Set To: <span id="FolderIdplaceholder"></span><em>(for saving the generated files to)</em></p>
-                <input id='FolderIdin' type='text'> </div>
-            <div class='card-action'>
-                <a class="waves-effect waves-light btn pulse">
-                    <button id='upIds' class='tooltipped' data-position='bottom' data-delay='100' data-tooltip='Save Them!'>Set IDs</button>
-                </a>
-            </div>
-            <script src="js/options.js"></script>
+            <li>
+                <div class='collapsible-header'><i class='material-icons'>assessment</i>Employer</div>
+                <div class='collapsible-body'><span><input id='empin' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='' type='text'></span> </div>
+            </li>
+        </div>
+        <div class='card-panel hoverable blue-grey darken-1' id='Contact'>
+            <li>
+                <div class='collapsible-header'> <i class='material-icons'>add_to_queue</i>Contact </div>
+                <div class='collapsible-body'> <span><input class='in' id='num' type='text'></span> </div>
+            </li>
+        </div>
+        <div class='card-panel hoverable blue-grey darken-2' id='USP1'>
+            <li>
+                <div class='collapsible-header'> <i class='material-icons'>attach_file</i>USP1</div>
+                <div class='collapsible-body'> <span><input id='u1' class='in' type='text'></span> </div>
+            </li>
+        </div> <a class="waves-effect waves-light btn pulse">Set IDs</a> </a>
+        </div>
+        <script src="js/options.js"></script>
         </div>
         <div id='test3' class='col s12'>
             <div class='loadspin' id='spin3' style='display:block'>
@@ -193,7 +124,7 @@
             </div>
         </div>
         <div id='test4' class='col s12'>
-            <div class='loadspin' id='spin4' style='display:block'>
+            <div class='loadspin' id='spin4'>
                 <div class='preloader-wrapper big'>
                     <div class='spinner-layer spinner-blue'>
                         <div class='circle-clipper left'>
@@ -246,23 +177,20 @@
             </div>
         </div>
         <footer>
-            <div id="buttons" class="card-panel hoverable">
-                <div id="auth" class="card-content">
-                    <a class="waves-effect waves-light btn pulse">
-                        <button id="signin">Login</button>
-                    </a>
-                    <a class="waves-effect waves-light btn pulse">
-                        <button id="revoke" disabled>Logout</button>
-                    </a>
-                </div>
-                <div id="nav" class="card-content">
-                    <a class="waves-effect waves-light btn pulse">
-                        <button id="returnTo">Return</button>
-                    </a>
-                    <a class="waves-effect waves-light btn pulse">
-                        <button id="close">Close</button>
-                    </a>
-                </div>
+            <div id="buttons" class="card-panel hoverable blue-grey lighten-2">
+                <a class="waves-effect waves-light btn pulse">
+                    <button id="signin">Login</button>
+                </a>
+                <a class="waves-effect waves-light btn pulse">
+                    <button id="revoke" disabled>Logout</button>
+                </a>
+                <a class="waves-effect waves-light btn pulse">
+                    <button id="returnTo">Return</button>
+                </a>
+                <a class="waves-effect waves-light btn pulse">
+                    <button id="close">Close</button>
+                </a>
+            </div>
             </div>
             <div class="card-panel hoverable">
                 <div class="log">

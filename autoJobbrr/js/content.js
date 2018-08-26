@@ -1,18 +1,19 @@
-var bk = chrome.extension.getBackgroundPage();
+var bk = chrome.extension.getBackgroundPage;
+alert(bk);
 var clikr, clikr2;
 var myWindowId;
 var body = document.querySelector("body");
 
 var jobAppFields = {
-  "JobTitle": "insert",
-  "Company": "insert",
-  "Agency": "insert",
-  "Contact": "insert",
-  "Phone-Email": "insert",
-  "USP1": "insert",
-  "USP2": "insert",
-  "USP3": "insert",
-  "JobUrl": "insert"
+  "JobTitle": "",
+  "Company": "",
+  "Agency": "",
+  "Contact": "",
+  "Phone-Email": "",
+  "USP1": "",
+  "USP2": "",
+  "USP3": "",
+  "JobUrl": ""
 };
 var theTitles = Object.keys(jobAppFields);
 var theVals = Object.values(jobAppFields);
@@ -31,8 +32,7 @@ var iconText = "!";
 
 
 
-function renderButton2()
-{
+function renderButton2() {
   var dom_item = document.querySelector('body');
   var div = document.createElement('div');
   backpage.domSetAttribute(div, 'id', 'seekr2');
@@ -48,8 +48,7 @@ function renderButton2()
   backpage.domAppendChild(div3, div2);
   backpage.domAppendChild(dom_item, div);
 }
-function renderButton()
-{
+function renderButton() {
   var dom_item = document.innerHTML;
   var newele = document.createElement('a');
   var backpage = chrome.extension.getBackgroundPage();
@@ -66,38 +65,28 @@ function renderButton()
   document.body.append(newEle);
 }
 
-function process()
-{
+function process() {
   var selectedText = window.getSelection().toString().trim();
   if (selectedText) {
-    window.postMessage({ type: "process", text: selectedText }, "*");
+    chrome.runtime.postMessage({ type: "process", text: selectedText }, "*");
   } else {
     alert('hightlight some text first....')
   }
 }
 
-
-function closeWindow()
-{
-  window.close();
+function disableButton(button) {
+  button.setAttribute('display', 'none');
 }
-function disableButton(button)
-{
-  button.setAttribute('disabled', 'disabled');
+function enableButton(button) {
+  button.removeAttribute('display');
 }
-function enableButton(button)
-{
-  button.removeAttribute('disabled');
-}
-function iconTit(text)
-{
+function iconTit(text) {
   var opt_badgeObj = {};
   var textArr = text;
   opt_badgeObj.text = textArr;
   setIcon(opt_badgeObj);
 }
-function setIcon(opt_badgeObj)
-{
+function setIcon(opt_badgeObj) {
   if (opt_badgeObj) {
     var badgeOpts = {};
     if (opt_badgeObj && opt_badgeObj.text != undefined) {
@@ -106,8 +95,7 @@ function setIcon(opt_badgeObj)
     chrome.chromeAction.setBadgeText(badgeOpts);
   }
 }
-function sendLoad(msg, which)
-{
+function sendLoad(msg, which) {
   if (msg == 'on') {
     chrome.runtime.sendMessage({
       msg: 'load',
@@ -122,41 +110,33 @@ function sendLoad(msg, which)
   }
 }
 
-function sendLog(msg)
-{
+function sendLog(msg) {
   chrome.runtime.sendMessage({
     msg: 'log',
     log: msg
   });
 }
 
-function sendStateChg(msg)
-{
+function sendStateChg(msg) {
   chrome.runtime.sendMessage({
     msg: 'state',
     state: msg
   });
 }
 
-function getSet()
-{
-  chrome.tabs.query({ active: true }, function (tabs)
-  {
+function getSet() {
+  chrome.tabs.query({ active: true }, function (tabs) {
     var info = tabs[0].url;
-    chrome.storage.local.get([info], function (obj)
-    {
+    chrome.storage.local.get([info], function (obj) {
       var fields = obj.info.jobAppFields || {};
       return fields;
     });
   });
 }
-function setSet(fields)
-{
-  chrome.tabs.query({ active: true }, function (tabs)
-  {
+function setSet(fields) {
+  chrome.tabs.query({ active: true }, function (tabs) {
     var info = tabs[0].url;
-    chrome.storage.local.get([info], function (obj)
-    {
+    chrome.storage.local.get([info], function (obj) {
       var oldField = obj.info.jobAppFields || {};
       for (var k in fields) {
         oldField[k] = fields.k
@@ -166,8 +146,7 @@ function setSet(fields)
   });
 }
 
-function changeState(newState)
-{
+function changeState(newState) {
   fstate = newState;
   sendStateChg(fstate);
   switch (fstate) {
@@ -191,8 +170,7 @@ function changeState(newState)
   }
 }
 
-function sendOpts(theOpts)
-{
+function sendOpts(theOpts) {
   newIds = theOpts
   sendLoad('on', 'upIds');
   getAuthToken({
@@ -200,8 +178,7 @@ function sendOpts(theOpts)
     'callback': sendOptsToSheet
   });
 }
-function sendOptsToSheet(token)
-{
+function sendOptsToSheet(token) {
   alert('sending ids to Sheet');
   post({
     'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
@@ -217,8 +194,7 @@ function sendOptsToSheet(token)
   });
 }
 
-function sendDataToSheet(token)
-{
+function sendDataToSheet(token) {
   sendLog('sending fields to Sheet');
   post({
     'url': 'https://script.googleapis.com/v1/scripts/' + SCRIPT_ID +
@@ -233,8 +209,7 @@ function sendDataToSheet(token)
     }
   });
 }
-function sendVals()
-{
+function sendVals() {
   var dat = getSet();
   var thedat = object.jobAppFields;
   jobAppFields = thedat;
@@ -245,29 +220,25 @@ function sendVals()
   });
 }
 
-function getAuthToken(options)
-{
+function getAuthToken(options) {
   chrome.identity.getAuthToken({
     'interactive': options.interactive
   }, options.callback);
 }
-function getAuthTokenSilent()
-{
+function getAuthTokenSilent() {
   getAuthToken({
     'interactive': false,
     'callback': getAuthTokenCallback
   });
 }
-function getAuthTokenInteractive()
-{
+function getAuthTokenInteractive() {
   alert('signing in...');
   getAuthToken({
     'interactive': true,
     'callback': getAuthTokenCallback
   });
 }
-function getAuthTokenCallback(token)
-{
+function getAuthTokenCallback(token) {
   if (chrome.runtime.lastError) {
     alert('No token aquired');
     changeState(STATE_START);
@@ -281,8 +252,7 @@ function getAuthTokenCallback(token)
     changeState(STATE_AUTHTOKEN_ACQUIRED);
   }
 }
-function executionAPIResponse(response)
-{
+function executionAPIResponse(response) {
   var resp = JSON.stringify(response);
   alert(resp);
   var info;
@@ -295,15 +265,13 @@ function executionAPIResponse(response)
   }
   sendLoad('off', '');
 }
-function revokeToken()
-{
+function revokeToken() {
   getAuthToken({
     'interactive': false,
     'callback': revokeAuthTokenCallback,
   });
 }
-function revokeAuthTokenCallback(current_token)
-{
+function revokeAuthTokenCallback(current_token) {
   if (!chrome.runtime.lastError) {
     chrome.identity.removeCachedAuthToken({
       token: current_token
@@ -320,12 +288,10 @@ function revokeAuthTokenCallback(current_token)
   sendLoad('off', '');
 }
 
-function post(options)
-{
+function post(options) {
   sendLog('posting');
   var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function ()
-  {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       // JSON response assumed. Other APIs may have different responses.
       options.callback(JSON.parse(xhr.responseText));
@@ -338,8 +304,7 @@ function post(options)
   xhr.send(JSON.stringify(options.request));
 }
 
-function resetIt()
-{
+function resetIt() {
   chrome.storage.local.clear();
 
 }
@@ -354,8 +319,7 @@ function resetIt()
 
 
 
-document.addEventListener('DOMContentLoaded', function ()
-{
+document.addEventListener('DOMContentLoaded', function () {
   renderButton2();
   renderButton1();
   var tooltips = document.querySelectorAll('.tooltipped');
@@ -367,8 +331,7 @@ document.addEventListener('DOMContentLoaded', function ()
   clikr = document.querySelector("#seekr");
   clikr.addEventListener("click", process);
   clikr2 = document.querySelector("#seekr2");
-  clikr2.addEventListener("click", function ()
-  {
+  clikr2.addEventListener("click", function () {
     var selectedText = window.getSelection().toString().trim();
     if (selectedText) {
       window.postMessage({ type: "process", text: selectedText }, "*");

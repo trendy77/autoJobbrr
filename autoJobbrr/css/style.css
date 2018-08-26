@@ -9,112 +9,141 @@
 }
 html {
     text-align: center;
+    float: center;
     padding: 0;
     width: 500px;
     background-color: #424242;
 }
 body {
     background-color: #424242;
-    color: white;
+    color: blue-grey darken-4;
+    float: center;
     margin: 0;
     text-align: center;
     font-family: tinyHands, 'Open Sans Regular', sans;
 }
+p {
+    font-family: 'Open Sans Regular';
+}
 h1, h2, h3, h4, h5, h6 {
     font-family: tinyHands;
 }
-a {
+.loadspin, #overlay {
+    position: fixed;
+    /* Sit on top of the page content */
+    display: none;
+    /* Hidden by default */
+    width: 100%;
+    /* Full width (cover the whole page) */
+    height: 100%;
+    /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black background with opacity */
+    z-index: 2;
+    /* Specify a stack order in case you're using a different order for other elements */
     cursor: pointer;
-    border: 1px solid #076bd2;
-    text-shadow: 1px 1px 1px #076bd2;
-    color: white;
-
-    font-size: 13px;
-    margin: .5em 0 1em;
-    padding: 8px 6px 8px 7px;
-    border-radius: 3px;
-}
-#go, #reset, #close, #return {
-    color: black;
-    background-color: orange;
-    box-shadow: 5px 2px 3px #999;
-}
-#go, #reset, #close, #return:hover {
-    color: orange;
-    background-color: black;
-    box-shadow: 5px 2px 3px #999;
+    /* Add a pointer on hover */
 }
 
-li {
+nav ul a,
+nav .brand-logo {
+    color: #444;
     padding: 0;
-    border: none;
-    margin-top: 20px;
+    list-style: none;
 }
 
-li * {
-    margin-left: 5px;
+.log {
+    margin: 10px 20px 20px 20px;
 }
-li a {
-    color: #666;
+.log textarea {
+    width: 100%;
+    min-height: 120px;
+    font-family: "Courier New", Courier, monospace;
+    margin: 2px;
+    background: brown;
+    color: yellow;
+    border: 1px solid rgb(182, 182, 182);
 }
-.header:hover .links a {
-    color: blue-grey;
+#exec_data {
+    min-height: 50px;
 }
-.card-title h2, h5, h6 {
-    font-size: 16px;
+
+.sidenav-trigger {
+    color: hsl(174, 78%, 23%);
+}
+#card-title {
+    background-color: #000000;
+}
+
+body #popup {
+    opacity: 0.7;
+    width: 200px;
+    height: 400px;
+    background-color: darkslategrey;
+    color: rgb(94, 7, 233);
+}
+
+div {
+    background: #455a64;
+    color: teal;
+    opacity: 0.9;
+    width: 86%;
+    justify-items: center;
+    align-content: center;
+}
+
+div:hover {
+    opacity: 1;
+    text-transform: full-width;
+}
+
+header#masthead a {
+    color: #fff;
+}
+
+.nav-links .btn {
+    background: #2196f3;
+}
+
+/* Navigation */
+
+.nav {
     color: white;
-    border: 3px solid #ddd;
-    transition: 0.3s;
+    background-color: blue-grey lighten-1;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    overflow: hidden;
 }
-.card-title :hover {
-    background-color: #3e8e41;
-    color: rgb(10, 6, 6);
+nav ul li:hover,
+nav ul li.active {
+    background-color: #1976d2;
 }
 
-}
-a:error {
-    background: red;
-    border: 1px solid #076bd2;
-    text-shadow: 1px 1px 1px #076bd2;
+.card .card-title,
+.card .card-title a {
     color: white;
-    font-weight: 700;
-    font-size: 13px;
-    margin: .5em 0 1em;
-    padding: 8px 17px 8px 17px;
-    border-radius: 3px;
-}
-a:disabled {
-    color: #999;
-    text-shadow: 1px 1px 1px #fafafa;
-    border: 1px solid #ddd;
-    cursor: auto;
 }
 
-.card-panel {
-    margin-top: 0 !important;
+.card a:hover {
+    color: black;
 }
 
-#fieldsContainer {
-    height: 100vh;
-    padding-top: 0.5rem;
-    background-color: teal accent-3;
+.card-action {
+    background: teal;
 }
 
-#optsContainer {
-    height: 100vh;
-    padding-top: 0.5rem;
-    background-color: grey lighten-1;
-    ;
-}
-
-#templateContainer {
-    height: 100vh;
-    padding-top: 0.5rem;
-    background-color: green darken-4;
-}
-
-#completedContainer {
-    height: 100vh;
-    padding-top: 0.5rem;
-    background-color: black;
+.card a {
+    color: blue-grey darken-2;
+    margin-right: 0;
+    -webkit-transition: color 0.3s ease;
+    -moz-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    -ms-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
 }
