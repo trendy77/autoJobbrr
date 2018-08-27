@@ -1,3 +1,4 @@
+.history
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -47,3 +48,5 @@ Temporary Items
 .apdisk
 *.json
 .vscode/formatter.json
+.vs/slnx.sqlite
+.vs/autoJobbrr/v15/.suo

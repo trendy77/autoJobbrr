@@ -29,10 +29,8 @@ function onEvent(debuggeeId, message, params) {
       urlLine.textContent = params.request.url;
       requestDiv.appendChild(urlLine);
     }
-
     if (params.redirectResponse)
       appendResponse(params.requestId, params.redirectResponse);
-
     var requestLine = document.createElement("div");
     requestLine.textContent = "\n" + params.request.method + " " +
         parseURL(params.request.url).path + " HTTP/1.1";
@@ -46,7 +44,6 @@ function onEvent(debuggeeId, message, params) {
 function appendResponse(requestId, response) {
   var requestDiv = requests[requestId];
   requestDiv.appendChild(formatHeaders(response.requestHeaders));
-
   var statusLine = document.createElement("div");
   statusLine.textContent = "\nHTTP/1.1 " + response.status + " " +
       response.statusText;
